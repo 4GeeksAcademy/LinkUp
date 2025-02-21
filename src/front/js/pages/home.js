@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/index.css";
 import { Link } from "react-router-dom";
+import mobile from "../../img/mobile.png";
+import imgLogo from "../../img/img-logo.webp";
 
 export const Home = () => {
     const { store, actions } = useContext(Context);
@@ -10,10 +12,10 @@ export const Home = () => {
         <main className="main">
             <nav className="nav" id="nav">
                 <div className="logo">
-                    <div className="img-logo"></div>
+                    <img src={imgLogo} alt="" className="img-logo"/>
                     LinkUp
                 </div>
-                <Link to={logIn}>
+                <Link to="/logIn">
                     <button className="empezar">Ingresar</button>
                 </Link>
             </nav>
@@ -28,12 +30,12 @@ export const Home = () => {
                         Tricount hace que <span className="color-acento"> gestionar los gastos compartidos </span> <br /> 
                         sea sencillo.
                     </p>
-                    <Link to={signUp}>
-                        <button className="empezar">Empezar ahora</button>
+                    <Link to="/signUp">
+                        <button className="empezar">Registrarse ahora</button>
                     </Link>
                 </div>
                 <div className="container-img">
-                    <img src="" alt="" />
+                    <img src={mobile} alt="Imagen de tarjetas" />
                 </div>
             </article>
         </main>

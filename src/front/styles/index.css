@@ -1,3 +1,147 @@
-/* 
-    General Styles used on every website (Don't Repeat Yourself)
-*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.main {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: #0a0a0a;
+    background: 
+    radial-gradient(
+        ellipse 80% 80% at 50% -20%, 
+        #515d5a, 
+        #2a2f26);
+    display: flex;
+    flex-direction: column;
+    gap: 70px;
+}
+
+/* Estilos para el navegador */
+
+.nav {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 200px;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.nav .logo {
+    color: white;
+    font-size: 2em;
+    font-weight: 900;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav .logo .img-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.nav .empezar {
+    border: none;
+    border-radius: 5rem;
+    background: #78816b;
+    box-shadow: 0 3px 8px rgb(0, 0, 0);
+
+    color: white;
+    font-size: 1.2em;
+    padding: 10px 30px;
+    cursor: pointer;
+    transition: transform .3s ease-in-out;
+}
+
+.empezar:hover {
+    transform: scale(1.2);
+}
+
+/* Estilos para el container principal */
+
+.slogan-img {
+    width: 90%;
+    height: 500px;
+    margin: 0 0 0 7%;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.color-acento {
+    color: #ffd176;
+}
+
+.slogan-img .info {
+    width: 50%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    text-align: justify;
+    gap: 30px;
+
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.info h2 {
+    color: #f7f7f7;
+    font-size: 4em;
+    margin-left: 40px;
+}
+
+.info .info-text {
+    color: #CDCDCF;
+    font-size: 1.4em;
+    margin-left: 40px;
+}
+
+.info .empezar {
+    border: none;
+    border-radius: 5rem;
+    background: #78816b;
+    box-shadow: 0 3px 8px rgb(0, 0, 0);
+    
+    color: white;
+    font-size: 1.2em;
+    padding: 5px 30px;
+    margin-left: 40px;
+    cursor: pointer;
+    transition: transform .3s ease-in-out;
+}
+
+.slogan-img .container-img {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+}

@@ -4,6 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 
 
 import os
+from flask_cors import CORS
 from flask import Flask, request, redirect, jsonify, url_for, session, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
@@ -19,15 +20,17 @@ from functools import wraps
 
 
 # from models import Person
-load_dotenv()
+load_dotenv() #cargamos las variables de entorno
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
+
 app = Flask(__name__)
+CORS(app)
 app.url_map.strict_slashes = False
 app.secret_key = os.getenv("SECRET_KEY")
-print(os.getenv("SECRET_KEY"))
+
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -46,10 +49,11 @@ db.init_app(app)
 oauth = OAuth(app)
 google = oauth.register(
     name="google",
-    client_id=os.getenv("CLIENT_ID"),
-    client_secret=os.getenv("CLIENT_SECRET"),
+    client_id=os.getenv("CLIENT_ID"), # guardado en archivo .env
+    client_secret=os.getenv("CLIENT_SECRET"), # guardado en archivo .env
     access_token_url="https://oauth2.googleapis.com/token",
     authorize_url="https://accounts.google.com/o/oauth2/auth",
+    authorize_params={'scope': 'openid email profile'},
     client_kwargs={"scope": "openid email profile"},
 )
 # login required, añadir "@login_required" a todas la rutas que sean necesarias proteger con registro
@@ -60,33 +64,67 @@ def login_required(f):
             return redirect(url_for('login_google'))
         return f(*args, **kwargs)
     return decorated_funcion
-# login session by OAuth-google-user
-@app.route("/login_google")
-def login():
-    return google.authorize_redirect(url_for("authorize_google",_external=True))
 
-# Authorize route
-# @app.route("/authorize")
-# def authorize():
-#     token = google.authorize_access_token()
-#     user_info = google.parse_id_token(token)
-#     session["user"] = user_info
-#     return redirect(url_for("home"))
 
-# Get user authorization data
+# ruta para iniciar sesion con OAuth de Google
+@app.route("/login_google", methods=["POST"])
+def login_google():
+    try:
+        data= request.get_json()
+        token_id = data.get("tokenId")
+
+        if not token_id:
+            return jsonify({"error": "Token no proporcionado"}),400
+        
+        user_info= google.parse_id_token({"id_token": token_id})
+
+        if not user_info:
+            return jsonify ({"error": "token invalido"}), 401
+        
+        username = user_info["email"]
+        user = User.query.filter_by(username=username).first()
+
+        if not user:
+            user=User(username=username)
+            db.session.add(user)
+            db.session.commit()
+
+        session["user"] = user_info
+
+        return jsonify({"message": " Inicio de sesion exitoso", "user": user_info}), 200
+
+
+    except Exception as e:
+        app.logger.error(f"Error during login: {str(e)}")
+        return jsonify({
+            "error": "Error durante el inicio de sesión",
+            "details": str(e)}), 500
+
+
+#ruta a la que nos redirige Google tras iniciar sesion
+@app.route('/login/callback')
+def callback():
+    token = google.authorize_access_token() #datos token
+    user_info = google.parse_id_token(token) #datos del usuario
+
+    session['user'] = user_info #guardamos datos del usuario
+
+    return redirect (f"https://ideal-dollop-7gvvxxv5gjwhw6g5-3000.app.github.dev/private") #nos redirige a pagina princial del usuario
+
+
+#Obtener info del usuario
 @app.route("/user")
 def get_user():
     user = session.get("user")
     if user:
         return jsonify(user)
-    return jsonify({"message": "Not possible authenticated"}), 401
+    return jsonify({"message": "Not logged in"}), 401
 
 #Logout session google-user
 @app.route("/logout")
-@login_required
 def logout():
     session.pop("user",None)
-    return redirect(url_for("home"))
+    return redirect (f"https://ideal-dollop-7gvvxxv5gjwhw6g5-3000.app.github.dev/home")
 
 # add the admin
 setup_admin(app)
@@ -122,59 +160,31 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
-@app.route("/login/google")
-def login_google():
-    try:
-        redirect_uri= url_for('authorize_google', _external=True)
-        return google.authorize_redirect(redirect_uri)
-    except Exception as e:
-        app.logger.error(f"Error during login: {str(e)}")
-        return "Error ocurring during login",500
 
-@app.route("/authorize/google")
 
+@app.route("/authorize/google", methods=["POST"])
 def authorize_google():
-    
+    try:
+         token = google.authorize_access_token()
+         user_info= google.parse_id_token(token)
 
-    token = google.authorize_access_token()
-    userinfo_endpoind = google.server_metadata['userinfo_endpoind']
+         if not user_info or 'email' not in user_info:
+             return "no EMAIL found", 400    
+         username = user_info['email']
+         user =User.query.filter_by(username = username).first()
 
+         if not user:
+          user=User(username=username)
+         db.session.add(user)
+         db.session.commit()
 
-    if resp.status_code != 200:
-        return "Error fetching user info", 500
-    
-    resp = google.get(userinfo_endpoind)
-    user_info = resp.json()
+         session['username']= username
+         session['oauth_token'] = token
 
-    if not username:
-        return "No email found", 400
-    
-    username = user_info['email']
-
-    user =User.query.filter_by(username = username).first()
-    if not user:
-        user=User(username=username)
-        db.session.add(user)
-        db.session.commit
-    session['username']= username
-    session['oauth_token'] = token
-
-    return redirect(url_for('../../private'))
-
-# logig required, añadir "@login_required" a todas la rutas que sean necesarias proteger con registro
-def login_required(f):
-    @wraps(f)
-    def decorated_funcion(*args, **kwargs):
-        if 'user' not in session:
-            return redirect(url_for('login_google'))
-        return f(*args, **kwargs)
-    return decorated_funcion
-
-
-        
-
-
-
+         return redirect("https://ideal-dollop-7gvvxxv5gjwhw6g5-3000.app.github.dev/private")
+    except Exception as e:
+        app.logger.error(f"Error during authorization: {str(e)}")
+        return "error During authorization",500
 
 
 

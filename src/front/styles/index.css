@@ -1,4 +1,3 @@
-
 :root {
     --color-c1: #2a2f26;
     --color-c2: #515d5a;
@@ -13,7 +12,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -26,11 +26,10 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: #0a0a0a;
-    background: 
-    radial-gradient(
-        ellipse 80% 80% at 50% -20%, 
-        var(--color-c2), 
-        var(--color-c1));
+    background:
+        radial-gradient(ellipse 80% 80% at 50% -20%,
+            var(--color-c2),
+            var(--color-c1));
     display: flex;
     flex-direction: column;
     gap: 70px;
@@ -90,7 +89,7 @@ html, body {
     width: 90%;
     height: 500px;
     margin: 0 0 0 7%;
-    
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -131,7 +130,7 @@ html, body {
     border-radius: 5rem;
     background: var(--color-c4);
     box-shadow: 0 3px 8px rgb(0, 0, 0);
-    
+
     color: white;
     font-size: 1.2em;
     padding: 5px 30px;
@@ -197,21 +196,25 @@ html, body {
 }
 
 .border-c1 {
-    border: 1px solid var(--color-c1) !important;
+    border-color: solid var(--color-c1) !important;
 }
 
 .border-c2 {
-    border: 1px solid var(--color-c2) !important;
+    border-color: solid var(--color-c2) !important;
 }
 
 .border-c3 {
-    border: 1px solid var(--color-c3) !important;
+    border-color: solid var(--color-c3) !important;
 }
 
 .border-c4 {
-    border: 1px solid var(--color-c4) !important;
+    border-color: solid var(--color-c4) !important;
 }
 
 .border-c5 {
-    border: 1px solid var(--color-c5) !important;
+    border-color: solid var(--color-c5) !important;
+}
+
+body {
+    background-color: #0a0a0a;
 }

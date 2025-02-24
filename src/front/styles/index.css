@@ -16,7 +16,6 @@ html,
 body {
     width: 100%;
     height: 100%;
-    overflow: hidden;
 }
 
 .main {
@@ -216,5 +215,8 @@ body {
 }
 
 body {
-    background-color: #0a0a0a;
+    background:
+        radial-gradient(ellipse 80% 80% at 50% -20%,
+            white,
+            rgb(199, 179, 93));
 }

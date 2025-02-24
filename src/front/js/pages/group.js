@@ -5,6 +5,10 @@ import "../../styles/group.css";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
+import { NewExpense } from "../component/newExpense.js";
+import { EditGroup } from "../component/editGroup.js";
+
+
 export const Group = () => {
     const { store, actions } = useContext(Context);
     const { theid } = useParams();
@@ -13,11 +17,13 @@ export const Group = () => {
     return (
         <div className="text-center">
 
-            <button class="add-expense-button">
-                <i class="fa-solid fa-plus"></i>
-                <span class="button-text">Añadir gasto</span>
+            <button className="add-expense-button">
+                <i className="fa-solid fa-plus"></i>
+                <span className="button-text" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Añadir gasto</span>
             </button>
 
+            <NewExpense />
+            <EditGroup />
 
 
             <div className="d-flex" style={{ height: "100vh" }}>
@@ -42,7 +48,7 @@ export const Group = () => {
                             </Link>
                             <div className="d-flex align-items-center">
                                 <span className="navbar-brand mb-0 h1 text-c5">Group with ID {theid}</span>
-                                <button className=" text-c5 btn"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button className=" text-c5 btn" data-bs-toggle="modal" data-bs-target="#editGroupModal"><i className="fa-solid fa-pen-to-square"></i></button>
                             </div>
                             <div></div>
                         </div>

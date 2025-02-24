@@ -21,7 +21,6 @@ body {
 .main {
     position: absolute;
     top: 0;
-    z-index: 1;
     width: 100%;
     height: 100%;
     background-color: #0a0a0a;
@@ -31,10 +30,10 @@ body {
             var(--color-c1));
     display: flex;
     flex-direction: column;
-    gap: 70px;
+    gap: 70px;    
 }
 
-/* Estilos para el navegador */
+/* Estilos para el navbar */
 
 .nav {
     width: 100%;
@@ -43,26 +42,31 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 200px;
+    padding: 20px;
 
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .nav .logo {
     color: white;
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: 900;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 }
 
 .nav .logo .img-logo {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    background-color: black;
+    background: url(../img/img-logo.webp);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .nav .empezar {
@@ -73,16 +77,12 @@ body {
 
     color: white;
     font-size: 1.2em;
-    padding: 10px 30px;
+    padding: 5px 15px;
     cursor: pointer;
     transition: transform .3s ease-in-out;
 }
 
-.empezar:hover {
-    transform: scale(1.2);
-}
-
-/* Estilos para el container principal */
+/*  */
 
 .slogan-img {
     width: 90%;

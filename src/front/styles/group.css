@@ -1,0 +1,120 @@
+.group-left {
+    width: 350px;
+    border-right-width: 3px;
+    border-right-style: solid;
+    border-right-color: var(--color-c5);
+    position: relative;
+    background:
+        radial-gradient(ellipse 80% 80% at 50% -20%,
+            var(--color-c2),
+            var(--color-c1));
+
+    transition: transform 0.5s ease-in-out, width 0.5s ease-in-out;
+}
+
+.group-left.hidden {
+    transform: translateX(-100%);
+    width: 0;
+
+    border-right-width: 0px;
+}
+
+.group-top {
+    height: 75px;
+}
+
+.group-main {
+    background:
+        radial-gradient(ellipse 80% 80% at 50% -20%,
+            white,
+            rgb(199, 179, 93));
+
+    flex: 1;
+}
+
+.close-left-button {
+    width: 30px;
+    height: 55px;
+    position: absolute;
+
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--color-c1);
+
+    border: 3px solid var(--color-c5);
+    border-left-width: 0px;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.group-detail {
+    width: auto;
+    min-width: 300px;
+    height: 600px;
+
+    border-radius: 25px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+
+}
+
+
+
+
+
+
+.add-expense-button {
+    position: fixed;
+    top: 90%;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: var(--color-c5);
+    border-radius: 20px;
+    color: var(--color-c1);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    font-size: large;
+    border: 2px solid var(--color-c1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: transform 0.3s ease, width 0.3s ease, right 0.3s ease;
+}
+
+.add-expense-button .fa-plus {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.add-expense-button .button-text {
+    display: none;
+    position: absolute;
+    left: 60px;
+    color: var(--color-c1);
+    font-size: 15px;
+    text-align: left;
+    white-space: nowrap;
+    transition: left 0.3s ease;
+}
+
+.add-expense-button:hover {
+    transform: scale(1.2);
+    width: 140px;
+
+    right: 25px;
+}
+
+.add-expense-button:hover .fa-plus {
+    transform: translateX(-50px);
+}
+
+.add-expense-button:hover .button-text {
+    display: block;
+    left: 40px;
+}

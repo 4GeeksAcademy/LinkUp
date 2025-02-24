@@ -1,4 +1,3 @@
-
 :root {
     --color-c1: #2a2f26;
     --color-c2: #515d5a;
@@ -13,30 +12,28 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
-    overflow: hidden;
 }
 
 .main {
     position: absolute;
     top: 0;
-    z-index: 1;
     width: 100%;
     height: 100%;
     background-color: #0a0a0a;
-    background: 
-    radial-gradient(
-        ellipse 80% 80% at 50% -20%, 
-        var(--color-c2), 
-        var(--color-c1));
+    background:
+        radial-gradient(ellipse 80% 80% at 50% -20%,
+            var(--color-c2),
+            var(--color-c1));
     display: flex;
     flex-direction: column;
-    gap: 70px;
+    gap: 70px;    
 }
 
-/* Estilos para el navegador */
+/* Estilos para el navbar */
 
 .nav {
     width: 100%;
@@ -45,26 +42,31 @@ html, body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 200px;
+    padding: 20px;
 
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .nav .logo {
     color: white;
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: 900;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 }
 
 .nav .logo .img-logo {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    background-color: black;
+    background: url(../img/img-logo.webp);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .nav .empezar {
@@ -75,22 +77,18 @@ html, body {
 
     color: white;
     font-size: 1.2em;
-    padding: 10px 30px;
+    padding: 5px 15px;
     cursor: pointer;
     transition: transform .3s ease-in-out;
 }
 
-.empezar:hover {
-    transform: scale(1.2);
-}
-
-/* Estilos para el container principal */
+/*  */
 
 .slogan-img {
     width: 90%;
     height: 500px;
     margin: 0 0 0 7%;
-    
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -131,7 +129,7 @@ html, body {
     border-radius: 5rem;
     background: var(--color-c4);
     box-shadow: 0 3px 8px rgb(0, 0, 0);
-    
+
     color: white;
     font-size: 1.2em;
     padding: 5px 30px;
@@ -197,21 +195,28 @@ html, body {
 }
 
 .border-c1 {
-    border: 1px solid var(--color-c1) !important;
+    border-color: solid var(--color-c1) !important;
 }
 
 .border-c2 {
-    border: 1px solid var(--color-c2) !important;
+    border-color: solid var(--color-c2) !important;
 }
 
 .border-c3 {
-    border: 1px solid var(--color-c3) !important;
+    border-color: solid var(--color-c3) !important;
 }
 
 .border-c4 {
-    border: 1px solid var(--color-c4) !important;
+    border-color: solid var(--color-c4) !important;
 }
 
 .border-c5 {
-    border: 1px solid var(--color-c5) !important;
+    border-color: solid var(--color-c5) !important;
+}
+
+body {
+    background:
+        radial-gradient(ellipse 80% 80% at 50% -20%,
+            white,
+            rgb(199, 179, 93));
 }

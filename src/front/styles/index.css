@@ -1,13 +1,21 @@
+:root {
+    --color-c1: #2a2f26;
+    --color-c2: #515d5a;
+    --color-c3: #717e78;
+    --color-c4: #78816b;
+    --color-c5: #ffd176;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
-    overflow-x: hidden;
 }
 
 .main {
@@ -16,10 +24,10 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: #0a0a0a;
-    background: radial-gradient(
-        ellipse 80% 80% at 50% -20%,
-        #515d5a, 
-        #2a2f26);
+    background:
+        radial-gradient(ellipse 80% 80% at 50% -20%,
+            var(--color-c2),
+            var(--color-c1));
     display: flex;
     flex-direction: column;
     gap: 70px;    
@@ -64,7 +72,7 @@ html, body {
 .nav .empezar {
     border: none;
     border-radius: 5rem;
-    background: #78816b;
+    background: var(--color-c4);
     box-shadow: 0 3px 8px rgb(0, 0, 0);
 
     color: white;
@@ -80,7 +88,7 @@ html, body {
     width: 90%;
     height: 500px;
     margin: 0 0 0 7%;
-    
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -89,7 +97,7 @@ html, body {
 }
 
 .color-acento {
-    color: #ffd176;
+    color: var(--color-c5);
 }
 
 .slogan-img .info {
@@ -119,9 +127,9 @@ html, body {
 .info .empezar {
     border: none;
     border-radius: 5rem;
-    background: #78816b;
+    background: var(--color-c4);
     box-shadow: 0 3px 8px rgb(0, 0, 0);
-    
+
     color: white;
     font-size: 1.2em;
     padding: 5px 30px;
@@ -143,4 +151,72 @@ html, body {
     height: 100%;
     border-radius: 50%;
     object-fit: contain;
+}
+
+
+.bg-c1 {
+    background-color: var(--color-c1) !important;
+}
+
+.bg-c2 {
+    background-color: var(--color-c2) !important;
+}
+
+.bg-c3 {
+    background-color: var(--color-c3) !important;
+}
+
+.bg-c4 {
+    background-color: var(--color-c4) !important;
+}
+
+.bg-c5 {
+    background-color: var(--color-c5) !important;
+}
+
+.text-c1 {
+    color: var(--color-c1) !important;
+}
+
+.text-c2 {
+    color: var(--color-c2) !important;
+}
+
+.text-c3 {
+    color: var(--color-c3) !important;
+}
+
+.text-c4 {
+    color: var(--color-c4) !important;
+}
+
+.text-c5 {
+    color: var(--color-c5) !important;
+}
+
+.border-c1 {
+    border-color: solid var(--color-c1) !important;
+}
+
+.border-c2 {
+    border-color: solid var(--color-c2) !important;
+}
+
+.border-c3 {
+    border-color: solid var(--color-c3) !important;
+}
+
+.border-c4 {
+    border-color: solid var(--color-c4) !important;
+}
+
+.border-c5 {
+    border-color: solid var(--color-c5) !important;
+}
+
+body {
+    background:
+        radial-gradient(ellipse 80% 80% at 50% -20%,
+            white,
+            rgb(199, 179, 93));
 }

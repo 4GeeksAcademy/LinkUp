@@ -4,6 +4,7 @@
     --color-c3: #717e78;
     --color-c4: #78816b;
     --color-c5: #ffd176;
+    
 }
 
 * {
@@ -283,60 +284,3 @@ body {
 
 }
 
-.signup {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(210deg, var(--color-c3), var(--color-c1));
-    color: white;
-}
-
-.login {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(210deg, var(--color-c3), var(--color-c1));
-    color: white;
-}
-
-.formSign {
-    border-radius: 25px;
-    background-color: var(--color-c2);
-    box-shadow: 15px 10px 30px #21251e;
-}
-
-.divForm {
-    margin-top: 90px;
-    margin-bottom: 90px;
-
-}
-
-.divFormlog {
-    margin-top: 10%;
-    margin-bottom: 10%;
-
-}
-
-#Help {
-    color: var(--color-c5);
-}
-
-.nav2 {
-    margin-top: 0;
-    padding-top: 0;
-    width: 100%;
-}
-
-#app {
-    overflow: auto;
-}
-
-body {
-    background:
-        radial-gradient(ellipse 80% 80% at 50% -20%,
-            white,
-            rgb(199, 179, 93));
-}
-
-
-.modal-rounded {
-    border-radius: 30px;
-}

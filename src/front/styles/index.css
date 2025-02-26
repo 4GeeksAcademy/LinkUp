@@ -34,7 +34,7 @@ body {
     display: flex;
     flex-direction: column;
 
-    gap: 70px;    
+    gap: 70px;
 
 }
 
@@ -221,51 +221,56 @@ body {
     border-color: solid var(--color-c5) !important;
 }
 
-body{
+body {
     padding: 0;
-    
+
 }
+
 .signup {
     height: 100%;
     width: 100%;
     background: linear-gradient(210deg, var(--color-c3), var(--color-c1));
     color: white;
 }
-.login{
+
+.login {
     height: 100%;
     width: 100%;
     background: linear-gradient(210deg, var(--color-c3), var(--color-c1));
     color: white;
 }
 
-.formSign{
+.formSign {
     border-radius: 25px;
     background-color: var(--color-c2);
     box-shadow: 15px 10px 30px #21251e;
 }
-.divForm{
+
+.divForm {
     margin-top: 90px;
     margin-bottom: 90px;
-    
+
 }
-.divFormlog{
-    margin-top:10%;
+
+.divFormlog {
+    margin-top: 10%;
     margin-bottom: 10%;
-    
+
 }
-#Help{
+
+#Help {
     color: var(--color-c5);
 }
-.nav2{
-    position: fixed;
+
+.nav2 {
     margin-top: 0;
     padding-top: 0;
     width: 100%;
 }
-#app{
+
+#app {
     overflow: auto;
 }
-=======
 
 body {
     background:
@@ -274,3 +279,7 @@ body {
             rgb(199, 179, 93));
 }
 
+
+.modal-rounded {
+    border-radius: 30px;
+}

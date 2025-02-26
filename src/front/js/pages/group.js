@@ -11,8 +11,24 @@ import { EditGroup } from "../component/editGroup.js";
 
 export const Group = () => {
     const { store, actions } = useContext(Context);
+    const [isDebug, SetIsDebug] = useState(false);
     const { theid } = useParams();
     const [isHidden, setIsHidden] = useState(false);
+
+
+    useEffect(() => {
+        if (isDebug) {
+
+            const modalElement = document.getElementById("newExpenseModal");
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }
+        }
+
+        console.log(actions.getGroup(theid));
+    }, []);
+
 
     return (
         <div className="text-center">

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/index.css";
+import "../../styles/editGroup.css";
 import { Link } from "react-router-dom";
 
 export const EditGroup = () => {

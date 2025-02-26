@@ -11,7 +11,7 @@ import Layout from "./layout";
 
 //render your react application
 ReactDOM.render(
-    <GoogleOAuthProvider clientId="TU_CLIENT_ID_AQUÍ">
+    <GoogleOAuthProvider clientId={process.env.CLIENT_ID}>
         <Layout />
     </GoogleOAuthProvider>,
     document.getElementById("app")

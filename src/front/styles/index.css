@@ -18,6 +18,10 @@ body {
     height: 100%;
 }
 
+.color-acento {
+    color: var(--color-c5);
+}
+
 .main {
     position: absolute;
 
@@ -25,7 +29,7 @@ body {
     z-index: 1;
 
     width: 100%;
-    height: 100%;
+    height: 150vh;
     background-color: #0a0a0a;
     background:
         radial-gradient(ellipse 80% 80% at 50% -20%,
@@ -33,7 +37,6 @@ body {
             var(--color-c1));
     display: flex;
     flex-direction: column;
-
     gap: 70px;
 
 }
@@ -86,80 +89,134 @@ body {
     font-size: 1.2em;
     padding: 5px 15px;
     cursor: pointer;
-    transition: transform .3s ease-in-out;
 }
 
-/*  */
+/* Estilos para el container principal */
 
 .slogan-img {
-    width: 90%;
-    height: 500px;
-    margin: 0 0 0 7%;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 40px;
-}
-
-.color-acento {
-    color: var(--color-c5);
-}
-
-.slogan-img .info {
-    width: 50%;
-    height: 100%;
+    width: 100%;
+    height: 800px;
 
     display: flex;
     flex-direction: column;
-    text-align: justify;
-    gap: 30px;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+.slogan-img .info {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
 .info h2 {
-    color: #f7f7f7;
-    font-size: 4em;
-    margin-left: 40px;
+    color: white;
+    font-size: 2.5em;
+    text-align: center;
 }
 
 .info .info-text {
     color: #CDCDCF;
-    font-size: 1.4em;
-    margin-left: 40px;
+    font-size: 1em;
+    text-align: center;
 }
 
 .info .empezar {
     border: none;
     border-radius: 5rem;
-    background: var(--color-c4);
+    background: #78816b;
     box-shadow: 0 3px 8px rgb(0, 0, 0);
 
     color: white;
     font-size: 1.2em;
-    padding: 5px 30px;
-    margin-left: 40px;
+    padding: 5px 20px;
     cursor: pointer;
-    transition: transform .3s ease-in-out;
 }
 
 .slogan-img .container-img {
-    width: 50%;
-    height: 100%;
+    width: 100%;
+    height: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .container-img img {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
     border-radius: 50%;
     object-fit: contain;
 }
 
+@media screen and (min-width: 768px) {
+
+    .main {
+        height: 100vh;
+        gap: 20px;
+    }
+
+    .nav {
+        padding: 0 70px;
+    }
+
+    .nav .logo {
+        font-size: 2em;
+        gap: 20px;
+    }
+    
+    .nav .logo .img-logo {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .nav .empezar {    
+        font-size: 1.2em;
+        padding: 10px 30px;
+        cursor: pointer;
+    }
+
+    .slogan-img {
+        height: 500px;
+        flex-direction: row;
+    }
+
+    .slogan-img .info {
+        width: 50%;
+        height: 100%;
+        align-items: flex-start;
+    }
+
+    .info h2 {
+        font-size: 2.5em;
+        margin-left: 20px;
+        text-align: justify;
+    }
+    
+    .info .info-text {
+        font-size: 1em;
+        margin-left: 20px;
+        text-align: justify;
+    }
+    
+    .info .empezar {        
+        font-size: 1.2em;
+        padding: 5px 30px;
+        margin-left: 20px;
+    }
+
+    .slogan-img .container-img {
+        width: 50%;
+        height: 100%;
+    }
+    
+    .container-img img {
+        width: 85%;
+    }
+}
 
 .bg-c1 {
     background-color: var(--color-c1) !important;

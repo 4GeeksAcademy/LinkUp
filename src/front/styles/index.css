@@ -88,6 +88,7 @@ body {
     font-size: 1.2em;
     padding: 5px 15px;
     cursor: pointer;
+    transition: transform .3s ease-in-out;
 }
 
 /* Estilos para el container principal */
@@ -217,6 +218,65 @@ body {
     }
 }
 
+@media screen and (min-width: 1024px) {
+
+    .info h2 {
+        font-size: 3em;
+        margin-left: 40px;
+    }
+    
+    .info .info-text {
+        font-size: 1.2em;
+        margin-left: 40px;
+    }
+    
+    .info .empezar {        
+        margin-left: 40px;
+        transition: transform .3s ease-in-out;
+    }
+
+    .empezar:hover {
+        transform: scale(1.2);
+    }
+
+    .container-img img {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+
+    .main {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav {
+        position: fixed;
+        top: 0;
+        padding: 0 200px;
+    }
+
+    .slogan-img {
+        width: 90%;
+        margin-top: 50px;
+    }
+
+    .info h2 {
+        font-size: 4em;
+        margin-left: 80px;
+    }
+    
+    .info .info-text {
+        font-size: 1.4em;
+        margin-left: 80px;
+    }
+    
+    .info .empezar {        
+        margin-left: 80px;
+    }
+}
+
 .bg-c1 {
     background-color: var(--color-c1) !important;
 }
@@ -321,7 +381,6 @@ body{
 #app{
     overflow: auto;
 }
-=======
 
 body {
     background:

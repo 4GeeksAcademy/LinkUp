@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Context } from "../store/appContext";
 import "../../styles/index.css";
+import "../../styles/LoginAndSignUp.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
@@ -48,19 +49,19 @@ export const LogIn = () => {
     return (
         <div className="text-center  d-flex justify-content-center login"  >
 
-            <div className="divFormlog w-25 ">
+            <div className="divFormlog container d-flex justify-content-center row ">
 
                 {/* <h2 className="mb-5" id="Help">LogIn</h2> */}
                 <br></br>
-                <form className="formSign d-flex justify-content-center border border-3 border-dark row">
+                <form className="formSign d-flex justify-content-center border border-3 border-dark row col-md-5">
                     <h1 className="mt-3" id="Help">LogIn</h1>
-                    <div className="col-9">
+                    <div className="col-md-8 col-lg-9 col-xl-10">
                         <label forhtml="exampleInputUsername" className="form-label"></label>
                         <input type="text" className="form-control" placeholder="Nombre de usuario" id="exampleInputUsername" required />
 
                     </div>
 
-                    <div className="col-9">
+                    <div className="col-md-8 col-lg-9 col-xl-10">
                         <label forhtml="exampleInputPassword1" className="form-label"></label>
                         <div className=" d-flex input-group">
                             <input type="password" className="form-control" placeholder="Contraseña" id="exampleInputPassword1" required />
@@ -71,9 +72,9 @@ export const LogIn = () => {
                     </div>
 
                     <div className="my-3">
-                        <button type="submit" className="btn btn-primary col-5 mb-3">Iniciar sesion</button>
+                        <button type="submit" className="acceso col-5 ms-0">Iniciar sesion</button>
                     </div>
-                    <p id="Help"> Continuar con</p>
+                    <p id="Help" className="pb-0 mb-1"> Iniciar con</p>
                     <div className="mb-4 d-flex justify-content-center">
 
                         <GoogleLogin

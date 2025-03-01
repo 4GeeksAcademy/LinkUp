@@ -4,7 +4,7 @@
     --color-c3: #717e78;
     --color-c4: #78816b;
     --color-c5: #ffd176;
-    
+
 }
 
 * {
@@ -168,13 +168,13 @@ body {
         font-size: 2em;
         gap: 20px;
     }
-    
+
     .nav .logo .img-logo {
         width: 50px;
         height: 50px;
     }
-    
-    .nav .empezar {    
+
+    .nav .empezar {
         font-size: 1.2em;
         padding: 10px 30px;
         cursor: pointer;
@@ -196,14 +196,14 @@ body {
         margin-left: 20px;
         text-align: justify;
     }
-    
+
     .info .info-text {
         font-size: 1em;
         margin-left: 20px;
         text-align: justify;
     }
-    
-    .info .empezar {        
+
+    .info .empezar {
         font-size: 1.2em;
         padding: 5px 30px;
         margin-left: 20px;
@@ -213,7 +213,7 @@ body {
         width: 50%;
         height: 100%;
     }
-    
+
     .container-img img {
         width: 85%;
     }
@@ -284,3 +284,7 @@ body {
 
 }
 
+.button-no {
+    outline: none !important;
+    box-shadow: none !important;
+}

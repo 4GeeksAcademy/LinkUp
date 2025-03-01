@@ -95,27 +95,26 @@ export const NewExpense = ({ membersList, theid }) => {
             form.classList.add("was-validated");
         } else {
             const activePeople = Object.keys(formData.checked).filter(person => formData.checked[person]);
-            const balance = {};
-            activePeople.forEach(person => {
-                balance[person] = (formData.amount / activePeople.length).toFixed(2);
-            });
+            const balance = activePeople.map(person => ({
+                name: person.charAt(0).toUpperCase() + person.slice(1),  // Capitaliza el nombre
+                amount: (formData.amount / activePeople.length).toFixed(2)
+            }));
 
             const today = new Date();
             const formattedDate = today.toISOString().split('T')[0];
 
             const expenseData = {
                 title: formData.title,
-                amount: formData.amount,
+                amount: parseFloat(formData.amount).toFixed(2),  // Asegura que la cantidad esté bien formateada
                 paidFor: formData.paidFor,
                 balance: balance,
-                file: formData.file,
+                imageURL: formData.file ? URL.createObjectURL(formData.file) : "",  // Asume que si hay archivo, lo usa
                 date: formattedDate,
             };
 
             console.log(expenseData);
             actions.addExpense(theid, expenseData);
             console.log(actions.getGroup(theid));
-            
 
             form.classList.remove("was-validated");
             form.reset();
@@ -172,7 +171,7 @@ export const NewExpense = ({ membersList, theid }) => {
                                     </div>
 
                                     <div className="col-sm-6">
-                                        <label htmlFor="amount" className="form-label text-c5">amounte</label>
+                                        <label htmlFor="amount" className="form-label text-c5">Importe</label>
                                         <div className="input-group">
                                             <input type="text" className="form-control" aria-label="" id="amount"
                                                 name="amount"

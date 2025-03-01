@@ -1,0 +1,23 @@
+.group-detail {
+    width: auto;
+    min-width: 300px;
+    height: 600px;
+    max-width: 50%;
+
+    border-radius: 25px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+
+}
+
+.balance {
+    width: auto;
+
+    border-radius: 3px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2);
+
+}
+.imagen-gasto{
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+}

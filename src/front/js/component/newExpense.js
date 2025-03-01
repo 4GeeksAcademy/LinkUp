@@ -4,21 +4,40 @@ import "../../styles/index.css";
 import "../../styles/newExpense.css";
 import { Link } from "react-router-dom";
 
-export const NewExpense = () => {
+export const NewExpense = ({ membersList, theid }) => {
     const { store, actions } = useContext(Context);
     const formRef = useRef(null);
+    const modalRef = useRef(null);
+
     const [formData, setFormData] = useState({
         title: "",
-        import: "",
+        amount: "",
         paidFor: "",
-        checked: {
-            arnau: true,
-            domingo: true,
-            nacho: true,
-            mohamed: true,
-        },
+        balance: {},
         file: null,
+        date: "",
+        checked: membersList.reduce((acc, member) => {
+            acc[member.name.toLowerCase()] = true;
+            return acc;
+        }, {}),
     });
+
+    useEffect(() => {
+        const checked = membersList.reduce((acc, member) => {
+            acc[member.name.toLowerCase()] = true;
+            return acc;
+        }, {});
+
+        setFormData(prevData => ({
+            ...prevData,
+            checked,
+        }));
+        setFormData(prevData => ({
+            ...prevData,
+            paidFor: membersList[0].name,
+        }));
+
+    }, [membersList]);
 
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -27,7 +46,6 @@ export const NewExpense = () => {
                 ...formData,
                 file: selectedFile
             });
-            console.log("Archivo seleccionado:", selectedFile);
         }
     };
 
@@ -53,8 +71,8 @@ export const NewExpense = () => {
     };
 
     const calculatePrice = (person) => {
-        const activePeople = Object.values(formData.checked).filter((isChecked) => isChecked).length;
-        return formData.checked[person] ? (formData.import / activePeople).toFixed(2) : '0.00';
+        const activePeople = Object.keys(formData.checked).filter((name) => formData.checked[name]).length;
+        return formData.checked[person] ? (formData.amount / activePeople).toFixed(2) : '0.00';
     };
 
     const handleSelectAll = () => {
@@ -76,21 +94,42 @@ export const NewExpense = () => {
             event.stopPropagation();
             form.classList.add("was-validated");
         } else {
-            console.log("Formulario válido. Valores:", formData);
+            const activePeople = Object.keys(formData.checked).filter(person => formData.checked[person]);
+            const balance = {};
+            activePeople.forEach(person => {
+                balance[person] = (formData.amount / activePeople.length).toFixed(2);
+            });
+
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+
+            const expenseData = {
+                title: formData.title,
+                amount: formData.amount,
+                paidFor: formData.paidFor,
+                balance: balance,
+                file: formData.file,
+                date: formattedDate,
+            };
+
+            console.log(expenseData);
+            actions.addExpense(theid, expenseData);
+            console.log(actions.getGroup(theid));
+            
+
             form.classList.remove("was-validated");
             form.reset();
 
             setFormData({
                 title: "",
-                import: "",
-                paidFor: "",
-                checked: {
-                    arnau: true,
-                    domingo: true,
-                    nacho: true,
-                    mohamed: true,
-                },
-                file: null
+                amount: "",
+                paidFor: membersList[0].name,
+                checked: membersList.reduce((acc, member) => {
+                    acc[member.name.toLowerCase()] = true;
+                    return acc;
+                }, {}),
+                file: null,
+                date: formattedDate,
             });
 
             const modal = document.querySelector("#newExpenseModal");
@@ -102,7 +141,7 @@ export const NewExpense = () => {
     };
 
     return (
-        <div className="modal fade " id="newExpenseModal" tabIndex="-1" aria-hidden="true">
+        <div className="modal fade" id="newExpenseModal" tabIndex="-1" aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div className="modal-content bg-c3 modal-rounded">
                     <div className="d-flex align-items-center justify-content-between pt-3">
@@ -122,7 +161,7 @@ export const NewExpense = () => {
                                             className="form-control"
                                             id="title"
                                             name="title"
-                                            placeholder="P. ej.: Carne barbacoa "
+                                            placeholder="P. ej.: Carne barbacoa"
                                             required
                                             value={formData.title}
                                             onChange={handleChange}
@@ -133,13 +172,13 @@ export const NewExpense = () => {
                                     </div>
 
                                     <div className="col-sm-6">
-                                        <label htmlFor="import" className="form-label text-c5">Importe</label>
+                                        <label htmlFor="amount" className="form-label text-c5">amounte</label>
                                         <div className="input-group">
-                                            <input type="text" className="form-control" aria-label="" id="import"
-                                                name="import"
+                                            <input type="text" className="form-control" aria-label="" id="amount"
+                                                name="amount"
                                                 placeholder="0.000€"
                                                 required
-                                                value={formData.import}
+                                                value={formData.amount}
                                                 onChange={handleChange} />
                                             <span className="input-group-text">€</span>
                                             <span className="input-group-text">0.00</span>
@@ -154,10 +193,9 @@ export const NewExpense = () => {
                                             value={formData.paidFor}
                                             onChange={handleChange}
                                         >
-                                            <option value="Arnau">Arnau</option>
-                                            <option value="Domingo">Domingo</option>
-                                            <option value="Nacho">Nacho</option>
-                                            <option value="Mohamed">Mohamed</option>
+                                            {membersList.map((person) => (
+                                                <option value={person.name} key={person.name}>{person.name}</option>
+                                            ))}
                                         </select>
                                     </div>
 
@@ -187,18 +225,18 @@ export const NewExpense = () => {
                                     <span className="input-group-text">Dividir entre todos</span>
                                 </div>
 
-                                {["arnau", "domingo", "nacho", "mohamed"].map((person) => (
-                                    <div className="input-group mb-1" key={person}>
+                                {membersList.map((person) => (
+                                    <div className="input-group mb-1" key={person.name}>
                                         <div className="input-group-text">
                                             <input
                                                 className="form-check-input mt-0"
                                                 type="checkbox"
-                                                checked={formData.checked[person]}
-                                                onChange={() => handleCheckboxChange(person)}
+                                                checked={formData.checked[person.name.toLowerCase()]}
+                                                onChange={() => handleCheckboxChange(person.name.toLowerCase())}
                                             />
                                         </div>
-                                        <span className="input-group-text flex-grow-1">{person.charAt(0).toUpperCase() + person.slice(1)}</span>
-                                        <span className="input-group-text">{calculatePrice(person)}€</span>
+                                        <span className="input-group-text flex-grow-1">{person.name.charAt(0).toUpperCase() + person.name.slice(1)}</span>
+                                        <span className="input-group-text">{calculatePrice(person.name.toLowerCase())}€</span>
                                     </div>
                                 ))}
                             </div>

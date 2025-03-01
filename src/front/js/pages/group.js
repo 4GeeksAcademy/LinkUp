@@ -7,6 +7,9 @@ import { useParams } from "react-router-dom";
 
 import { NewExpense } from "../component/newExpense.js";
 import { EditGroup } from "../component/editGroup.js";
+import { Balances } from "../component/balances.js";
+import { Expenses } from "../component/expenses.js";
+import { Calculation } from "../component/calculation.js";
 
 
 export const Group = () => {
@@ -38,8 +41,8 @@ export const Group = () => {
                 <span className="button-text" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Añadir gasto</span>
             </button>
 
-            <NewExpense />
-            <EditGroup />
+            <NewExpense membersList={actions.getGroup(theid).membersList} theid={theid} />
+            <EditGroup theid={theid} />
 
 
             <div className="d-flex" style={{ height: "100vh" }}>
@@ -73,12 +76,8 @@ export const Group = () => {
                     <div className="group-main p-1">
                         <div className="ms-0 ms-sm-3">
                             <div className="d-flex flex-wrap " style={{ width: '100%' }}>
-                                <div className="flex-grow-1 m-3 bg-c3 group-detail">
-                                    <div>Div 1</div>
-                                </div>
-                                <div className="flex-grow-1 m-3 bg-c3 group-detail" >
-                                    <div >Div 2</div>
-                                </div>
+                                <Expenses theid={theid} />
+                                <Balances theid={theid} />
                             </div>
                         </div>
                     </div>

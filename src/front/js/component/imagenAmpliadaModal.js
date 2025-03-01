@@ -6,7 +6,6 @@ export const ImagenAmpliadaModal = ({ imageURL }) => {
         <div className="modal fade" id="imagenAmpliadaModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content rounded-3 overflow-hidden">
-                    {/* Botón de cerrar con fondo */}
                     <div className="position-absolute top-0 end-0 m-2">
                         <button 
                             type="button" 

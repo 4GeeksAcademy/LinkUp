@@ -36,7 +36,7 @@ export const Expenses = ({ theid }) => {
                     <button key={index} className="rounded-0 button-no balance d-flex align-items-center justify-content-between my-1 px-3 text-light btn" data-bs-toggle="modal" data-bs-target="#editExpenseModal" onClick={() => setSelectedExpense(expense)}>
                         <div className="text-start">
                             <h5 className="">{expense.title}</h5>
-                            <p>Pagado por {expense.paidFor} el {expense.date}</p>
+                            <p>Pagado por <strong>{expense.paidFor}</strong> el {expense.date}</p>
                         </div>
                         <h5 className="ps-2">{expense.amount}€</h5>
                         {expense.imageURL && (

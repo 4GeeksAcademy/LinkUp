@@ -32,7 +32,7 @@ export const EditExpense = ({ expense, onDeleteExpense  }) => {
                         </div>
                     </div>
 
-                    <p className="text-light text-start px-3">Balance:</p>
+                    <p className="text-light text-start px-3">Balance</p>
                     <div className="px-3 balance-container">
                         {expense?.balance?.map(({ name, amount }, index) => (
                             amount !== 0 && (

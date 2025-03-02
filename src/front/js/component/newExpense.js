@@ -96,7 +96,7 @@ export const NewExpense = ({ membersList, theid }) => {
         } else {
             const activePeople = Object.keys(formData.checked).filter(person => formData.checked[person]);
             const balance = activePeople.map(person => ({
-                name: person.charAt(0).toUpperCase() + person.slice(1),  // Capitaliza el nombre
+                name: person.charAt(0).toUpperCase() + person.slice(1),
                 amount: (formData.amount / activePeople.length).toFixed(2)
             }));
 
@@ -105,10 +105,10 @@ export const NewExpense = ({ membersList, theid }) => {
 
             const expenseData = {
                 title: formData.title,
-                amount: parseFloat(formData.amount).toFixed(2),  // Asegura que la cantidad esté bien formateada
+                amount: parseFloat(formData.amount),
                 paidFor: formData.paidFor,
                 balance: balance,
-                imageURL: formData.file ? URL.createObjectURL(formData.file) : "",  // Asume que si hay archivo, lo usa
+                imageURL: formData.file ? URL.createObjectURL(formData.file) : "", 
                 date: formattedDate,
             };
 
@@ -173,16 +173,26 @@ export const NewExpense = ({ membersList, theid }) => {
                                     <div className="col-sm-6">
                                         <label htmlFor="amount" className="form-label text-c5">Importe</label>
                                         <div className="input-group">
-                                            <input type="text" className="form-control" aria-label="" id="amount"
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="amount"
                                                 name="amount"
                                                 placeholder="0.000€"
                                                 required
                                                 value={formData.amount}
-                                                onChange={handleChange} />
+                                                onChange={(e) => {
+                                                    const value = e.target.value;
+                                                    if (/^\d*\.?\d*$/.test(value) || value === "") {
+                                                        handleChange(e);
+                                                    }
+                                                }}
+                                            />
                                             <span className="input-group-text">€</span>
                                             <span className="input-group-text">0.00</span>
                                         </div>
                                     </div>
+
                                     <div className="col-md-6">
                                         <label htmlFor="paidFor" className="form-label text-c5">Pagado por</label>
                                         <select

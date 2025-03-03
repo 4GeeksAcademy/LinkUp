@@ -13,6 +13,8 @@ from api.models import db, User
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+from api.auth import jwt
+
 
 
 
@@ -29,7 +31,7 @@ static_file_dir = os.path.join(os.path.dirname(
 app = Flask(__name__)
 CORS(app)
 app.url_map.strict_slashes = False
-app.secret_key = os.getenv("SECRET_KEY")
+
 
 
 # database condiguration
@@ -44,6 +46,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
+jwt.init_app(app)
 
 
 
@@ -57,6 +60,8 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
+
+
 
 
 @app.errorhandler(APIException)

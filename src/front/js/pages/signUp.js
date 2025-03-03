@@ -91,7 +91,8 @@ export const SignUp = () => {
                             </div>
                         </div>
                         <div className="p-0 col-md-8 col-lg-9 col-xl-10 mb-3 mx-auto">
-                            <button type="submit" className="acceso col-5 ms-0">Registrarse</button>
+                        <p className="" id="Help">¿Tienes una cuenta? Haz login <a className="text-warning" href="/login">aqui</a></p>
+                            <button type="submit" className="acceso col-5 ms-0">Registro</button>
                             
                         </div>
 

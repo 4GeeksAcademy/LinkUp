@@ -208,13 +208,12 @@ def get_user():
         "email": user.email
     }), 200
         
-    return jsonify({"message": "Not logged in"}), 401
+    return jsonify({"message": "Usuario no encontrado"}), 401
 
 
     
 
-    if not user:
-        return jsonify({"message": "Usuario no encontrado"}), 404
+   
 
     
 

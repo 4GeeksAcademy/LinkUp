@@ -78,7 +78,7 @@ export const LogIn = () => {
                     </div>
 
                     <div className="my-3">
-                        <p className="" id="Help">¿No tienes una cuenta? Registrate <a className="text-warning" href="">aqui</a></p>
+                        <p className="" id="Help">¿No tienes una cuenta? Registrate <a className="text-warning" href="/signup">aqui</a></p>
                         <button type="submit" className="acceso col-5 ms-0">Iniciar sesion</button>
                     </div>
                     <p id="Help" className="pb-0 mb-1"> Iniciar con</p>

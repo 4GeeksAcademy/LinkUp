@@ -54,8 +54,8 @@ body {
 .acceso{
     border: none;
     border-radius: 5rem;
-    background: var(--color-c4);
-    box-shadow: 0 3px 8px rgb(0, 0, 0);
+    background: var(--color-c5);
+    box-shadow: 0 3px 8px var(--color-c1);
     min-width: 180px;
     color: var(--color-c1);
     text-align: center;
@@ -68,5 +68,11 @@ body {
 }
 .acceso:hover{
     transform: scale(0.9)
+}
+.sombra{
+    box-shadow: 8px 3px 10px var(--color-c1);
+}
+.boxGoogle{
+    width: 210px;
 }
 

@@ -1,0 +1,46 @@
+.group-detail {
+    width: auto;
+    min-width: 300px;
+    height: auto;
+    min-height: 600px;
+
+    border-radius: 25px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+
+}
+
+.balance {
+    width: 100%;
+    border-bottom: 2px solid white;
+
+}
+.imagen-gasto{
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+}
+
+
+
+
+.balance-container {
+    max-height: auto;
+    overflow-y: auto;
+}
+
+.balance-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.balance-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.balance-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.balance-container::-webkit-scrollbar-track {
+    background-color: transparent;
+}

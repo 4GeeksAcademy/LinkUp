@@ -133,6 +133,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				}
 			]
+			
+
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -168,6 +170,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			getGroup: (idGroup) => {
 				const store = getStore();
+
 				return store.groups.find(group => group.id === idGroup);
 			},
 			addExpense: (idGroup, expense) => {
@@ -178,6 +181,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore(store);
 				}
 			},
+
 		}
 	};
 };

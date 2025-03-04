@@ -14,6 +14,7 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from api.auth import jwt
+from flask_jwt_extended import JWTManager
 
 
 
@@ -29,10 +30,12 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "https://cautious-chainsaw-rj44xx4w449f5wxg-3000.app.github.dev"}}, supports_credentials=True)
 app.url_map.strict_slashes = False
 
-
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+jwt = JWTManager(app)
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")

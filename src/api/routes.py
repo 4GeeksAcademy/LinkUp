@@ -25,6 +25,7 @@ app = Flask(__name__)
 CORS(app)
 app.url_map.strict_slashes = False
 app.secret_key = os.getenv("SECRET_KEY")
+CORS(app, supports_credentials=True) 
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -62,6 +63,12 @@ def creando_usuario():
     username= request.json.get("username")
     email=request.json.get("email")
     password=  request.json.get("password")
+    print(email)
+
+    user = User.query.filter_by(email=email).first()
+    print(user)
+    if user:
+        return jsonify({"msg": "El email introducido no es valido o ya se registro con anterioridad."}), 400
 
     user = User(username=username, email=email, is_active=True)
     user.set_password(password) 
@@ -76,15 +83,23 @@ def creando_usuario():
 def acceso_usuario():
     username= request.json.get("username")
     password=  request.json.get("password")
+    
 
-    user = User.query.filter_by(username=username).one_or_none()
-
+    user = User.query.filter_by(username=username).first()
+    print(user)
     if not user or not user.check_password(password):
-        return jsonify("Wrong username or password"), 401
+        return jsonify({"msg": "Usuario o contraseña incorrectos"}), 401
 
-   
-    access_token = create_access_token(identity=user)
-    return jsonify(access_token=access_token)
+    user_email = user.email
+    user_avatar =user.avatar if hasattr(user, 'avatar') else None
+
+    access_token = create_access_token(identity=user.username)
+
+    return jsonify({"msg": "Inicio de sesión exitoso",
+                     "token": access_token, 
+                     "username": user.username,
+                     "email": user_email,
+                     "avatar": user_avatar}), 200
 
 
 
@@ -93,15 +108,20 @@ def acceso_usuario():
 def signup_google():
     try:
         request_body = request.json
+        print(request_body)
         token_id = request_body.get("tokenId")
+        
+        
 
         if not token_id:
             return jsonify({"error": "Token no proporcionado"}), 400
 
         # Verificar token con Google
-        google_url = f"https://oauth2.googleapis.com/tokeninfo?id_token={token_id}"
-        response = requests.get(google_url)
+        
+        response = requests.get("https://oauth2.googleapis.com/tokeninfo?id_token="+request_body["tokenId"])
+        print(response)
         user_info = response.json()
+        print(user_info)
 
         if "error_description" in user_info:
             return jsonify({"error": "Token inválido"}), 401
@@ -118,14 +138,16 @@ def signup_google():
 
         # Buscar o crear usuario en la base de datos
         user = User.query.filter_by(email=email).first()
+        
         if not user:
             user = User(username=name, email=email, is_active=True)
-            
+            print(user)
             db.session.add(user)
             db.session.commit()
 
-        # Crear token de acceso
-        access_token = create_access_token(identity=user.id)
+        print(type(user))
+        # # Crear token de acceso
+        access_token = create_access_token(identity=str(user.id))
 
         return jsonify({
             "msg": "Inicio de sesión exitoso",
@@ -181,19 +203,6 @@ def login_google():
         return jsonify({
             "error": "Error durante el inicio de sesión",
             "details": str(e)}), 500
-
-
-#ruta a la que nos redirige Google tras iniciar sesion
-# @api.route('/login/callback', methods=["GET"])
-# def callback():
-#     token = google.authorize_access_token() #datos token
-#     user_info = google.parse_id_token(token) #datos del usuario
-    
-
-#     session['user'] = user_info #guardamos datos del usuario
-
-#     return redirect (f"../../private"),200  #nos redirige a pagina princial del usuario
-
 
 #Obtener info del usuario
 @api.route('/user', methods=["POST"])

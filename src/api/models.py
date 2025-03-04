@@ -8,8 +8,10 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), unique= True, nullable= False)
     email = db.Column(db.String(120), unique=True)
-    encode_password = db.Column(db.String(500))
+    encode_password = db.Column(db.String(500), nullable=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+    avatar = db.Column(db.String(500), nullable=True)  # direccion url o lugar donde se encuentra "importante"
+
 
 
     def __repr__(self):

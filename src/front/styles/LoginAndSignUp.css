@@ -1,0 +1,78 @@
+.signup {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(210deg, var(--color-c4), var(--color-c1));
+    color: white;
+}
+.login{
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(210deg, var(--color-c4), var(--color-c1));
+    color: white;
+}
+
+.formSign{
+    
+    border-radius: 25px;
+    background-color: var(--color-c2);
+    box-shadow: 15px 10px 30px #21251e;
+    
+}
+.divForm{
+    
+    
+    margin-top: 10%;
+    margin-bottom: 11%;
+    
+}
+.divFormlog{
+    margin-top:15%;
+    margin-bottom: 15%;
+    
+}
+#Help{
+    color: var(--color-c5);
+}
+
+
+.nav2{
+    position: fixed;
+    margin-top: 0;
+    padding-top: 0;
+    width: 100%;
+}
+#app{
+    overflow: auto;
+}
+
+body {
+    background:
+        radial-gradient(ellipse 80% 80% at 50% -20%,
+            white,
+            rgb(199, 179, 93));
+}
+.acceso{
+    border: none;
+    border-radius: 5rem;
+    background: var(--color-c5);
+    box-shadow: 0 3px 8px var(--color-c1);
+    min-width: 180px;
+    color: var(--color-c1);
+    text-align: center;
+    font-size: 1.2em;
+    padding: 5px 30px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: transform .3s ease-in-out;
+
+}
+.acceso:hover{
+    transform: scale(0.9)
+}
+.sombra{
+    box-shadow: 8px 3px 10px var(--color-c1);
+}
+.boxGoogle{
+    width: 210px;
+}
+

@@ -389,3 +389,9 @@ body {
             rgb(199, 179, 93));
 }
 
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+}

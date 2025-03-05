@@ -10,7 +10,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True)
     encode_password = db.Column(db.String(500), nullable=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    avatar = db.Column(db.String(500), nullable=True)  # direccion url o lugar donde se encuentra "importante"
+    avatar = db.Column(db.String(500), nullable=True)
 
 
 

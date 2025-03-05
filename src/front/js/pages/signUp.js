@@ -38,7 +38,7 @@ export const SignUp = () => {
             return;
         }
 
-        await SignNormal(username, email, password);
+        await SignNormal(username, email, password, navigate);
     };
 
     return (

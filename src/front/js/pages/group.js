@@ -1,46 +1,42 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/index.css";
 import "../../styles/group.css";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { NewExpense } from "../component/newExpense.js";
 import { EditGroup } from "../component/editGroup.js";
-
+import { Balances } from "../component/balances.js";
+import { Expenses } from "../component/expenses.js";
+import { Calculation } from "../component/calculation.js";
 
 export const Group = () => {
     const { store, actions } = useContext(Context);
-    const [isDebug, SetIsDebug] = useState(false);
+    const [isDebug, setIsDebug] = useState(false);
     const { theid } = useParams();
     const [isHidden, setIsHidden] = useState(false);
-
+    const [showBalances, setShowBalances] = useState(true);
 
     useEffect(() => {
         if (isDebug) {
-
             const modalElement = document.getElementById("newExpenseModal");
             if (modalElement) {
                 const modal = new bootstrap.Modal(modalElement);
                 modal.show();
             }
         }
-
         console.log(actions.getGroup(theid));
     }, []);
 
-
     return (
         <div className="text-center">
-
             <button className="add-expense-button">
                 <i className="fa-solid fa-plus"></i>
                 <span className="button-text" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Añadir gasto</span>
             </button>
 
-            <NewExpense />
-            <EditGroup />
-
+            <NewExpense membersList={actions.getGroup(theid).membersList} theid={theid} />
+            <EditGroup theid={theid} />
 
             <div className="d-flex" style={{ height: "100vh" }}>
                 <div className={`group-left ${isHidden ? "hidden" : "p-1"} d-none d-md-block`}>
@@ -73,12 +69,8 @@ export const Group = () => {
                     <div className="group-main p-1">
                         <div className="ms-0 ms-sm-3">
                             <div className="d-flex flex-wrap " style={{ width: '100%' }}>
-                                <div className="flex-grow-1 m-3 bg-c3 group-detail">
-                                    <div>Div 1</div>
-                                </div>
-                                <div className="flex-grow-1 m-3 bg-c3 group-detail" >
-                                    <div >Div 2</div>
-                                </div>
+                                <Expenses theid={theid} />
+                                {showBalances ? <Balances theid={theid} onChangeView={() => setShowBalances(false)} /> : <Calculation theid={theid} onChangeView={() => setShowBalances(true)} />}
                             </div>
                         </div>
                     </div>

@@ -13,6 +13,9 @@ from api.models import db, User
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+from api.auth import jwt
+from flask_jwt_extended import JWTManager
+
 
 
 
@@ -27,10 +30,12 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "https://cautious-chainsaw-rj44xx4w449f5wxg-3000.app.github.dev"}}, supports_credentials=True)
 app.url_map.strict_slashes = False
-app.secret_key = os.getenv("SECRET_KEY")
 
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+jwt = JWTManager(app)
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -44,6 +49,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
 
+jwt.init_app(app)
 
 
 
@@ -57,6 +63,8 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 
 # Handle/serialize errors like a JSON object
+
+
 
 
 @app.errorhandler(APIException)

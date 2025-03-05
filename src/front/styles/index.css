@@ -4,7 +4,7 @@
     --color-c3: #717e78;
     --color-c4: #78816b;
     --color-c5: #ffd176;
-    
+
 }
 
 * {
@@ -90,6 +90,7 @@ body {
     font-size: 1.2em;
     padding: 5px 15px;
     cursor: pointer;
+    transition: transform .3s ease-in-out;
 }
 
 /* Estilos para el container principal */
@@ -168,13 +169,13 @@ body {
         font-size: 2em;
         gap: 20px;
     }
-    
+
     .nav .logo .img-logo {
         width: 50px;
         height: 50px;
     }
-    
-    .nav .empezar {    
+
+    .nav .empezar {
         font-size: 1.2em;
         padding: 10px 30px;
         cursor: pointer;
@@ -196,14 +197,14 @@ body {
         margin-left: 20px;
         text-align: justify;
     }
-    
+
     .info .info-text {
         font-size: 1em;
         margin-left: 20px;
         text-align: justify;
     }
-    
-    .info .empezar {        
+
+    .info .empezar {
         font-size: 1.2em;
         padding: 5px 30px;
         margin-left: 20px;
@@ -213,9 +214,68 @@ body {
         width: 50%;
         height: 100%;
     }
-    
+
     .container-img img {
         width: 85%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+
+    .info h2 {
+        font-size: 3em;
+        margin-left: 40px;
+    }
+    
+    .info .info-text {
+        font-size: 1.2em;
+        margin-left: 40px;
+    }
+    
+    .info .empezar {        
+        margin-left: 40px;
+        transition: transform .3s ease-in-out;
+    }
+
+    .empezar:hover {
+        transform: scale(1.2);
+    }
+
+    .container-img img {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+
+    .main {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav {
+        position: fixed;
+        top: 0;
+        padding: 0 200px;
+    }
+
+    .slogan-img {
+        width: 90%;
+        margin-top: 50px;
+    }
+
+    .info h2 {
+        font-size: 4em;
+        margin-left: 80px;
+    }
+    
+    .info .info-text {
+        font-size: 1.4em;
+        margin-left: 80px;
+    }
+    
+    .info .empezar {        
+        margin-left: 80px;
     }
 }
 
@@ -282,5 +342,52 @@ body {
 body {
     padding: 0;
 
+    
+}
+.signup {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(210deg, var(--color-c3), var(--color-c1));
+    color: white;
+}
+.login{
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(210deg, var(--color-c3), var(--color-c1));
+    color: white;
 }
 
+.formSign{
+    border-radius: 25px;
+    background-color: var(--color-c2);
+    box-shadow: 15px 10px 30px #21251e;
+}
+.divForm{
+    margin-top: 90px;
+    margin-bottom: 90px;
+    
+}
+.divFormlog{
+    margin-top:10%;
+    margin-bottom: 10%;
+    
+}
+#Help{
+    color: var(--color-c5);
+}
+.nav2{
+    position: fixed;
+    margin-top: 0;
+    padding-top: 0;
+    width: 100%;
+}
+#app{
+    overflow: auto;
+}
+
+}
+
+.button-no {
+    outline: none !important;
+    box-shadow: none !important;
+}

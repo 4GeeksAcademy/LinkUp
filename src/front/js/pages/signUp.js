@@ -1,112 +1,117 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Context } from "../store/appContext";
 import "../../styles/index.css";
-import { GoogleLogin } from "@react-oauth/google";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import "../../styles/LoginAndSignUp.css";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
+import { SignNormal, SignGoogle } from "../component/registro";
 
 export const SignUp = () => {
 
-    const clientId = "18163537172-9lapegg0ukbca7p9man17m3due5dh29n.apps.googleusercontent.com"
-    const onSuccess = async (credentialResponse) => {
-        const { credential } = credentialResponse;
-        try {
-            // decodificamos la credencial para accedesr datos del usuario "google"
-            const decoded = jwtDecode(credential);
-            console.log("Usuario autentificado: ", decoded);
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const navigate = useNavigate();
 
-            // peticion al Backend para autentificar el usuario
-            const response = await axios.post("https://cautious-chainsaw-rj44xx4w449f5wxg-3000.app.github.dev/login_google",
-                { tokenId: credential }, { withCredentials: true });
-
-            //redirigimos al usuario a la parina de private
-            if (response.status === 200) {
-                console.log("Respuesta del backend:", response.data);
-                window.location.href = "https://cautious-chainsaw-rj44xx4w449f5wxg-3000.app.github.dev/private";
-            } else {
-                console.error("Error en la respuesta del backend:", response.data);
-            }
-        }
-        catch (error) {
-            console.error("Error al autentificar:", error.response ? error.response.data : error.message);
-        }
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
-    const onFailure = (error) => {
-        console.log("Fallo en el login: ", error);
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
 
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    const [user, setUser] = useState(null);
+        if (password !== confirmPassword) {
+            alert("Las contraseñas no coinciden");
+            return;
+        }
 
-    const { store, actions } = useContext(Context);
+        await SignNormal(username, email, password, navigate);
+    };
 
     return (
-        <div className="text-center  d-flex justify-content-center signup"  >
-
-            <div className="divForm w-25 ">
-
-                {/* <h2 className="mb-5" id="Help">Registro</h2> */}
-                <br></br>
-                <form className="formSign d-flex justify-content-center border border-3 border-dark row">
-                    <h1 className="mt-3" id="Help">SignUP</h1>
+        <div className="text-center d-flex justify-content-center signup">
+            <div className="divForm container d-flex justify-content-center ">
+                <form className="formSign border border-3 border-dark row col-md-5 d-flex flex-column align-items-center" onSubmit={handleSubmit}>
+                    <h1 className="mt-3" id="Help">Registro</h1>
                     <p id="Help">Introduce tus datos</p>
-                    <div className="col-9">
-                        <label forhtml="exampleInputUsername" className="form-label"></label>
-                        <input type="text" className="form-control" placeholder="Nombre de usuario" id="exampleInputUsername" required />
-                        <div id="Help" className="form-text">Introduce un nombre usuario.</div>
-                    </div>
-                    <div className="col-9">
-                        <label forhtml="exampleInputEmail1" className="form-label"></label>
-                        <input type="email" className="form-control" placeholder="Email" id="exampleInputEmail1" aria-describedby="emailHelp" required />
-                        <div id="Help" className="form-text">Nunca se compartira tu email.</div>
-                    </div>
-                    <div className="col-9">
-                        <label forhtml="exampleInputPassword1" className="form-label"></label>
-                        <div className="d-flex input-group">
-                            <input type="password" className="form-control input-group" placeholder="Contraseña" id="exampleInputPassword1" required />
-                            <span class="input-group-text" id="inputGroupPrepend"><i className="fa-solid fa-eye"></i></span>
+                    
+                        <div className="p-0 col-md-8 col-lg-9 col-xl-10 mb-3 sombra mx-auto">
+                            <input type="text" className="form-control sombra" placeholder="Nombre de usuario"
+                                value={username} onChange={(e) => setUsername(e.target.value)} required />
                         </div>
-                        <div id="Help" className="form-text">Introduce una contraseña segura</div>
-                    </div>
-                    <div className="col-9 mb-2">
-                        <label forhtml="exampleInputPassword2" className="form-label"></label>
-                        <div className="d-flex input-group">
-                            <input type="password" className="form-control" placeholder="Confirma tu contraseña" id="exampleInputPassword2" required />
-                            <span class="input-group-text" id="inputGroupPrepend"><i className="fa-solid fa-eye"></i></span>
+                        <div className=" p-0  col-md-8 col-lg-9 col-xl-10  mb-3 sombra mx-auto">
+                            <input type="email" className="form-control" placeholder="Email"
+                                value={email} onChange={(e) => setEmail(e.target.value)} required />
                         </div>
 
-                        <div id="Help" className="form-text">Verifica que es correcta</div>
-                    </div>
-                    <div className="my-3">
-                        <button type="submit" className="btn btn-primary col-5 mb-3">Registrarse</button>
-                    </div>
-                    <p id="Help">Continuar con</p>
-                    <div className="mb-4 d-flex justify-content-center">
+                        {/* Casilla de contraseña con botón para mostrar/ocultar */}
+                        <div className="p-0 col-md-8 col-lg-9 col-xl-10 mb-3 sombra mx-auto">
+                            <div className="d-flex input-group">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    className="form-control"
+                                    placeholder="Contraseña"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                <span className="input-group-text" onClick={togglePasswordVisibility} style={{ cursor: "pointer" }}>
+                                    <i className={showPassword ? "fa fa-eye-slash" : "fa fa-eye"}></i>
+                                </span>
+                            </div>
+                        </div>
 
-                        <GoogleLogin
-                            clientId={clientId}
-                            onSuccess={onSuccess}
-                            onError={onFailure}
-                            buttonText="Continuar con Google"
-                            theme="outline"
-                            size="large"
-                            box-shadow={50}
-                            width={250}
-                            logo_alignment="left" />
-                    </div>
+                        {/* Casilla de confirmación de contraseña con botón para mostrar/ocultar */}
+                        <div className="p-0 col-md-8 col-lg-9 col-xl-10 mb-3 sombra mx-auto">
+                            <div className="d-flex input-group">
+                                <input
+                                    type={showConfirmPassword ? "text" : "password"}
+                                    className="form-control"
+                                    placeholder="Confirma tu contraseña"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    required
+                                />
+                                <span className="input-group-text" onClick={toggleConfirmPasswordVisibility} style={{ cursor: "pointer" }}>
+                                    <i className={showConfirmPassword ? "fa fa-eye-slash" : "fa fa-eye"}></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div className="p-0 col-md-8 col-lg-9 col-xl-10 mb-3 mx-auto">
+                        <p className="" id="Help">¿Tienes una cuenta? Haz login <a className="text-warning" href="/login">aqui</a></p>
+                            <button type="submit" className="acceso col-5 ms-0">Registro</button>
+                            
+                        </div>
+
+                        <p id="Help">Registrarse con</p>
+                        <div className="p-0 col-md-7 col-lg-9 col-xl-10 mb-3 sombra boxGoogle">
+                        
+                            <GoogleLogin
+                                onSuccess={(credentialResponse) => SignGoogle(credentialResponse, navigate)}
+                                onError={() => {
+                                    console.log("Error en la autenticación con Google");
+                                    alert("Error en la autenticación con Google. Inténtalo de nuevo.");
+                                }}
+                                buttonText="Continuar con Google"
+                                width={130}
+                            />
+                        </div>
+                    
                 </form>
-
-
-
             </div>
-
-
         </div>
     );
 };

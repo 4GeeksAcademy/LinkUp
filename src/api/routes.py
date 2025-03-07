@@ -3,9 +3,12 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import requests
 import os
+import random
+import string
+
 from flask import Flask, request, jsonify, redirect, url_for, session, Blueprint
 from authlib.integrations.flask_client import OAuth
-from api.models import db, User
+from api.models import db, User, Group, Member
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -26,6 +29,13 @@ CORS(app)
 app.url_map.strict_slashes = False
 app.secret_key = os.getenv("SECRET_KEY")
 CORS(app, supports_credentials=True) 
+
+def generate_group_id():
+    while True:
+        group_id = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
+        existing_group = Group.query.get(group_id)
+        if not existing_group:
+            return group_id 
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -193,10 +203,6 @@ def upload():
 def get_images():
     return "descarga de imagenes"
 
-   
-
-    
-
 #Logout session google-user
 @api.route('/logout')
 def logout():
@@ -204,4 +210,126 @@ def logout():
     session.pop("user",None)
     return redirect ("/")
 
+
+
+
+
+
+
+
+
+
+
+
+
+#GROUPS
+
+
+
+
+@api.route('/groups', methods=['POST'])
+def create_group():
+    data = request.get_json()
+
+    name = data.get('name')
+    iconURL = data.get('iconURL', "https://cdn-icons-png.flaticon.com/512/74/74577.png")
+    membersList = data.get('membersList')
+
+    # Validaciones
+    if not name:
+        return jsonify({"message": "Group name is required"}), 400
+    if len(membersList) < 2:
+        return jsonify({"message": "A group must have at least two members"}), 400
+
+    group_id = generate_group_id()
+    group = Group(name=name, iconURL=iconURL, id=group_id)
+
+    for member_data in membersList:
+        member = Member(name=member_data['name'], group=group)
+        db.session.add(member)
+
+    db.session.add(group)
+    db.session.commit()
+
+    return jsonify({"message": "Group created successfully", "groupId": group_id}), 201
+
+
+@api.route('/groups', methods=['GET'])
+def get_groups():
+    groups = Group.query.all()
+    groups_list = []
+
+    for group in groups:
+        groups_list.append({
+            "name": group.name,
+            "id": group.id,
+            "iconURL": group.iconURL,
+            "membersList": [{"name": member.name, "owes": member.owes} for member in group.membersList],
+            "expensesList": group.expensesList
+        })
+
+    return jsonify({"groups": groups_list})
+
+
+
+@api.route('/group/<string:idgroup>', methods=['GET'])
+def get_group(idgroup):
+    group = Group.query.get(idgroup)
+    if not group:
+        return jsonify({"message": "Group not found"}), 404
+
+    return jsonify({
+        "name": group.name,
+        "id": group.id,
+        "iconURL": group.iconURL,
+        "membersList": [{"name": member.name, "owes": member.owes} for member in group.membersList],
+        "expensesList": group.expensesList
+    })
+
+
+
+# Endpoint PUT para actualizar un grupo
+@api.route('/group/<string:idgroup>', methods=['PUT'])
+def update_group(idgroup):
+    data = request.get_json()
+    group = Group.query.get(idgroup)
+
+    if not group:
+        return jsonify({"message": "Group not found"}), 404
+
+    name = data.get('name')
+    iconURL = data.get('iconURL')
+    membersList = data.get('membersList')
+
+    # Validación de nombre
+    if not name:
+        return jsonify({"message": "Group name cannot be empty"}), 400
+
+    group.name = name
+    if iconURL:
+        group.iconURL = iconURL
+
+    if membersList is not None:
+        # Limpiar miembros existentes
+        group.membersList = []
+        for member_data in membersList:
+            member = Member(name=member_data['name'], group=group)
+            db.session.add(member)
+
+    db.session.commit()
+
+    return jsonify({"message": "Group updated successfully"})
+
+
+# Endpoint DELETE para eliminar un grupo
+@api.route('/group/<string:idgroup>', methods=['DELETE'])
+def delete_group(idgroup):
+    group = Group.query.get(idgroup)
+    if not group:
+        return jsonify({"message": "Group not found"}), 404
+
+    db.session.delete(group)
+    db.session.commit()
+
+    return jsonify({"message": "Group deleted successfully"})
 

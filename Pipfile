@@ -6,7 +6,6 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-flask = "*"
 sqlalchemy = "*"
 flask-sqlalchemy = "==3.1.1"
 flask-migrate = "*"
@@ -24,6 +23,7 @@ werkzeug = "*"
 authlib = "*"
 requests = "*"
 flask-validator = "*"
+flask = "*"
 
 [requires]
 python_version = "3.10"

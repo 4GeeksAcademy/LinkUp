@@ -10,7 +10,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True)
     encode_password = db.Column(db.String(500), nullable=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    avatar = db.Column(db.String(500), nullable=True)  # direccion url o lugar donde se encuentra "importante"
+    avatar = db.Column(db.String(500), nullable=True)
 
 
 
@@ -32,4 +32,15 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
     
-        
+class Group(db.Model):
+    id = db.Column(db.String(15), primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    iconURL = db.Column(db.String(255), nullable=False, default="https://cdn-icons-png.flaticon.com/512/74/74577.png")
+    membersList = db.relationship('Member', backref='group', lazy=True)
+    expensesList = db.Column(db.PickleType, nullable=True, default=[])
+
+class Member(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    owes = db.Column(db.Float, default=0)
+    group_id = db.Column(db.String(15), db.ForeignKey('group.id'), nullable=False)

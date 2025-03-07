@@ -63,6 +63,7 @@ def creando_usuario():
     username= request.json.get("username")
     email=request.json.get("email")
     password=  request.json.get("password")
+
     print(email)
 
     user = User.query.filter_by(email=email).first()
@@ -92,8 +93,8 @@ def acceso_usuario():
 
     user_email = user.email
     user_avatar =user.avatar if hasattr(user, 'avatar') else None
-
-    access_token = create_access_token(identity=user.username)
+    
+    access_token = create_access_token(identity= user_email)
 
     return jsonify({"msg": "Inicio de sesión exitoso",
                      "token": access_token, 
@@ -130,6 +131,7 @@ def signup_google():
         email = user_info.get("email")
         name = user_info.get("name")
         picture = user_info.get("picture")
+        print("Imagen avatar ", picture)
 
         if not email:
             return jsonify({"error": "No se obtuvo el email"}), 400
@@ -138,23 +140,23 @@ def signup_google():
 
         # Buscar o crear usuario en la base de datos
         user = User.query.filter_by(email=email).first()
-        
+        print(user)
         if not user:
-            user = User(username=name, email=email, is_active=True)
+            user = User(username=name, email=email, is_active=True, avatar=picture)
             print(user)
             db.session.add(user)
             db.session.commit()
 
         print(type(user))
         # # Crear token de acceso
-        access_token = create_access_token(identity=str(user.id))
+        access_token = create_access_token(identity=user.email)
 
         return jsonify({
             "msg": "Inicio de sesión exitoso",
             "token": access_token,
             "username": user.username,
             "email": user.email,
-            "picture": picture
+            "picture": user.avatar
         }), 201
 
     except Exception as e:
@@ -162,65 +164,34 @@ def signup_google():
         return jsonify({"error": "Error durante la autenticación con Google"}), 500
 
 
-
-# ruta toma de datos sesion con OAuth de Google
-# 
-@api.route('/login_google', methods=['POST'])
-def login_google():
-    try:
-        data= request.get_json()
-        token_id = data.get("tokenId")
-
-        if not token_id:
-            return jsonify({"error": "Token no proporcionado"}),400
-        
-        user_info = google.parse_id_token(token_id)
-
-        if not user_info:
-            return jsonify ({"error": "token no entregado"}), 400
-        
-
-        # Verificar token con Google
-        google_url = f"https://oauth2.googleapis.com/tokeninfo?id_token={token_id}"
-        response = requests.get(google_url)
-        if response.status_code != 200:
-            return jsonify({"error": "Token inválido"}), 401
-        
-
-        email = user_info["email"]
-        user = User.query.filter_by(email=email).first()
-
-        if not user:
-            return jsonify({"error": "Usuario no registrado. Por favor, regístrese primero."}), 404 
-
-        session["username"] = user_info["email"]
-
-        return jsonify({"message": " Inicio de sesion exitoso", "user": user_info}), 201
-
-
-    except Exception as e:
-        app.logger.error(f"Error during login: {str(e)}")
-        return jsonify({
-            "error": "Error durante el inicio de sesión",
-            "details": str(e)}), 500
-
 #Obtener info del usuario
 @api.route('/user', methods=["POST"])
-@jwt_required()
+#@jwt_required()
 def get_user():
-    user_id = get_jwt_identity()
-    user = User.query.get(user_id)
+    
+    user_email = get_jwt_identity()
+    print(f"Email obtenido del token: {user_email}")
+    
+    user = User.query.filter_by(email=user_email).first()
     if user:
         return jsonify({
-        "id": user.id,
-        "username": user.username,
-        "email": user.email
-    }), 200
         
+        "username": user.username,
+        "email": user.email,
+        "picture": user.avatar}), 200
+   
+    print("Usuario no encontrado en la base de datos.")    
     return jsonify({"message": "Usuario no encontrado"}), 401
 
 
-    
+@api.route('/upload_images', methods=["POST"])
+def upload():
+    return "subir imagenes"
+
+
+@api.route('/images', methods=["GET"])
+def get_images():
+    return "descarga de imagenes"
 
    
 
@@ -234,26 +205,3 @@ def logout():
     return redirect ("/")
 
 
-# @api.route("/authorize/google", methods=["POST"])
-# def authorize_google():
-#     try:
-#          token = google.authorize_access_token()
-#          user_info= google.parse_id_token(token)
-
-#          if not user_info or 'email' not in user_info:
-#              return "no EMAIL found", 400    
-#          username = user_info['email']
-#          user =User.query.filter_by(username = username).first()
-
-#          if not user:
-#           user=User(username=username)
-#          db.session.add(user)
-#          db.session.commit()
-
-#          session['username']= username
-#          session['oauth_token'] = token
-
-#          return redirect("/")
-#     except Exception as e:
-#         app.logger.error(f"Error during authorization: {str(e)}")
-#         return "error During authorization",500

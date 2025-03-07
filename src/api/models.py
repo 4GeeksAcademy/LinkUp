@@ -32,4 +32,21 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
     
-        
+# class ImagesGroups(db.Model):
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     id_group = db.Column(db.String, nullable=False)
+#     group_usuario = db.Column(db.String, nullable=False)
+#     url_foto = db.Column(db.String, nullable=False)
+
+#     def __repr__(self):
+#         return f'<ImagesGroups {self.id_group}>'
+    
+#     def serialize(self):
+#         return {
+#             "id_group": self.id_group,
+#             "group_usuario":self.group_usuario,
+#             "url_foto": self.url_foto,
+            
+#         }
+    

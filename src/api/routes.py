@@ -12,6 +12,9 @@ from dotenv import load_dotenv
 from functools import wraps
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
+import cloudinary
+import cloudinary.uploader
+
 
 
 api = Blueprint('api', __name__)
@@ -26,6 +29,14 @@ CORS(app)
 app.url_map.strict_slashes = False
 app.secret_key = os.getenv("SECRET_KEY")
 CORS(app, supports_credentials=True) 
+
+# Cofiguracion para mandar imagen a traves de Api local a Cloudinary
+cloudinary.config( 
+  cloud_name = "fotolinkup", 
+  api_key = "942267699618169", 
+  api_secret = "UxfxJAEz1XMsStkRMgIzUq810Ps",
+  secure=True
+)
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -166,7 +177,7 @@ def signup_google():
 
 #Obtener info del usuario
 @api.route('/user', methods=["POST"])
-#@jwt_required()
+@jwt_required()
 def get_user():
     
     user_email = get_jwt_identity()
@@ -184,18 +195,27 @@ def get_user():
     return jsonify({"message": "Usuario no encontrado"}), 401
 
 
-@api.route('/upload_images', methods=["POST"])
-def upload():
-    return "subir imagenes"
+@api.route("/upload", methods=["POST"])
+@jwt_required()
+def upload_image():
+    try:
+        user_email = get_jwt_identity()
+        print(f"Usuario autenticado: {user_email}")
 
-
-@api.route('/images', methods=["GET"])
-def get_images():
-    return "descarga de imagenes"
-
-   
-
+        if 'file' not in request.files:
+            return jsonify({"error": "No se envió ningún archivo"}), 400
     
+        file = request.files["file"] 
+        result = cloudinary.uploader.upload(file) #subimos imagen al servidor Cloudinary
+
+        url_foto = result["secure_url"] 
+
+        return jsonify({"url_foto": url_foto}), 201  
+
+    except Exception as e:
+        return jsonify({"error": f"Error al subir imagen: {str(e)}"}), 500
+    
+  
 
 #Logout session google-user
 @api.route('/logout')

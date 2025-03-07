@@ -1,6 +1,9 @@
+import api from "../api";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			imageURL: "",
 			message: null,
 			demo: [
 				{
@@ -181,6 +184,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore(store);
 				}
 			},
+			uploadImage: async (file)=>{
+
+
+				const token = localStorage.getItem("token"); 
+				console.log("Token actual:", token);
+
+				if (!token) {
+					console.error("Antes debes iniciar sesion. No se puede subir la imagen.");
+					return;
+				}
+
+
+				const formData = new FormData();
+				formData.append("file", file);
+
+
+				try {
+					
+
+					
+					const response = await api.post("/upload",formData, {
+						headers: {"Content-Type": "multipart/form-data", Authorization:`Bearer ${token}`}});
+					
+					if(response.data.url_foto){
+						setStore({ imageURL: response.data.url_foto});
+						console.log("Imagen subida con exito", response.data.url_foto);
+						
+					}
+				}catch(error){
+					console.error("Error al subir la imagen: ", error.response?.data || error.message);
+					
+				}
+			}
 
 		}
 	};

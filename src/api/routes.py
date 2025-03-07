@@ -28,14 +28,9 @@ app = Flask(__name__)
 CORS(app)
 app.url_map.strict_slashes = False
 app.secret_key = os.getenv("SECRET_KEY")
-CORS(app, supports_credentials=True) 
+CORS(app, origins="*", supports_credentials=True) 
 
-def generate_group_id():
-    while True:
-        group_id = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
-        existing_group = Group.query.get(group_id)
-        if not existing_group:
-            return group_id 
+
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -223,35 +218,65 @@ def logout():
 
 
 #GROUPS
+def generate_group_id():
+    if Group.query.count() == 0:
+        return ''.join(random.choices(string.ascii_letters + string.digits, k=30))
+    
+    while True:
+        group_id = ''.join(random.choices(string.ascii_letters + string.digits, k=30))
+        existing_group = Group.query.get(group_id)
+        if not existing_group:
+            return group_id
 
 
 
 
 @api.route('/groups', methods=['POST'])
 def create_group():
-    data = request.get_json()
+    print("Headers:", request.headers)  # Imprime los headers para verificar Content-Type
+    print("Body:", request.get_json())  # Imprime el cuerpo de la solicitud
+    data = request.get_json()  # Se obtiene el cuerpo en formato JSON
+
+    # Verifica que se esté recibiendo el contenido correctamente
+    if not data:
+        return jsonify({"message": "No JSON data received"}), 415
 
     name = data.get('name')
     iconURL = data.get('iconURL', "https://cdn-icons-png.flaticon.com/512/74/74577.png")
     membersList = data.get('membersList')
 
-    # Validaciones
     if not name:
         return jsonify({"message": "Group name is required"}), 400
-    if len(membersList) < 2:
+    if not membersList or len(membersList) < 2:
         return jsonify({"message": "A group must have at least two members"}), 400
 
-    group_id = generate_group_id()
+    group_id = 1 
+    print("group_id: ", group_id)
+    
     group = Group(name=name, iconURL=iconURL, id=group_id)
 
-    for member_data in membersList:
-        member = Member(name=member_data['name'], group=group)
-        db.session.add(member)
+    try:
+        
+        print("Starting to add members to the group")
+        for member_data in membersList:
+            member = Member(name=member_data['name'], group=group)
+            db.session.add(member)
+            print(f"Added member: {member_data['name']}")
 
-    db.session.add(group)
-    db.session.commit()
+        db.session.add(group)
+        print(f"Group added: {name}")
+        
+        db.session.commit()
+        print("Committed changes to the database")
 
-    return jsonify({"message": "Group created successfully", "groupId": group_id}), 201
+    except Exception as e:
+        db.session.rollback()
+        print(f"An error occurred: {str(e)}") 
+        return jsonify({"message": f"An error occurred: {str(e)}"}), 500
+
+    return jsonify({"message": "Group created successfully"}), 201
+
+
 
 
 @api.route('/groups', methods=['GET'])

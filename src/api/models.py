@@ -33,7 +33,7 @@ class User(db.Model):
         }
     
 class Group(db.Model):
-    id = db.Column(db.String(15), primary_key=True)
+    id = db.Column(db.String(30), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     iconURL = db.Column(db.String(255), nullable=False, default="https://cdn-icons-png.flaticon.com/512/74/74577.png")
     membersList = db.relationship('Member', backref='group', lazy=True)

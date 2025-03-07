@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from './../api';
+import {UploadFoto} from "../component/upLoadFoto"
 
 export const Private = () => {
     const [userData, setUserData] = useState(null);
@@ -51,6 +52,7 @@ export const Private = () => {
                     </div>
                 )}
             </div>
+                <UploadFoto/>
         </div>
     );
 };

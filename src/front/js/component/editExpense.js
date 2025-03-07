@@ -48,7 +48,7 @@ export const EditExpense = ({ expense, onDeleteExpense  }) => {
                     </div>
 
                     <div className="p-3 d-flex justify-content-center">
-                        <button className="btn btn-outline-danger mx-2" data-bs-dismiss="modal" onClick={onDeleteExpense}><i className="fa-regular fa-trash-can"></i></button>
+                        <button className="btn btn-outline-warning mx-2" data-bs-dismiss="modal" onClick={onDeleteExpense}><i className="fa-regular fa-trash-can"></i></button>
                     </div>
                 </div>
             </div>

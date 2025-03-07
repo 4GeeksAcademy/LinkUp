@@ -24,71 +24,214 @@ const getState = ({ getStore, getActions, setStore }) => {
 					membersList: [
 						{
 							name: "Arnau",
-							owes: [
-								{
-									to: "Nacho",
-									amount: 0,
-								},
-								{
-									to: "Domingo",
-									amount: 2,
-								},
-								{
-									to: "Mohamed",
-									amount: 3,
-								},
-							]
+							owes: 12,
 						},
 						{
 							name: "Nacho",
-							owes: [
-								{
-									to: "Arnau",
-									amount: 4,
-								},
-								{
-									to: "Domingo",
-									amount: 5,
-								},
-								{
-									to: "Mohamed",
-									amount: 6,
-								},
-							]
+							owes: 12,
 						},
 						{
 							name: "Domingo",
-							owes: [
-								{
-									to: "Nacho",
-									amount: "7",
-								},
-								{
-									to: "Arnau",
-									amount: 8,
-								},
-								{
-									to: "Mohamed",
-									amount: 9,
-								},
-							]
+							owes: 12,
 						},
 						{
 							name: "Mohamed",
-							owes: [
-								{
-									to: "Nacho",
-									amount: 10,
-								},
-								{
-									to: "Domingo",
-									amount: 11,
-								},
-								{
-									to: "Arnau",
-									amount: 12,
-								},
-							]
+							owes: 12,
+						},
+					],
+					expensesList: [
+						{
+							title: "Barbacoa",
+							amount: 50,
+							paidFor: "Arnau",
+							balance: [{
+								name: "Arnau",
+								amount: 12.5,
+							}, {
+								name: "Domingo",
+								amount: 12.5,
+							}, {
+								name: "Nacho",
+								amount: 12.5,
+							}, {
+								name: "Mohamed",
+								amount: 12.5,
+							}],
+							imageURL: "https://catinfog.com/wp-content/uploads/2019/01/ticket-pepejeans-1.jpg",
+							date: "10-02-2025",
+						},
+						{
+							title: "Cena",
+							amount: 75,
+							paidFor: "Nacho",
+							balance: [{
+								name: "Arnau",
+								amount: 25,
+							}, {
+								name: "Domingo",
+								amount: 0,
+							}, {
+								name: "Nacho",
+								amount: 25,
+							}, {
+								name: "Mohamed",
+								amount: 25,
+							}],
+							imageURL: "",
+							date: "19-02-2025",
+						},
+					]
+
+				},
+				{
+					name: "Debug Group",
+					id: "debug",
+					membersList: [
+						{
+							name: "Arnau",
+							owes: 12,
+						},
+						{
+							name: "Nacho",
+							owes: 12,
+						},
+						{
+							name: "Domingo",
+							owes: 12,
+						},
+						{
+							name: "Mohamed",
+							owes: 12,
+						},
+					],
+					expensesList: [
+						{
+							title: "Barbacoa",
+							amount: 50,
+							paidFor: "Arnau",
+							balance: [{
+								name: "Arnau",
+								amount: 12.5,
+							}, {
+								name: "Domingo",
+								amount: 12.5,
+							}, {
+								name: "Nacho",
+								amount: 12.5,
+							}, {
+								name: "Mohamed",
+								amount: 12.5,
+							}],
+							imageURL: "https://catinfog.com/wp-content/uploads/2019/01/ticket-pepejeans-1.jpg",
+							date: "10-02-2025",
+						},
+						{
+							title: "Cena",
+							amount: 75,
+							paidFor: "Nacho",
+							balance: [{
+								name: "Arnau",
+								amount: 25,
+							}, {
+								name: "Domingo",
+								amount: 0,
+							}, {
+								name: "Nacho",
+								amount: 25,
+							}, {
+								name: "Mohamed",
+								amount: 25,
+							}],
+							imageURL: "",
+							date: "19-02-2025",
+						},
+					]
+
+				},
+				{
+					name: "Debug Group",
+					id: "debug",
+					membersList: [
+						{
+							name: "Arnau",
+							owes: 12,
+						},
+						{
+							name: "Nacho",
+							owes: 12,
+						},
+						{
+							name: "Domingo",
+							owes: 12,
+						},
+						{
+							name: "Mohamed",
+							owes: 12,
+						},
+					],
+					expensesList: [
+						{
+							title: "Barbacoa",
+							amount: 50,
+							paidFor: "Arnau",
+							balance: [{
+								name: "Arnau",
+								amount: 12.5,
+							}, {
+								name: "Domingo",
+								amount: 12.5,
+							}, {
+								name: "Nacho",
+								amount: 12.5,
+							}, {
+								name: "Mohamed",
+								amount: 12.5,
+							}],
+							imageURL: "https://catinfog.com/wp-content/uploads/2019/01/ticket-pepejeans-1.jpg",
+							date: "10-02-2025",
+						},
+						{
+							title: "Cena",
+							amount: 75,
+							paidFor: "Nacho",
+							balance: [{
+								name: "Arnau",
+								amount: 25,
+							}, {
+								name: "Domingo",
+								amount: 0,
+							}, {
+								name: "Nacho",
+								amount: 25,
+							}, {
+								name: "Mohamed",
+								amount: 25,
+							}],
+							imageURL: "",
+							date: "19-02-2025",
+						},
+					]
+
+				},
+				{
+					name: "Debug Group",
+					id: "debug",
+					membersList: [
+						{
+							name: "Arnau",
+							owes: 12,
+						},
+						{
+							name: "Nacho",
+							owes: 12,
+						},
+						{
+							name: "Domingo",
+							owes: 12,
+						},
+						{
+							name: "Mohamed",
+							owes: 12,
 						},
 					],
 					expensesList: [
@@ -184,6 +327,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore(store);
 				}
 			},
+
 			uploadImage: async (file)=>{
 
 
@@ -217,6 +361,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					
 				}
 			}
+
+			getUserGroups: () => {
+				const store = getStore();
+				return store.groups;
+			},
+
 
 		}
 	};

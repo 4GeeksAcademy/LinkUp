@@ -366,6 +366,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				return store.groups;
 			},
+			postGroup: () => {
+				const store = getStore();
+				return store.groups;
+			},
 
 
 		}

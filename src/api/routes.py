@@ -5,10 +5,14 @@ import requests
 import os
 import random
 import string
+import uuid
+from flask_sqlalchemy import SQLAlchemy
+import math
+from sqlalchemy.exc import IntegrityError
 
-from flask import Flask, request, jsonify, redirect, url_for, session, Blueprint
+from flask import Flask, request, jsonify, redirect, url_for, session, Blueprint, abort
 from authlib.integrations.flask_client import OAuth
-from api.models import db, User, Group, Member
+from api.models import db, User, Group, Expense, Member, Balance
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -220,10 +224,10 @@ def logout():
 #GROUPS
 def generate_group_id():
     if Group.query.count() == 0:
-        return ''.join(random.choices(string.ascii_letters + string.digits, k=30))
+        return ''.join(random.choices(string.ascii_letters + string.digits, k=15))
     
     while True:
-        group_id = ''.join(random.choices(string.ascii_letters + string.digits, k=30))
+        group_id = ''.join(random.choices(string.ascii_letters + string.digits, k=15))
         existing_group = Group.query.get(group_id)
         if not existing_group:
             return group_id
@@ -233,8 +237,6 @@ def generate_group_id():
 
 @api.route('/groups', methods=['POST'])
 def create_group():
-    print("Headers:", request.headers)  # Imprime los headers para verificar Content-Type
-    print("Body:", request.get_json())  # Imprime el cuerpo de la solicitud
     data = request.get_json()  # Se obtiene el cuerpo en formato JSON
 
     # Verifica que se esté recibiendo el contenido correctamente
@@ -250,31 +252,19 @@ def create_group():
     if not membersList or len(membersList) < 2:
         return jsonify({"message": "A group must have at least two members"}), 400
 
-    group_id = 1 
-    print("group_id: ", group_id)
+    group_id = generate_group_id()
     
     group = Group(name=name, iconURL=iconURL, id=group_id)
 
-    try:
         
-        print("Starting to add members to the group")
-        for member_data in membersList:
-            member = Member(name=member_data['name'], group=group)
-            db.session.add(member)
-            print(f"Added member: {member_data['name']}")
+    for member_data in membersList:
+        member = Member(name=member_data['name'], group=group)
+        db.session.add(member)
 
-        db.session.add(group)
-        print(f"Group added: {name}")
-        
-        db.session.commit()
-        print("Committed changes to the database")
+    db.session.add(group)
+    db.session.commit()
 
-    except Exception as e:
-        db.session.rollback()
-        print(f"An error occurred: {str(e)}") 
-        return jsonify({"message": f"An error occurred: {str(e)}"}), 500
-
-    return jsonify({"message": "Group created successfully"}), 201
+    return jsonify({"message": "Group created successfully", "id": group_id}), 201
 
 
 
@@ -288,10 +278,7 @@ def get_groups():
         groups_list.append({
             "name": group.name,
             "id": group.id,
-            "iconURL": group.iconURL,
-            "membersList": [{"name": member.name, "owes": member.owes} for member in group.membersList],
-            "expensesList": group.expensesList
-        })
+            })
 
     return jsonify({"groups": groups_list})
 
@@ -306,55 +293,195 @@ def get_group(idgroup):
     return jsonify({
         "name": group.name,
         "id": group.id,
-        "iconURL": group.iconURL,
-        "membersList": [{"name": member.name, "owes": member.owes} for member in group.membersList],
-        "expensesList": group.expensesList
+        "iconURL": group.iconURL
     })
 
 
 
-# Endpoint PUT para actualizar un grupo
-@api.route('/group/<string:idgroup>', methods=['PUT'])
-def update_group(idgroup):
-    data = request.get_json()
-    group = Group.query.get(idgroup)
-
-    if not group:
-        return jsonify({"message": "Group not found"}), 404
-
-    name = data.get('name')
-    iconURL = data.get('iconURL')
-    membersList = data.get('membersList')
-
-    # Validación de nombre
-    if not name:
-        return jsonify({"message": "Group name cannot be empty"}), 400
-
-    group.name = name
-    if iconURL:
-        group.iconURL = iconURL
-
-    if membersList is not None:
-        # Limpiar miembros existentes
-        group.membersList = []
-        for member_data in membersList:
-            member = Member(name=member_data['name'], group=group)
-            db.session.add(member)
-
-    db.session.commit()
-
-    return jsonify({"message": "Group updated successfully"})
-
-
-# Endpoint DELETE para eliminar un grupo
 @api.route('/group/<string:idgroup>', methods=['DELETE'])
 def delete_group(idgroup):
     group = Group.query.get(idgroup)
     if not group:
         return jsonify({"message": "Group not found"}), 404
 
+    # Eliminar todos los balances asociados a los gastos del grupo
+    for expense in group.expensesList:
+        for balance in expense.balance:
+            db.session.delete(balance)  # Eliminar los balances asociados
+        db.session.delete(expense)  # Eliminar los gastos
+
+    # Eliminar todos los miembros asociados al grupo
+    for member in group.membersList:
+        db.session.delete(member)
+
+    # Eliminar el grupo
     db.session.delete(group)
     db.session.commit()
 
     return jsonify({"message": "Group deleted successfully"})
+
+
+
+@api.route('/group/<string:idgroup>/members', methods=['GET'])
+def get_members(idgroup):
+    group = Group.query.get(idgroup)
+    if not group:
+        return jsonify({"message": "Group not found"}), 404
+    members = group.membersList
+    members_data = [{"id": member.id, "name": member.name, "owes": member.owes} for member in members]
+    
+    return jsonify({"members": members_data})
+
+
+
+
+
+
+
+
+
+@api.route('/expenses/<group_id>', methods=['POST'])
+def add_expense(group_id):
+    # Obtener el grupo por su ID
+    group = Group.query.get(group_id)
+    if not group:
+        print(f"Grupo con ID {group_id} no encontrado")
+        return jsonify({"message": "Grupo no encontrado"}), 404
+    
+    # Obtener los datos del gasto desde la solicitud
+    title = request.json.get('title')
+    amount = request.json.get('amount')
+    paid_for = request.json.get('paidFor')
+    image_url = request.json.get('imageURL')
+    date = request.json.get('date')
+    balances = request.json.get('balance')
+    
+    print(f"Datos recibidos: {request.json}")  # Verifica que los datos estén correctos
+    
+    if not title or not amount or not paid_for or not balances:
+        print("Faltan datos requeridos")
+        return jsonify({"message": "Datos incompletos"}), 400
+    
+    # Crear el nuevo gasto
+    new_expense = Expense(
+        title=title,
+        amount=amount,
+        paidFor=paid_for,
+        imageURL=image_url,
+        date=date,
+        group_id=group_id
+    )
+    
+    db.session.add(new_expense)
+    db.session.commit()
+
+    # Añadir los balances a la base de datos
+    for balance_data in balances:
+        member_name = balance_data.get('name')
+        print(f"Buscando miembro: {member_name}")
+        member = Member.query.filter_by(name=member_name, group_id=group_id).first()
+        if member:
+            balance = Balance(
+                name=member_name,
+                amount=balance_data.get('amount'),
+                member_id=member.id,
+                expense_id=new_expense.id
+            )
+            db.session.add(balance)
+        else:
+            print(f"Miembro {member_name} no encontrado en el grupo")
+            return jsonify({"message": f"Miembro {member_name} no encontrado en el grupo"}), 404
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Gasto añadido exitosamente",
+        "expense_id": new_expense.id
+    }), 201
+
+
+
+@api.route('/expenses', methods=['GET'])
+def get_all_expenses():
+    expenses = Expense.query.all()
+    result = []
+    
+    for expense in expenses:
+        expense_data = {
+            "id": expense.id,
+            "title": expense.title,
+            "amount": expense.amount,
+            "paidFor": expense.paidFor,
+            "group_id": expense.group_id,
+            
+        }
+        result.append(expense_data)
+
+    return jsonify(result)
+
+@api.route('/expenses/<string:group_id>', methods=['GET'])
+def get_group_expenses(group_id):
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+
+    # Ordenar por ID de forma descendente
+    expenses_query = Expense.query.filter_by(group_id=group_id).order_by(Expense.id.desc())
+    total_expenses = expenses_query.count()
+    total_pages = math.ceil(total_expenses / per_page)
+
+    expenses = expenses_query.paginate(page=page, per_page=per_page, error_out=False)
+
+    data = {
+        "expenses": [
+            {
+                "id": expense.id,
+                "title": expense.title,
+                "amount": expense.amount,
+                "paidFor": expense.paidFor,
+                "imageURL": expense.imageURL,
+                "date": expense.date
+            }
+            for expense in expenses.items
+        ],
+        "current_page": page,
+        "total_pages": total_pages,
+        "next_page": f"/api/expenses/{group_id}?page={page + 1}" if expenses.has_next else None
+    }
+
+    return jsonify(data)
+
+
+@api.route('/expense/<idexpense>', methods=['GET'])
+def get_expense(idexpense):
+    expense = Expense.query.get(idexpense)
+    if not expense:
+        return jsonify({"message": "Expense not found"}), 404
+    
+    balance_list = [{"name": b.name, "amount": b.amount} for b in expense.balance]
+    
+    return jsonify({
+        "title": expense.title,
+        "amount": expense.amount,
+        "paidFor": expense.paidFor,
+        "balance": balance_list,
+        "imageURL": expense.imageURL,
+        "date": expense.date
+    })
+
+@api.route('/expense/<int:expense_id>', methods=['DELETE'])
+def delete_expense(expense_id):
+    expense = Expense.query.get(expense_id)
+
+    if not expense:
+        return jsonify({"error": "Expense not found"}), 404
+
+    # Eliminar balances asociados
+    Balance.query.filter_by(expense_id=expense_id).delete()
+
+    # Eliminar la expense
+    db.session.delete(expense)
+    db.session.commit()
+
+    return jsonify({"message": f"Expense {expense_id} deleted successfully"}), 200
+
 

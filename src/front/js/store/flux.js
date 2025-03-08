@@ -279,7 +279,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				}
 			]
-			
+
 
 		},
 		actions: {
@@ -328,10 +328,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			uploadImage: async (file)=>{
+			uploadImage: async (file) => {
 
 
-				const token = localStorage.getItem("token"); 
+				const token = localStorage.getItem("token");
 				console.log("Token actual:", token);
 
 				if (!token) {
@@ -345,22 +345,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 				try {
-					
 
-					
-					const response = await api.post("/upload",formData, {
-						headers: {"Content-Type": "multipart/form-data", Authorization:`Bearer ${token}`}});
-					
-					if(response.data.url_foto){
-						setStore({ imageURL: response.data.url_foto});
+
+
+					const response = await api.post("/upload", formData, {
+						headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` }
+					});
+
+					if (response.data.url_foto) {
+						setStore({ imageURL: response.data.url_foto });
 						console.log("Imagen subida con exito", response.data.url_foto);
-						
+
 					}
-				}catch(error){
+				} catch (error) {
 					console.error("Error al subir la imagen: ", error.response?.data || error.message);
-					
+
 				}
-			}
+			},
 
 			getUserGroups: () => {
 				const store = getStore();

@@ -4,39 +4,72 @@ import "../../styles/index.css";
 import "../../styles/newExpense.css";
 import { Link } from "react-router-dom";
 
-export const NewExpense = ({ membersList, theid }) => {
+export const NewExpense = ({ theid }) => {
     const { store, actions } = useContext(Context);
     const formRef = useRef(null);
     const modalRef = useRef(null);
+    const [membersList, setMembersList] = useState([]);
+    const [loading, setLoading] = useState(true);  // Agregar estado de carga
+
+    useEffect(() => {
+        const fetchMembers = async () => {
+            const fetchedMembers = await actions.getGroupMembers(theid);
+            // Asegurarse de que fetchedMembers es un array
+            setMembersList(Array.isArray(fetchedMembers) ? fetchedMembers : []);
+            setLoading(false);  // Termina de cargar los miembros
+        };
+        fetchMembers();
+    }, [theid]);
+
+    // Verificar si la lista de miembros está vacía o aún cargando
+    if (loading) {
+        return (
+            <div className="modal fade" id="editExpenseModal" tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div className="modal-content bg-c3 modal-rounded p-3">
+                        <h1>Loading...</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!membersList || membersList.length === 0) {
+        return (
+            <div className="modal fade" id="editExpenseModal" tabIndex="-1" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div className="modal-content bg-c3 modal-rounded p-3">
+                        <h1>No members found.</h1>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     const [formData, setFormData] = useState({
         title: "",
         amount: "",
-        paidFor: "",
+        paidFor: membersList[0]?.name || "", // Asegúrate de que hay un miembro antes de asignar
         balance: {},
         file: null,
         date: "",
-        checked: membersList.reduce((acc, member) => {
+        checked: Array.isArray(membersList) ? membersList.reduce((acc, member) => {
             acc[member.name.toLowerCase()] = true;
             return acc;
-        }, {}),
+        }, {}) : {},
     });
 
     useEffect(() => {
-        const checked = membersList.reduce((acc, member) => {
+        const checked = Array.isArray(membersList) ? membersList.reduce((acc, member) => {
             acc[member.name.toLowerCase()] = true;
             return acc;
-        }, {});
+        }, {}) : {};
 
         setFormData(prevData => ({
             ...prevData,
             checked,
+            paidFor: membersList[0]?.name || "", // Asegúrate de que hay un miembro antes de asignar
         }));
-        setFormData(prevData => ({
-            ...prevData,
-            paidFor: membersList[0].name,
-        }));
-
     }, [membersList]);
 
     const handleFileChange = (event) => {
@@ -44,7 +77,7 @@ export const NewExpense = ({ membersList, theid }) => {
         if (selectedFile) {
             setFormData({
                 ...formData,
-                file: selectedFile
+                file: selectedFile,
             });
         }
     };
@@ -72,7 +105,10 @@ export const NewExpense = ({ membersList, theid }) => {
 
     const calculatePrice = (person) => {
         const activePeople = Object.keys(formData.checked).filter((name) => formData.checked[name]).length;
-        return formData.checked[person] ? (formData.amount / activePeople).toFixed(2) : '0.00';
+        if (activePeople > 0) {
+            return formData.checked[person] ? (formData.amount / activePeople).toFixed(2) : '0.00';
+        }
+        return '0.00';  // Evita dividir por cero
     };
 
     const handleSelectAll = () => {
@@ -97,7 +133,7 @@ export const NewExpense = ({ membersList, theid }) => {
             const activePeople = Object.keys(formData.checked).filter(person => formData.checked[person]);
             const balance = activePeople.map(person => ({
                 name: person.charAt(0).toUpperCase() + person.slice(1),
-                amount: (formData.amount / activePeople.length).toFixed(2)
+                amount: (formData.amount / activePeople.length).toFixed(2),
             }));
 
             const today = new Date();
@@ -108,7 +144,7 @@ export const NewExpense = ({ membersList, theid }) => {
                 amount: parseFloat(formData.amount),
                 paidFor: formData.paidFor,
                 balance: balance,
-                imageURL: formData.file ? URL.createObjectURL(formData.file) : "", 
+                imageURL: formData.file ? URL.createObjectURL(formData.file) : "",
                 date: formattedDate,
             };
 
@@ -122,11 +158,11 @@ export const NewExpense = ({ membersList, theid }) => {
             setFormData({
                 title: "",
                 amount: "",
-                paidFor: membersList[0].name,
-                checked: membersList.reduce((acc, member) => {
+                paidFor: membersList[0]?.name || "",
+                checked: Array.isArray(membersList) ? membersList.reduce((acc, member) => {
                     acc[member.name.toLowerCase()] = true;
                     return acc;
-                }, {}),
+                }, {}) : {},
                 file: null,
                 date: formattedDate,
             });

@@ -16,6 +16,7 @@ export const Group = () => {
     const { theid } = useParams();
     const [isHidden, setIsHidden] = useState(false);
     const [showBalances, setShowBalances] = useState(true);
+    const [group, setGroup] = useState([]);
 
     useEffect(() => {
         if (isDebug) {
@@ -25,8 +26,19 @@ export const Group = () => {
                 modal.show();
             }
         }
-        console.log(actions.getGroup(theid));
     }, []);
+
+    useEffect(() => {
+        const fetchGroup = async () => {
+            const fetchedGroup = await actions.getGroup(theid);
+            setGroup(fetchedGroup);
+            console.log(fetchedGroup);
+
+        };
+        fetchGroup();
+    }, [theid, actions]);
+
+    if (!group) return <div>Loading...</div>;
 
     return (
         <div className="text-center">
@@ -34,9 +46,8 @@ export const Group = () => {
                 <i className="fa-solid fa-plus"></i>
                 <span className="button-text" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Añadir gasto</span>
             </button>
-
-            <NewExpense membersList={actions.getGroup(theid).membersList} theid={theid} />
-            <EditGroup theid={theid} />
+            <NewExpense theid={theid} />
+            {/*<EditGroup theid={theid} />*/}
 
             <div className="d-flex" style={{ height: "100vh" }}>
                 <div className={`group-left ${isHidden ? "hidden" : "p-1"} d-none d-md-block`}>
@@ -59,7 +70,7 @@ export const Group = () => {
                                 <i className="fa-solid fa-arrow-left text-c5 fs-3"></i>
                             </Link>
                             <div className="d-flex align-items-center">
-                                <span className="navbar-brand mb-0 h1 text-c5">Group with ID {theid}</span>
+                                <span className="navbar-brand mb-0 h1 text-c5">{group.name}</span>
                                 <button className=" text-c5 btn" data-bs-toggle="modal" data-bs-target="#editGroupModal"><i className="fa-solid fa-pen-to-square"></i></button>
                             </div>
                             <div></div>
@@ -70,7 +81,8 @@ export const Group = () => {
                         <div className="ms-0 ms-sm-3">
                             <div className="d-flex flex-wrap " style={{ width: '100%' }}>
                                 <Expenses theid={theid} />
-                                {showBalances ? <Balances theid={theid} onChangeView={() => setShowBalances(false)} /> : <Calculation theid={theid} onChangeView={() => setShowBalances(true)} />}
+                                {/*{showBalances ? <Balances theid={theid} onChangeView={() => setShowBalances(false)} /> : <Calculation theid={theid} onChangeView={() => setShowBalances(true)} />}
+                            */}
                             </div>
                         </div>
                     </div>

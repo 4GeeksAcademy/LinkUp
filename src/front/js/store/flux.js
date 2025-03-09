@@ -4,321 +4,109 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			imageURL: "",
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			],
 			groups: [
-				{
-					name: "Debug Group",
-					id: "debug",
-					membersList: [
-						{
-							name: "Arnau",
-							owes: 12,
-						},
-						{
-							name: "Nacho",
-							owes: 12,
-						},
-						{
-							name: "Domingo",
-							owes: 12,
-						},
-						{
-							name: "Mohamed",
-							owes: 12,
-						},
-					],
-					expensesList: [
-						{
-							title: "Barbacoa",
-							amount: 50,
-							paidFor: "Arnau",
-							balance: [{
-								name: "Arnau",
-								amount: 12.5,
-							}, {
-								name: "Domingo",
-								amount: 12.5,
-							}, {
-								name: "Nacho",
-								amount: 12.5,
-							}, {
-								name: "Mohamed",
-								amount: 12.5,
-							}],
-							imageURL: "https://catinfog.com/wp-content/uploads/2019/01/ticket-pepejeans-1.jpg",
-							date: "10-02-2025",
-						},
-						{
-							title: "Cena",
-							amount: 75,
-							paidFor: "Nacho",
-							balance: [{
-								name: "Arnau",
-								amount: 25,
-							}, {
-								name: "Domingo",
-								amount: 0,
-							}, {
-								name: "Nacho",
-								amount: 25,
-							}, {
-								name: "Mohamed",
-								amount: 25,
-							}],
-							imageURL: "",
-							date: "19-02-2025",
-						},
-					]
 
-				},
-				{
-					name: "Debug Group",
-					id: "debug",
-					membersList: [
-						{
-							name: "Arnau",
-							owes: 12,
-						},
-						{
-							name: "Nacho",
-							owes: 12,
-						},
-						{
-							name: "Domingo",
-							owes: 12,
-						},
-						{
-							name: "Mohamed",
-							owes: 12,
-						},
-					],
-					expensesList: [
-						{
-							title: "Barbacoa",
-							amount: 50,
-							paidFor: "Arnau",
-							balance: [{
-								name: "Arnau",
-								amount: 12.5,
-							}, {
-								name: "Domingo",
-								amount: 12.5,
-							}, {
-								name: "Nacho",
-								amount: 12.5,
-							}, {
-								name: "Mohamed",
-								amount: 12.5,
-							}],
-							imageURL: "https://catinfog.com/wp-content/uploads/2019/01/ticket-pepejeans-1.jpg",
-							date: "10-02-2025",
-						},
-						{
-							title: "Cena",
-							amount: 75,
-							paidFor: "Nacho",
-							balance: [{
-								name: "Arnau",
-								amount: 25,
-							}, {
-								name: "Domingo",
-								amount: 0,
-							}, {
-								name: "Nacho",
-								amount: 25,
-							}, {
-								name: "Mohamed",
-								amount: 25,
-							}],
-							imageURL: "",
-							date: "19-02-2025",
-						},
-					]
+			],
+			actualGroup: [
 
-				},
-				{
-					name: "Debug Group",
-					id: "debug",
-					membersList: [
-						{
-							name: "Arnau",
-							owes: 12,
-						},
-						{
-							name: "Nacho",
-							owes: 12,
-						},
-						{
-							name: "Domingo",
-							owes: 12,
-						},
-						{
-							name: "Mohamed",
-							owes: 12,
-						},
-					],
-					expensesList: [
-						{
-							title: "Barbacoa",
-							amount: 50,
-							paidFor: "Arnau",
-							balance: [{
-								name: "Arnau",
-								amount: 12.5,
-							}, {
-								name: "Domingo",
-								amount: 12.5,
-							}, {
-								name: "Nacho",
-								amount: 12.5,
-							}, {
-								name: "Mohamed",
-								amount: 12.5,
-							}],
-							imageURL: "https://catinfog.com/wp-content/uploads/2019/01/ticket-pepejeans-1.jpg",
-							date: "10-02-2025",
-						},
-						{
-							title: "Cena",
-							amount: 75,
-							paidFor: "Nacho",
-							balance: [{
-								name: "Arnau",
-								amount: 25,
-							}, {
-								name: "Domingo",
-								amount: 0,
-							}, {
-								name: "Nacho",
-								amount: 25,
-							}, {
-								name: "Mohamed",
-								amount: 25,
-							}],
-							imageURL: "",
-							date: "19-02-2025",
-						},
-					]
+			],
 
-				},
-				{
-					name: "Debug Group",
-					id: "debug",
-					membersList: [
-						{
-							name: "Arnau",
-							owes: 12,
-						},
-						{
-							name: "Nacho",
-							owes: 12,
-						},
-						{
-							name: "Domingo",
-							owes: 12,
-						},
-						{
-							name: "Mohamed",
-							owes: 12,
-						},
-					],
-					expensesList: [
-						{
-							title: "Barbacoa",
-							amount: 50,
-							paidFor: "Arnau",
-							balance: [{
-								name: "Arnau",
-								amount: 12.5,
-							}, {
-								name: "Domingo",
-								amount: 12.5,
-							}, {
-								name: "Nacho",
-								amount: 12.5,
-							}, {
-								name: "Mohamed",
-								amount: 12.5,
-							}],
-							imageURL: "https://catinfog.com/wp-content/uploads/2019/01/ticket-pepejeans-1.jpg",
-							date: "10-02-2025",
-						},
-						{
-							title: "Cena",
-							amount: 75,
-							paidFor: "Nacho",
-							balance: [{
-								name: "Arnau",
-								amount: 25,
-							}, {
-								name: "Domingo",
-								amount: 0,
-							}, {
-								name: "Nacho",
-								amount: 25,
-							}, {
-								name: "Mohamed",
-								amount: 25,
-							}],
-							imageURL: "",
-							date: "19-02-2025",
-						},
-					]
-
-				}
-			]
-			
 
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
 
-			getMessage: async () => {
+			getGroup: async (idGroup) => {
 				try {
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
+					const resp = await fetch(process.env.BACKEND_URL + "api/group/" + idGroup)
 					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
 					return data;
 				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
+			getExpensesList: async (idGroup) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/expenses/" + idGroup)
+					const data = await resp.json()
+					return data;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
 			},
-			getGroup: (idGroup) => {
-				const store = getStore();
-
-				return store.groups.find(group => group.id === idGroup);
+			getExpense: async (idEexpense) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/expense/" + idEexpense)
+					const data = await resp.json()
+					return data;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
 			},
+			getGroupMembers: async (idGroup) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/group/" + idGroup + "/members")
+					const data = await resp.json()
+					return data;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
+			},
+			deleteExpense: async (idExpense) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/expense/" + idExpense, {
+						method: "DELETE",
+					});
+
+					if (!resp.ok) {
+						throw new Error("Error deleting expense");
+					}
+
+					const data = await resp.json();
+					return data;
+				} catch (error) {
+					console.log("Error deleting expense", error);
+				}
+			},
+			createGroup: async (groupBody) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/groups/", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(groupBody),
+					});
+
+					if (!resp.ok) {
+						throw new Error("Error creating group");
+					}
+
+					const data = await resp.json();
+					return data;
+				} catch (error) {
+					console.log("Error creating group", error); // Mensaje de error corregido
+				}
+			},
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			addExpense: (idGroup, expense) => {
 				const store = getStore();
 				const group = store.groups.find(group => group.id === idGroup);
@@ -328,10 +116,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			uploadImage: async (file)=>{
+			uploadImage: async (file) => {
 
 
-				const token = localStorage.getItem("token"); 
+				const token = localStorage.getItem("token");
 				console.log("Token actual:", token);
 
 				if (!token) {
@@ -345,24 +133,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 				try {
-					
 
-					
-					const response = await api.post("/upload",formData, {
-						headers: {"Content-Type": "multipart/form-data", Authorization:`Bearer ${token}`}});
-					
-					if(response.data.url_foto){
-						setStore({ imageURL: response.data.url_foto});
+
+
+					const response = await api.post("/upload", formData, {
+						headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` }
+					});
+
+					if (response.data.url_foto) {
+						setStore({ imageURL: response.data.url_foto });
 						console.log("Imagen subida con exito", response.data.url_foto);
-						
+
 					}
-				}catch(error){
+				} catch (error) {
 					console.error("Error al subir la imagen: ", error.response?.data || error.message);
-					
+
 				}
-			}
+			},
 
 			getUserGroups: () => {
+				const store = getStore();
+				return store.groups;
+			},
+			postGroup: () => {
 				const store = getStore();
 				return store.groups;
 			},

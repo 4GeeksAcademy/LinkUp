@@ -1,0 +1,16 @@
+.baseGrupo{
+    border-radius: 5px;
+    box-shadow: 4px 5px 10px #5d615a ;
+    width: 100%;
+    image-rendering: auto;
+    
+
+}
+.btn1{
+    background-color: rgb(247, 99, 99);
+}
+.btn2{
+    background-color: rgb(98, 100, 248);
+}
+
+

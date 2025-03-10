@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Context } from "../store/appContext";
 import "../../styles/index.css";
 
-export const EditExpense = ({ expense, onDeleteExpense  }) => {
+export const EditExpense = ({ expenseid, onDeleteExpense }) => {
+    const { store, actions } = useContext(Context);
+    const [expense, setExpense] = useState(null);
+
+    useEffect(() => {
+        const fetchExpense = async () => {
+            const fetchedExpense = await actions.getExpense(expenseid);
+            setExpense(fetchedExpense);
+        };
+        fetchExpense();
+    }, [expenseid]);
+
+    
+
+
+    if (!expense) return (<div className="modal fade" id="editExpenseModal" tabIndex="-1" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-content bg-c3 modal-rounded p-3">
+                <h1>Loading...</h1>
+            </div>
+        </div>
+    </div>);
+
     return (
         <div className="modal fade" id="editExpenseModal" tabIndex="-1" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -48,7 +71,7 @@ export const EditExpense = ({ expense, onDeleteExpense  }) => {
                     </div>
 
                     <div className="p-3 d-flex justify-content-center">
-                        <button className="btn btn-outline-danger mx-2" data-bs-dismiss="modal" onClick={onDeleteExpense}><i className="fa-regular fa-trash-can"></i></button>
+                        <button className="btn btn-outline-warning mx-2" data-bs-dismiss="modal" onClick={onDeleteExpense}><i className="fa-regular fa-trash-can"></i></button>
                     </div>
                 </div>
             </div>

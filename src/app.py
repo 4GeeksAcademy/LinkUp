@@ -9,7 +9,7 @@ from flask import Flask, request, redirect, jsonify, url_for, send_from_director
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db, User
+from api.models import db, User, Group, Member
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -30,7 +30,7 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "https://cautious-chainsaw-rj44xx4w449f5wxg-3000.app.github.dev"}}, supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:3001/"}}, supports_credentials=True)
 app.url_map.strict_slashes = False
 
 # Setup the Flask-JWT-Extended extension

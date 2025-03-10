@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import imgLogo from "../../img/img-logo.webp";
-import user from "../../img/"
+import user from "../../img/mobile.png"
 
 export const Navbar = () => {
 	return (

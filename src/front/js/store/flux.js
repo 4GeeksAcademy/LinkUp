@@ -68,6 +68,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			createGroup: async (groupBody) => {
+				console.log(groupBody);
+				
+				
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "api/groups/", {
 						method: "POST",

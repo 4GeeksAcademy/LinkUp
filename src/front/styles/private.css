@@ -10,9 +10,30 @@
     margin-bottom: 5%;
     margin-top: 2%;
     border-radius: 10px;
+    overflow: auto;
+    scrollbar-width: none;
 }
+.barlat::-webkit-scrollbar {
+    display: none;}
+
+.headtop{
+    height: 100%;
+}
+
+.bartitle{
+    position: fixed;
+    width: 49%;
+    height: 7%;
+    z-index: 10;
+    border-radius: 25px;
+    
+}
+.congroups{
+    margin-top: 10%;
+}
+
 .divCuerpo{
-    width: 45%;
+    width: 42%;
     height: 80%;
     position: absolute;
     box-shadow: 15px 10px 30px #21251e;
@@ -28,9 +49,10 @@
     display: none;}
 .contitle{
     position: fixed;
-    width: 45%;
+    width: 42%;
     height: 8%;
     border-radius: 10px;
+    z-index: 10;
     
 
 

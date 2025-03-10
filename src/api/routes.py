@@ -278,7 +278,7 @@ def create_group():
         return jsonify({"message": "No JSON data received"}), 415
 
     name = data.get('name')
-    iconURL = data.get('iconURL', "https://cdn-icons-png.flaticon.com/512/74/74577.png")
+    iconURL = data.get('iconURL')
     membersList = data.get('membersList')
 
     if not name:

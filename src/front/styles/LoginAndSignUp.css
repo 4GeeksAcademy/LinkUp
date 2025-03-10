@@ -1,39 +1,48 @@
-.signup {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(210deg, var(--color-c4), var(--color-c1));
-    color: white;
-}
+/* LogIn */
+
 .login{
-    height: 100%;
+    height: 100vh;
     width: 100%;
     background: linear-gradient(210deg, var(--color-c4), var(--color-c1));
     color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.formSign{
-    
+.formLogin{
+    width: 500px;
+    height: 450px;
     border-radius: 25px;
     background-color: var(--color-c2);
     box-shadow: 15px 10px 30px #21251e;
-    
 }
-.divForm{
-    
-    
-    margin-top: 10%;
-    margin-bottom: 11%;
-    
+
+/* SignUp */
+
+.signup {
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(210deg, var(--color-c4), var(--color-c1));
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.divFormlog{
-    margin-top:15%;
-    margin-bottom: 15%;
-    
+
+.formSign {
+    width: 500px;
+    height: 550px;
+    border-radius: 25px;
+    background-color: var(--color-c2);
+    box-shadow: 15px 10px 30px #21251e;
 }
+
 #Help{
     color: var(--color-c5);
 }
-
 
 .nav2{
     position: fixed;
@@ -45,12 +54,6 @@
     overflow: auto;
 }
 
-body {
-    background:
-        radial-gradient(ellipse 80% 80% at 50% -20%,
-            white,
-            rgb(199, 179, 93));
-}
 .acceso{
     border: none;
     border-radius: 5rem;
@@ -69,10 +72,17 @@ body {
 .acceso:hover{
     transform: scale(0.9)
 }
-.sombra{
-    box-shadow: 8px 3px 10px var(--color-c1);
+
+.btn-google {
+    width: 215.5px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 8px 3px 10px var(--color-c1);   
 }
-.boxGoogle{
-    width: 210px;
+
+.sombra {
+    box-shadow: 8px 3px 10px var(--color-c1);      
 }
 

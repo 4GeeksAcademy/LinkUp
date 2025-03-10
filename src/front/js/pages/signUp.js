@@ -2,7 +2,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Context } from "../store/appContext";
-import "../../styles/index.css";
 import "../../styles/LoginAndSignUp.css";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
@@ -91,13 +90,13 @@ export const SignUp = () => {
                             </div>
                         </div>
                         <div className="p-0 col-md-8 col-lg-9 col-xl-10 mb-3 mx-auto">
-                        <p className="" id="Help">¿Tienes una cuenta? Haz login <a className="text-warning" href="/login">aqui</a></p>
+                        <p className="" id="Help">¿Tienes una cuenta? Accede <a className="text-warning" href="/login">aquí</a></p>
                             <button type="submit" className="acceso col-5 ms-0">Registro</button>
                             
                         </div>
 
                         <p id="Help">Registrarse con</p>
-                        <div className="p-0 col-md-7 col-lg-9 col-xl-10 mb-3 sombra boxGoogle">
+                        <div className="btn-google">
                         
                             <GoogleLogin
                                 onSuccess={(credentialResponse) => SignGoogle(credentialResponse, navigate)}

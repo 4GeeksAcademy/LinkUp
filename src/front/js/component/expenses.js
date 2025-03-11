@@ -6,34 +6,44 @@ import "../../styles/index.css";
 
 export const Expenses = ({ theid }) => {
     const { store, actions } = useContext(Context);
-    const [group, setGroup] = useState(null);
+    const [expensesList, setExpensesList] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedExpense, setSelectedExpense] = useState(null);
+    const [selectedExpenseid, setSelectedExpenseid] = useState(null);
 
     useEffect(() => {
-        const fetchGroup = async () => {
-            const fetchedGroup = await actions.getGroup(theid);
-            setGroup(fetchedGroup);
+        const fetchExpensesList = async () => {
+            const fetchedExpenses = await actions.getExpensesList(theid);
+            setExpensesList(fetchedExpenses.expenses);
         };
-        fetchGroup();
+        fetchExpensesList();
     }, [theid, actions]);
 
     const handleDeleteExpense = (expenseId) => {
-        console.log("Gasto eliminado con ID: " + expenseId);
+
+        const fetchDeleteExpense = async () => {
+            const result = await actions.deleteExpense(expenseId);
+            console.log(result);
+            const fetchExpensesList = async () => {
+                const fetchedExpenses = await actions.getExpensesList(theid);
+                setExpensesList(fetchedExpenses.expenses);
+            };
+            fetchExpensesList();
+        };
+        fetchDeleteExpense();
 
     };
 
-    if (!group) return <div>Loading...</div>;
+    if (!expensesList) return <div>Loading...</div>;
 
     return (
         <div className="flex-grow-1 m-3 bg-c2 group-detail">
             <ImagenAmpliadaModal imageURL={selectedImage} />
-            <EditExpense expense={selectedExpense} onDeleteExpense={() => handleDeleteExpense(selectedExpense.id)} />
+            <EditExpense expenseid={selectedExpenseid} onDeleteExpense={() => handleDeleteExpense(selectedExpenseid)} />
 
             <h2 className="text-light pt-3 " ><strong className="bg-c3 px-5 rounded pb-1">Gastos</strong></h2>
             <div className="mx-4 mt-4">
-                {group.expensesList.map((expense, index) => (
-                    <button key={index} className="rounded-0 button-no balance d-flex align-items-center justify-content-between my-1 px-3 text-light btn" data-bs-toggle="modal" data-bs-target="#editExpenseModal" onClick={() => setSelectedExpense(expense)}>
+                {expensesList.map((expense, index) => (
+                    <button key={index} className="rounded-0 button-no balance d-flex align-items-center justify-content-between my-1 px-3 text-light btn" data-bs-toggle="modal" data-bs-target="#editExpenseModal" onClick={() => setSelectedExpenseid(expense.id)}>
                         <div className="text-start">
                             <h5 className="">{expense.title}</h5>
                             <p>Pagado por <strong>{expense.paidFor}</strong> el {expense.date}</p>

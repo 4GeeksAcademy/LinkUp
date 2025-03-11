@@ -137,7 +137,7 @@ def acceso_usuario():
 def signup_google():
     try:
         request_body = request.json
-        print(request_body)
+        
         token_id = request_body.get("tokenId")
         
         
@@ -168,14 +168,14 @@ def signup_google():
 
         # Buscar o crear usuario en la base de datos
         user = User.query.filter_by(email=email).first()
-        print(user)
+        
         if not user:
             user = User(username=name, email=email, is_active=True, avatar=picture)
-            print(user)
+            
             db.session.add(user)
             db.session.commit()
 
-        print(type(user))
+        
         # # Crear token de acceso
         access_token = create_access_token(identity=user.email)
 
@@ -198,7 +198,7 @@ def signup_google():
 def get_user():
     
     user_email = get_jwt_identity()
-    print(f"Email obtenido del token: {user_email}")
+    
     
     user = User.query.filter_by(email=user_email).first()
     if user:
@@ -272,21 +272,23 @@ def generate_group_id():
 @api.route('/groups', methods=['POST'])
 def create_group():
     data = request.get_json()  # Se obtiene el cuerpo en formato JSON
+    print("Datos recibidos:", data)
 
     # Verifica que se esté recibiendo el contenido correctamente
     if not data:
         return jsonify({"message": "No JSON data received"}), 415
 
     name = data.get('name')
-    iconURL = data.get('iconURL', "https://cdn-icons-png.flaticon.com/512/74/74577.png")
+    iconURL = data.get('iconURL')
     membersList = data.get('membersList')
 
     if not name:
         return jsonify({"message": "Group name is required"}), 400
-    if not membersList or len(membersList) < 2:
+    if not membersList or len(membersList) <= 2:
         return jsonify({"message": "A group must have at least two members"}), 400
 
     group_id = generate_group_id()
+    print("El id del grupo creado:",group_id)
     
     group = Group(name=name, iconURL=iconURL, id=group_id)
 

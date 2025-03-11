@@ -318,6 +318,7 @@ def get_groups():
             "membersList": group.membersList
             })
 
+    print("retorno desde getGroups", groups_list)
     return jsonify({"groups": groups_list})
 
 

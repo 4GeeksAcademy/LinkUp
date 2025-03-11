@@ -13,7 +13,7 @@ export const NewExpense = ({ theid }) => {
         amount: "",
         paidFor: "",
         balance: {},
-        file: null,
+        file: "",
         date: "",
         checked: {},
     });
@@ -25,15 +25,14 @@ export const NewExpense = ({ theid }) => {
             const fetchedMembers = await actions.getGroupMembers(theid);
             setMembersList(fetchedMembers.members);
 
-            // Establecer todos los miembros como seleccionados por defecto
             const initialChecked = fetchedMembers.members.reduce((acc, person) => {
-                acc[person.name.toLowerCase()] = true; // Todos seleccionados
+                acc[person.name.toLowerCase()] = true;
                 return acc;
             }, {});
             setFormData((prevState) => ({
                 ...prevState,
                 checked: initialChecked,
-                paidFor: fetchedMembers.members[0].name, // El primer miembro por defecto
+                paidFor: fetchedMembers.members[0].name,
             }));
         };
         fetchMembers();
@@ -64,14 +63,13 @@ export const NewExpense = ({ theid }) => {
 
     const handleToggleSelectAll = () => {
         if (Object.values(formData.checked).every((isChecked) => isChecked)) {
-            handleDeselectAll(); // Si todos están seleccionados, deseleccionar todos
+            handleDeselectAll();
         } else {
-            handleSelectAll(); // Si no todos están seleccionados, seleccionar todos
+            handleSelectAll();
         }
     };
 
     const calculatePrice = (name) => {
-        // Si el miembro está seleccionado, calcula el precio, si no, pone 0
         if (formData.checked[name.toLowerCase()]) {
             return (parseFloat(formData.amount || 0) / Object.keys(formData.checked).filter((key) => formData.checked[key]).length).toFixed(2);
         } else {
@@ -88,9 +86,11 @@ export const NewExpense = ({ theid }) => {
     };
 
     const handleFileChange = (e) => {
+
+        const imgURL = actions.uploadImage(e.target.files[0]);
         setFormData((prevState) => ({
             ...prevState,
-            file: e.target.files[0],
+            file: imgURL,
         }));
     };
 
@@ -98,7 +98,7 @@ export const NewExpense = ({ theid }) => {
         e.preventDefault();
 
         const balance = membersList
-            .filter((person) => formData.checked[person.name.toLowerCase()] && calculatePrice(person.name) !== "0.00") // Solo incluir miembros seleccionados y con un precio distinto de 0
+            .filter((person) => formData.checked[person.name.toLowerCase()] && calculatePrice(person.name) !== "0.00")
             .map((person) => ({
                 name: person.name,
                 amount: calculatePrice(person.name),
@@ -106,10 +106,10 @@ export const NewExpense = ({ theid }) => {
 
         const expenseData = {
             title: formData.title,
-            amount: parseFloat(formData.amount || 0).toFixed(2), // Asegura que el importe tenga dos decimales
+            amount: parseFloat(formData.amount || 0).toFixed(2),
             paidFor: formData.paidFor,
             balance: balance,
-            imageURL: formData.file ? URL.createObjectURL(formData.file) : "",
+            imageURL: formData.file,
             date: formData.date || new Date().toLocaleDateString("en-GB").split("/").join("-"),
         };
 
@@ -134,13 +134,13 @@ export const NewExpense = ({ theid }) => {
             file: null,
             date: "",
             checked: membersList.reduce((acc, person) => {
-                acc[person.name.toLowerCase()] = true; // Restablecer todos como seleccionados
+                acc[person.name.toLowerCase()] = true;
                 return acc;
             }, {}),
         });
     };
 
-    const isFormValid = formData.title && formData.amount && Object.values(formData.checked).includes(true); // Validación de que al menos un miembro esté seleccionado
+    const isFormValid = formData.title && formData.amount && Object.values(formData.checked).includes(true);
 
     return (
         <div className="modal fade" id="newExpenseModal" tabIndex="-1" aria-hidden="true" ref={modalRef}>

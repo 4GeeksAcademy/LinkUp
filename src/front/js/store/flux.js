@@ -68,9 +68,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			createGroup: async (groupBody) => {
-				console.log(groupBody);
-
-
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "api/groups", {
 						method: "POST",
@@ -104,8 +101,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
+			deleteGroup: async (idGroup) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/group/" + idGroup, {
+						method: "DELETE",
+					});
 
+					if (!resp.ok) {
+						throw new Error("Error deleting group");
+					}
 
+					const data = await resp.json();
+					return data;
+				} catch (error) {
+					console.log("Error deleting group", error);
+				}
+			},
+			createExpense: async (expenseBody, idGroup) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/expenses/" + idGroup, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(expenseBody),
+					});
+
+					if (!resp.ok) {
+						console.log(resp);
+						throw new Error("Error creating group");
+					}
+
+					const data = await resp.json();
+					return data;
+				} catch (error) {
+					console.log("Error creating group", error);
+				}
+			},
 
 
 

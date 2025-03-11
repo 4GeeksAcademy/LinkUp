@@ -16,7 +16,8 @@ export const Group = () => {
     const { theid } = useParams();
     const [isHidden, setIsHidden] = useState(false);
     const [showBalances, setShowBalances] = useState(true);
-    const [group, setGroup] = useState([]);
+    const [group, setGroup] = useState(null);
+    const [groupNotFound, setGroupNotFound] = useState(false);
 
     useEffect(() => {
         if (isDebug) {
@@ -31,23 +32,30 @@ export const Group = () => {
     useEffect(() => {
         const fetchGroup = async () => {
             const fetchedGroup = await actions.getGroup(theid);
-            setGroup(fetchedGroup);
             console.log(fetchedGroup);
+            if (fetchedGroup.status === 404) {
+                setGroupNotFound(true);
+            }
+            else
+                setGroup(fetchedGroup);
 
         };
         fetchGroup();
     }, [theid, actions]);
 
-    if (!group) return <div>Loading...</div>;
-
     return (
         <div className="text-center">
-            <button className="add-expense-button">
-                <i className="fa-solid fa-plus"></i>
-                <span className="button-text" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Añadir gasto</span>
-            </button>
-            <NewExpense theid={theid} />
-            {/*<EditGroup theid={theid} />*/}
+            {group ? (
+                <>
+                    <button className="add-expense-button">
+                        <i className="fa-solid fa-plus"></i>
+                        <span className="button-text" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Añadir gasto</span>
+                    </button>
+                    <NewExpense theid={theid} />
+                    {/*<EditGroup theid={theid} />*/}
+                </>
+            ) : ""}
+
 
             <div className="d-flex" style={{ height: "100vh" }}>
                 <div className={`group-left ${isHidden ? "hidden" : "p-1"} d-none d-md-block`}>
@@ -63,31 +71,51 @@ export const Group = () => {
                     ) : ""}
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-                    <div className="navbar bg-c4 group-top p-1">
-                        <div className="container-fluid">
-                            <Link to="/private">
-                                <i className="fa-solid fa-arrow-left text-c5 fs-3"></i>
-                            </Link>
-                            <div className="d-flex align-items-center">
-                                <span className="navbar-brand mb-0 h1 text-c5">{group.name}</span>
-                                <button className=" text-c5 btn" data-bs-toggle="modal" data-bs-target="#editGroupModal"><i className="fa-solid fa-pen-to-square"></i></button>
+                {group ? (
+                    <>
+                        <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+                            <div className="navbar bg-c4 group-top p-1">
+                                <div className="container-fluid">
+                                    <Link to="/private">
+                                        <i className="fa-solid fa-house-user text-light fs-3"></i>
+                                    </Link>
+                                    <div className="d-flex align-items-center">
+                                        <span className="navbar-brand mb-0 h1 text-c5">{group.name}</span>
+                                        <button className=" text-c5 btn" data-bs-toggle="modal" data-bs-target="#editGroupModal"><i className="fa-solid fa-pen-to-square"></i></button>
+                                    </div>
+                                    <div></div>
+                                </div>
                             </div>
-                            <div></div>
-                        </div>
-                    </div>
 
-                    <div className="group-main p-1">
-                        <div className="ms-0 ms-sm-3">
-                            <div className="d-flex flex-wrap " style={{ width: '100%' }}>
-                                <Expenses theid={theid} />
-                                {/*{showBalances ? <Balances theid={theid} onChangeView={() => setShowBalances(false)} /> : <Calculation theid={theid} onChangeView={() => setShowBalances(true)} />}
+                            <div className="group-main p-1">
+                                <div className="ms-0 ms-sm-3">
+                                    <div className="d-flex flex-wrap " style={{ width: '100%' }}>
+                                        <Expenses theid={theid} />
+                                        {/*{showBalances ? <Balances theid={theid} onChangeView={() => setShowBalances(false)} /> : <Calculation theid={theid} onChangeView={() => setShowBalances(true)} />}
                             */}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                </div>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {groupNotFound ? (
+                            <>
+                            <h1 className="p-5">Error 404 group not found</h1>
+                            </>
+                        ) : (
+                            <>
+                            <h1 className="p-5">Loading...</h1>
+                            </>
+                        )}
+                    </>
+
+
+                )}
+
+
             </div>
         </div>
     );

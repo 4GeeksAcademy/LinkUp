@@ -326,7 +326,7 @@ def get_groups():
 def get_group(idgroup):
     group = Group.query.get(idgroup)
     if not group:
-        return jsonify({"message": "Group not found"}), 404
+        return jsonify({"status": 404}), 404
 
     return jsonify({
         "name": group.name,

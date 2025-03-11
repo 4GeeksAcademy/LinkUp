@@ -332,9 +332,12 @@ def get_completGroups():
             "name": group.name,
             "id": group.id,
             "iconURL":group.iconURL,
+
             "membersList": members_data,
+
             })
 
+    print("retorno desde getGroups", groups_list)
     return jsonify({"groups": groups_list})
 
 

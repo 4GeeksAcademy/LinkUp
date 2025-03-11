@@ -12,22 +12,12 @@ import { Calculation } from "../component/calculation.js";
 
 export const Group = () => {
     const { store, actions } = useContext(Context);
-    const [isDebug, setIsDebug] = useState(false);
     const { theid } = useParams();
     const [isHidden, setIsHidden] = useState(false);
     const [showBalances, setShowBalances] = useState(true);
     const [group, setGroup] = useState(null);
     const [groupNotFound, setGroupNotFound] = useState(false);
 
-    useEffect(() => {
-        if (isDebug) {
-            const modalElement = document.getElementById("newExpenseModal");
-            if (modalElement) {
-                const modal = new bootstrap.Modal(modalElement);
-                modal.show();
-            }
-        }
-    }, []);
 
     useEffect(() => {
         const fetchGroup = async () => {
@@ -52,7 +42,7 @@ export const Group = () => {
                         <span className="button-text" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Añadir gasto</span>
                     </button>
                     <NewExpense theid={theid} />
-                    {/*<EditGroup theid={theid} />*/}
+                    <EditGroup theid={theid} />
                 </>
             ) : ""}
 

@@ -2,178 +2,145 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/index.css";
 import "../../styles/newExpense.css";
-import { Link } from "react-router-dom";
 
 export const NewExpense = ({ theid }) => {
     const { store, actions } = useContext(Context);
     const formRef = useRef(null);
     const modalRef = useRef(null);
     const [membersList, setMembersList] = useState([]);
-    const [loading, setLoading] = useState(true);  // Agregar estado de carga
-
-    useEffect(() => {
-        const fetchMembers = async () => {
-            const fetchedMembers = await actions.getGroupMembers(theid);
-            // Asegurarse de que fetchedMembers es un array
-            setMembersList(Array.isArray(fetchedMembers) ? fetchedMembers : []);
-            setLoading(false);  // Termina de cargar los miembros
-        };
-        fetchMembers();
-    }, [theid]);
-
-    // Verificar si la lista de miembros está vacía o aún cargando
-    if (loading) {
-        return (
-            <div className="modal fade" id="newExpenseModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div className="modal-content bg-c3 modal-rounded p-3">
-                        <h1>Loading...</h1>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    if (!membersList || membersList.length === 0) {
-        return (
-            <div className="modal fade" id="newExpenseModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div className="modal-content bg-c3 modal-rounded p-3">
-                        <h1>No members found.</h1>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     const [formData, setFormData] = useState({
         title: "",
         amount: "",
-        paidFor: membersList[0]?.name || "", // Asegúrate de que hay un miembro antes de asignar
+        paidFor: "",
         balance: {},
         file: null,
         date: "",
-        checked: Array.isArray(membersList) ? membersList.reduce((acc, member) => {
-            acc[member.name.toLowerCase()] = true;
-            return acc;
-        }, {}) : {},
+        checked: {},
     });
 
     useEffect(() => {
-        const checked = Array.isArray(membersList) ? membersList.reduce((acc, member) => {
-            acc[member.name.toLowerCase()] = true;
-            return acc;
-        }, {}) : {};
+        if (!theid) return;
 
-        setFormData(prevData => ({
-            ...prevData,
-            checked,
-            paidFor: membersList[0]?.name || "", // Asegúrate de que hay un miembro antes de asignar
-        }));
-    }, [membersList]);
+        const fetchMembers = async () => {
+            const fetchedMembers = await actions.getGroupMembers(theid);
+            setMembersList(fetchedMembers.members);
 
-    const handleFileChange = (event) => {
-        const selectedFile = event.target.files[0];
-        if (selectedFile) {
-            setFormData({
-                ...formData,
-                file: selectedFile,
-            });
-        }
-    };
+            // Establecer todos los miembros como seleccionados por defecto
+            const initialChecked = fetchedMembers.members.reduce((acc, person) => {
+                acc[person.name.toLowerCase()] = true; // Todos seleccionados
+                return acc;
+            }, {});
+            setFormData((prevState) => ({
+                ...prevState,
+                checked: initialChecked,
+                paidFor: fetchedMembers.members[0].name, // El primer miembro por defecto
+            }));
+        };
+        fetchMembers();
+    }, [theid, actions]);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value,
+    const handleCheckboxChange = (name) => {
+        setFormData((prevState) => {
+            const newChecked = { ...prevState.checked, [name]: !prevState.checked[name] };
+            return { ...prevState, checked: newChecked };
         });
-    };
-
-    const handleCheckboxChange = (person) => {
-        setFormData((prevFormData) => {
-            const newChecked = { ...prevFormData.checked, [person]: !prevFormData.checked[person] };
-            const activePeople = Object.values(newChecked).filter((isChecked) => isChecked).length;
-            if (activePeople > 0) {
-                return { ...prevFormData, checked: newChecked };
-            } else {
-                newChecked[person] = true;
-                return { ...prevFormData, checked: newChecked };
-            }
-        });
-    };
-
-    const calculatePrice = (person) => {
-        const activePeople = Object.keys(formData.checked).filter((name) => formData.checked[name]).length;
-        if (activePeople > 0) {
-            return formData.checked[person] ? (formData.amount / activePeople).toFixed(2) : '0.00';
-        }
-        return '0.00';  // Evita dividir por cero
     };
 
     const handleSelectAll = () => {
-        const allChecked = Object.values(formData.checked).every((isChecked) => isChecked);
-        setFormData((prevFormData) => {
-            const newChecked = {};
-            Object.keys(prevFormData.checked).forEach((person) => {
-                newChecked[person] = !allChecked;
-            });
-            return { ...prevFormData, checked: newChecked };
+        const newChecked = membersList.reduce((acc, person) => {
+            acc[person.name.toLowerCase()] = true;
+            return acc;
+        }, {});
+        setFormData((prevState) => ({ ...prevState, checked: newChecked }));
+    };
+
+    const handleDeselectAll = () => {
+        const newChecked = membersList.reduce((acc, person) => {
+            acc[person.name.toLowerCase()] = false;
+            return acc;
+        }, {});
+        setFormData((prevState) => ({ ...prevState, checked: newChecked }));
+    };
+
+    const handleToggleSelectAll = () => {
+        if (Object.values(formData.checked).every((isChecked) => isChecked)) {
+            handleDeselectAll(); // Si todos están seleccionados, deseleccionar todos
+        } else {
+            handleSelectAll(); // Si no todos están seleccionados, seleccionar todos
+        }
+    };
+
+    const calculatePrice = (name) => {
+        // Si el miembro está seleccionado, calcula el precio, si no, pone 0
+        if (formData.checked[name.toLowerCase()]) {
+            return (parseFloat(formData.amount || 0) / Object.keys(formData.checked).filter((key) => formData.checked[key]).length).toFixed(2);
+        } else {
+            return "0.00";
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
+
+    const handleFileChange = (e) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            file: e.target.files[0],
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const balance = membersList
+            .filter((person) => formData.checked[person.name.toLowerCase()] && calculatePrice(person.name) !== "0.00") // Solo incluir miembros seleccionados y con un precio distinto de 0
+            .map((person) => ({
+                name: person.name,
+                amount: calculatePrice(person.name),
+            }));
+
+        const expenseData = {
+            title: formData.title,
+            amount: parseFloat(formData.amount || 0).toFixed(2), // Asegura que el importe tenga dos decimales
+            paidFor: formData.paidFor,
+            balance: balance,
+            imageURL: formData.file ? URL.createObjectURL(formData.file) : "",
+            date: formData.date || new Date().toLocaleDateString("en-GB").split("/").join("-"),
+        };
+
+        console.log(expenseData);
+
+        const fetchNewExpense = async () => {
+            const fetchedResponse = await actions.createExpense(expenseData, theid);
+            window.location.href = `/group/${theid}`;
+        };
+        fetchNewExpense();
+
+        if (modalRef.current) {
+            const modal = bootstrap.Modal.getInstance(modalRef.current);
+            modal.hide();
+        }
+
+        setFormData({
+            title: "",
+            amount: "",
+            paidFor: membersList[0]?.name || "",
+            balance: {},
+            file: null,
+            date: "",
+            checked: membersList.reduce((acc, person) => {
+                acc[person.name.toLowerCase()] = true; // Restablecer todos como seleccionados
+                return acc;
+            }, {}),
         });
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const form = formRef.current;
-
-        if (!form.checkValidity()) {
-            event.stopPropagation();
-            form.classList.add("was-validated");
-        } else {
-            const activePeople = Object.keys(formData.checked).filter(person => formData.checked[person]);
-            const balance = activePeople.map(person => ({
-                name: person.charAt(0).toUpperCase() + person.slice(1),
-                amount: (formData.amount / activePeople.length).toFixed(2),
-            }));
-
-            const today = new Date();
-            const formattedDate = today.toISOString().split('T')[0];
-
-            const expenseData = {
-                title: formData.title,
-                amount: parseFloat(formData.amount),
-                paidFor: formData.paidFor,
-                balance: balance,
-                imageURL: formData.file ? URL.createObjectURL(formData.file) : "",
-                date: formattedDate,
-            };
-
-            console.log(expenseData);
-            actions.addExpense(theid, expenseData);
-            console.log(actions.getGroup(theid));
-
-            form.classList.remove("was-validated");
-            form.reset();
-
-            setFormData({
-                title: "",
-                amount: "",
-                paidFor: membersList[0]?.name || "",
-                checked: Array.isArray(membersList) ? membersList.reduce((acc, member) => {
-                    acc[member.name.toLowerCase()] = true;
-                    return acc;
-                }, {}) : {},
-                file: null,
-                date: formattedDate,
-            });
-
-            const modal = document.querySelector("#newExpenseModal");
-            if (modal) {
-                const modalInstance = bootstrap.Modal.getInstance(modal);
-                modalInstance.hide();
-            }
-        }
-    };
+    const isFormValid = formData.title && formData.amount && Object.values(formData.checked).includes(true); // Validación de que al menos un miembro esté seleccionado
 
     return (
         <div className="modal fade" id="newExpenseModal" tabIndex="-1" aria-hidden="true" ref={modalRef}>
@@ -201,31 +168,23 @@ export const NewExpense = ({ theid }) => {
                                             value={formData.title}
                                             onChange={handleChange}
                                         />
-                                        <div className="invalid-feedback">
-                                            Se requiere un título.
-                                        </div>
+                                        <div className="invalid-feedback">Se requiere un título.</div>
                                     </div>
 
                                     <div className="col-sm-6">
                                         <label htmlFor="amount" className="form-label text-c5">Importe</label>
                                         <div className="input-group">
                                             <input
-                                                type="text"
+                                                type="number"
                                                 className="form-control"
                                                 id="amount"
                                                 name="amount"
                                                 placeholder="0.000€"
                                                 required
                                                 value={formData.amount}
-                                                onChange={(e) => {
-                                                    const value = e.target.value;
-                                                    if (/^\d*\.?\d*$/.test(value) || value === "") {
-                                                        handleChange(e);
-                                                    }
-                                                }}
+                                                onChange={handleChange}
                                             />
                                             <span className="input-group-text">€</span>
-                                            <span className="input-group-text">0.00</span>
                                         </div>
                                     </div>
 
@@ -264,7 +223,7 @@ export const NewExpense = ({ theid }) => {
                                             className="form-check-input mt-0"
                                             type="checkbox"
                                             checked={Object.values(formData.checked).every((isChecked) => isChecked)}
-                                            onChange={handleSelectAll}
+                                            onChange={handleToggleSelectAll}
                                         />
                                     </div>
                                     <span className="input-group-text">Dividir entre todos</span>
@@ -276,12 +235,12 @@ export const NewExpense = ({ theid }) => {
                                             <input
                                                 className="form-check-input mt-0"
                                                 type="checkbox"
-                                                checked={formData.checked[person.name.toLowerCase()]}
+                                                checked={formData.checked[person.name.toLowerCase()] || false} // Siempre controlado
                                                 onChange={() => handleCheckboxChange(person.name.toLowerCase())}
                                             />
                                         </div>
                                         <span className="input-group-text flex-grow-1">{person.name.charAt(0).toUpperCase() + person.name.slice(1)}</span>
-                                        <span className="input-group-text">{calculatePrice(person.name.toLowerCase())}€</span>
+                                        <span className="input-group-text">{calculatePrice(person.name)}€</span>
                                     </div>
                                 ))}
                             </div>
@@ -289,7 +248,7 @@ export const NewExpense = ({ theid }) => {
 
                         <div className="p-3">
                             <button type="button" className="btn btn-light mx-3" data-bs-dismiss="modal">Cerrar</button>
-                            <button className="btn btn-primary mx-3" type="submit">Añadir gasto</button>
+                            <button className="btn btn-primary mx-3" type="submit" disabled={!isFormValid}>Añadir gasto</button>
                         </div>
                     </form>
                 </div>

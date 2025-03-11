@@ -8,6 +8,8 @@ export const EditExpense = ({ expenseid, onDeleteExpense }) => {
 
     useEffect(() => {
         setExpense(null);
+        if(!expenseid)
+            return;
         const fetchExpense = async () => {
             const fetchedExpense = await actions.getExpense(expenseid);
             setExpense(fetchedExpense);

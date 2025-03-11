@@ -314,6 +314,8 @@ def get_groups():
         groups_list.append({
             "name": group.name,
             "id": group.id,
+            "iconURL":group.iconURL,
+            "membersList": group.membersList
             })
 
     return jsonify({"groups": groups_list})

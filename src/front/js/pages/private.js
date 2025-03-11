@@ -12,12 +12,14 @@ import vacaciones from "../../img/vacaciones.jpg";
 
 
 export const Private = () => {
-    const Nombredelgrupo = "Debug"
+    //Añado al usuario desde localstore
+    const nomusuario= localStorage.getItem("username");
+    let rutaImg = '../../img'
     const { store, actions } = useContext(Context);
 
     const [nombreGrupo, setNombreGrupo] = useState("");
     const [nuevoIntegrante, setNuevoIntegrante] = useState(""); // Estado para el input de integrante
-    const [integrantes, setIntegrantes] = useState([]); // Lista de integrantes
+    const [integrantes, setIntegrantes] = useState([nomusuario]); // Lista de integrantes
     const [imagenSeleccionada, setImagenSeleccionada] = useState();
 
 
@@ -31,8 +33,9 @@ export const Private = () => {
         vacaciones];
 
     const seleccionarImagen = (imagen) => {
+        
         setImagenSeleccionada(imagen);
-
+        rutaImg = rutaImg+imagen
     };
 
 
@@ -56,8 +59,8 @@ export const Private = () => {
     const crearGrupo =()=>{
         const grupoCreado = {
          name: nombreGrupo,
-         imageURL:imagenSeleccionada,
-         membersList: [integrantes]
+         iconURL: rutaImg,
+         membersList: integrantes
         
     }; createNewGroup(grupoCreado)};
 
@@ -67,7 +70,7 @@ export const Private = () => {
     const createNewGroup = (crearGrupo) => {
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
-            // window.location.href = `/group/${fetchedResponse}`;
+            window.location.href = `/group/${fetchedResponse}`;
             console.log(fetchedResponse);
             
         };

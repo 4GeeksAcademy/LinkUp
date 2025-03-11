@@ -21,8 +21,20 @@ export const Private = () => {
     const [nuevoIntegrante, setNuevoIntegrante] = useState(""); // Estado para el input de integrante
     const [integrantes, setIntegrantes] = useState([nomusuario]); // Lista de integrantes
     const [imagenSeleccionada, setImagenSeleccionada] = useState();
+    const [listGroups, setListGroups] = useState()
 
+    useEffect(() => {
+        const fetchGroups = async () => {
+            const data = await actions.getGroups();
+            if (data && data.groups) { // Asegurar que los datos existen antes de actualizarlos
+                setListGroups(data.groups);
+                console.log(listGroups);
+                
+            }
+        };
 
+        fetchGroups();
+    }, []);
 
     const imagenesPredeterminadas = [
         barbacoa,
@@ -35,7 +47,9 @@ export const Private = () => {
     const seleccionarImagen = (imagen) => {
         
         setImagenSeleccionada(imagen);
-        rutaImg = rutaImg+imagen
+        rutaImg = rutaImg + imagenSeleccionada
+        console.log(rutaImg);
+        
     };
 
 
@@ -54,24 +68,26 @@ export const Private = () => {
     const eliminarIntegrante = (index) => {
         setIntegrantes(integrantes.filter((_, i) => i !== index));
     };
-
-    // Función para crear el grupo (enviar los datos)
-    const crearGrupo =()=>{
+     // Función para crear el grupo (enviar los datos)
+     const crearGrupo = () => {
         const grupoCreado = {
-         name: nombreGrupo,
-         iconURL: rutaImg,
-         membersList: integrantes
+            name: nombreGrupo,
+            iconURL: rutaImg,
+            membersList: integrantes.map(nombre => ({ name: nombre }))
+        };
+        // createNewGroup(grupoCreado);
+        console.log(grupoCreado);
         
-    }; createNewGroup(grupoCreado)};
+    }
 
-    console.log(crearGrupo);
+    
     
 
-    const createNewGroup = (crearGrupo) => {
+    const createNewGroup = (grupoCreado) => {
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
-            window.location.href = `/group/${fetchedResponse}`;
-            console.log(fetchedResponse);
+            window.location.href = `/group/${fetchedResponse.id}`;
+            console.log(fetchedResponse.id);
             
         };
         fetchNewGroup();

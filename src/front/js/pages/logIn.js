@@ -13,7 +13,7 @@ import { SignGoogle, LoginNormal } from "../component/registro";
 export const LogIn = () => {
 
 
-
+    
 
     const navigate = useNavigate();
 
@@ -24,10 +24,18 @@ export const LogIn = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
+    useEffect(() => {
+        const username = localStorage.getItem("username");
+    
+        if (username) {
+            navigate("/private"); 
+        }
+    }, [navigate]);
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();

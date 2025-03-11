@@ -81,7 +81,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 
 					if (!resp.ok) {
+						console.log(resp);
 						throw new Error("Error creating group");
+						
+						
 					}
 
 					const data = await resp.json();

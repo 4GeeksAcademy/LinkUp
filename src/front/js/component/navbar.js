@@ -19,16 +19,16 @@ export const Navbar = () => {
 				<span className="ms-2 fw-bold">LinkUp</span>
 			</div>
 			<div className="ms-auto d-flex align-items-center">
-				<div class="dropdown">
-					<a class="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+				<div className="dropdown">
+					<a className="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
 						Hi, Usuario
 					</a>
-					<ul class="dropdown-menu">
+					<ul className="dropdown-menu">
 						<li>
-							<a class="dropdown-item" href="/profile">Perfil</a>
+							<a className="dropdown-item" href="/profile">Perfil</a>
 						</li>
 						<li>
-							<a class="dropdown-item" href="/">Cerrar sesión</a>
+							<a className="dropdown-item" href="/">Cerrar sesión</a>
 						</li>
 					</ul>
 				</div>

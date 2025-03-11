@@ -315,7 +315,7 @@ def get_groups():
             "name": group.name,
             "id": group.id,
             "iconURL":group.iconURL,
-            "membersList": group.membersList
+            
             })
 
     print("retorno desde getGroups", groups_list)

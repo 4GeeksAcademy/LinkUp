@@ -40,7 +40,7 @@ export const Private = () => {
             if (data && data.groups) { // Asegurar que los datos existen antes de actualizarlos
                 setListGroups(data.groups);
                 console.log(listGroups);
-                
+
             }
         };
 
@@ -53,8 +53,6 @@ export const Private = () => {
     const seleccionarImagen = (imagen) => {
 
         setImagenSeleccionada(imagen);
-
-           
 
     };
 
@@ -93,13 +91,11 @@ export const Private = () => {
 
 
 
-    const createNewGroup = (grupoCreado) => {
+    const createNewGroup = (crearGrupo) => {
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
-            window.location.href = `/group/${fetchedResponse}`;
+            window.location.href = `/group/${fetchedResponse.id}`;
 
-            console.log(fetchedResponse);
-            
 
         };
         fetchNewGroup();

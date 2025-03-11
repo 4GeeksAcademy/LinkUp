@@ -24,7 +24,7 @@ export const NewExpense = ({ theid }) => {
     // Verificar si la lista de miembros está vacía o aún cargando
     if (loading) {
         return (
-            <div className="modal fade" id="editExpenseModal" tabIndex="-1" aria-hidden="true">
+            <div className="modal fade" id="newExpenseModal" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div className="modal-content bg-c3 modal-rounded p-3">
                         <h1>Loading...</h1>
@@ -36,7 +36,7 @@ export const NewExpense = ({ theid }) => {
 
     if (!membersList || membersList.length === 0) {
         return (
-            <div className="modal fade" id="editExpenseModal" tabIndex="-1" aria-hidden="true">
+            <div className="modal fade" id="newExpenseModal" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div className="modal-content bg-c3 modal-rounded p-3">
                         <h1>No members found.</h1>

@@ -311,11 +311,30 @@ def get_groups():
     groups_list = []
 
     for group in groups:
+
+        groups_list.append({
+            "name": group.name,
+            "id": group.id,
+            })
+
+    return jsonify({"groups": groups_list})
+
+@api.route('/completGroups', methods=['GET'])
+def get_completGroups():
+    groups = Group.query.all()
+    groups_list = []
+
+    for group in groups:
+        members = group.membersList
+        members_data = [{"name": member.name, "owes": member.owes} for member in members]
+
         groups_list.append({
             "name": group.name,
             "id": group.id,
             "iconURL":group.iconURL,
-            
+
+            "membersList": members_data,
+
             })
 
     print("retorno desde getGroups", groups_list)
@@ -327,7 +346,7 @@ def get_groups():
 def get_group(idgroup):
     group = Group.query.get(idgroup)
     if not group:
-        return jsonify({"message": "Group not found"}), 404
+        return jsonify({"status": 404}), 404
 
     return jsonify({
         "name": group.name,

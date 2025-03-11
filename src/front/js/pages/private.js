@@ -13,7 +13,7 @@ import vacaciones from "../../img/vacaciones.jpg";
 
 export const Private = () => {
     //Añado al usuario desde localstore
-    const nomusuario= localStorage.getItem("username");
+    const nomusuario = localStorage.getItem("username");
     let rutaImg = '../../img'
     const { store, actions } = useContext(Context);
 
@@ -45,11 +45,13 @@ export const Private = () => {
         vacaciones];
 
     const seleccionarImagen = (imagen) => {
-        
+
         setImagenSeleccionada(imagen);
+
         rutaImg = rutaImg + imagenSeleccionada
         console.log(rutaImg);
         
+
     };
 
 
@@ -68,27 +70,32 @@ export const Private = () => {
     const eliminarIntegrante = (index) => {
         setIntegrantes(integrantes.filter((_, i) => i !== index));
     };
-     // Función para crear el grupo (enviar los datos)
-     const crearGrupo = () => {
+
+
+    // Función para crear el grupo (enviar los datos)
+    const crearGrupo = () => {
+
         const grupoCreado = {
             name: nombreGrupo,
             iconURL: rutaImg,
             membersList: integrantes.map(nombre => ({ name: nombre }))
         };
-        // createNewGroup(grupoCreado);
-        console.log(grupoCreado);
-        
-    }
 
-    
-    
+        createNewGroup(grupoCreado);
+    };
+
+
+
+
 
     const createNewGroup = (grupoCreado) => {
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
             window.location.href = `/group/${fetchedResponse.id}`;
+
             console.log(fetchedResponse.id);
             
+
         };
         fetchNewGroup();
     };
@@ -152,7 +159,7 @@ export const Private = () => {
                                 className="form-control"
                                 value={nombreGrupo}
                                 onChange={(e) => setNombreGrupo(e.target.value)}
-                            required/>
+                                required />
                             <p className="mt-3">Seleccionar imagen de grupo</p>
                             <div className="d-flex flex-wrap gap-2">
                                 {imagenesPredeterminadas.map((img, index) => (

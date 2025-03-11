@@ -194,6 +194,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (response.data.url_foto) {
 						setStore({ imageURL: response.data.url_foto });
 						console.log("Imagen subida con exito", response.data.url_foto);
+						return response.data.url_foto;
 
 					}
 				} catch (error) {

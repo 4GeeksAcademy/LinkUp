@@ -90,13 +90,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await resp.json();
 					return data;
 				} catch (error) {
-					console.log("Error creating group", error); // Mensaje de error corregido
+					console.log("Error creating group", error);
 				}
 			},
 			getGroups: async () => {
-				console.log("Backend URL:", process.env.BACKEND_URL + "api/groups");
+				console.log("Backend URL:", process.env.BACKEND_URL + "api/completGroups");
 				try {
-					const resp = await fetch(process.env.BACKEND_URL + "api/groups")
+					const resp = await fetch(process.env.BACKEND_URL + "api/completGroups")
 
 					const data = await resp.json()
 					return data;

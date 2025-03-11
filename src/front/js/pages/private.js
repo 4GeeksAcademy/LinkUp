@@ -14,7 +14,16 @@ import vacaciones from "../../img/vacaciones.jpg";
 export const Private = () => {
     //Añado al usuario desde localstore
     const nomusuario = localStorage.getItem("username");
-    let rutaImg = '../../img'
+    let rutaImg = '../../img';
+
+    const imagenesPredeterminadas = [
+        barbacoa,
+        casa,
+        cumpleInfantil,
+        fiesta,
+        viaje,
+        vacaciones];
+
     const { store, actions } = useContext(Context);
 
     const [nombreGrupo, setNombreGrupo] = useState("");
@@ -26,6 +35,8 @@ export const Private = () => {
     useEffect(() => {
         const fetchGroups = async () => {
             const data = await actions.getGroups();
+            console.log(data);
+            
             if (data && data.groups) { // Asegurar que los datos existen antes de actualizarlos
                 setListGroups(data.groups);
                 console.log(listGroups);
@@ -36,21 +47,12 @@ export const Private = () => {
         fetchGroups();
     }, []);
 
-    const imagenesPredeterminadas = [
-        barbacoa,
-        casa,
-        cumpleInfantil,
-        fiesta,
-        viaje,
-        vacaciones];
+    
+        
 
     const seleccionarImagen = (imagen) => {
 
         setImagenSeleccionada(imagen);
-
-        rutaImg = rutaImg + imagenSeleccionada
-        console.log(rutaImg);
-
 
     };
 
@@ -74,7 +76,8 @@ export const Private = () => {
 
     // Función para crear el grupo (enviar los datos)
     const crearGrupo = () => {
-
+        rutaImg = rutaImg + imagenSeleccionada
+       
         const grupoCreado = {
             name: nombreGrupo,
             iconURL: rutaImg,
@@ -92,8 +95,6 @@ export const Private = () => {
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
             window.location.href = `/group/${fetchedResponse.id}`;
-
-            console.log(fetchedResponse.id);
 
 
         };

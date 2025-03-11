@@ -13,7 +13,7 @@ import vacaciones from "../../img/vacaciones.jpg";
 
 export const Private = () => {
     //Añado al usuario desde localstore
-    const nomusuario= localStorage.getItem("username");
+    const nomusuario = localStorage.getItem("username");
     let rutaImg = '../../img'
     const { store, actions } = useContext(Context);
 
@@ -33,9 +33,9 @@ export const Private = () => {
         vacaciones];
 
     const seleccionarImagen = (imagen) => {
-        
+
         setImagenSeleccionada(imagen);
-        rutaImg = rutaImg+imagen
+        rutaImg = rutaImg + imagen
     };
 
 
@@ -56,23 +56,24 @@ export const Private = () => {
     };
 
     // Función para crear el grupo (enviar los datos)
-    const crearGrupo =()=>{
+    const crearGrupo = () => {
         const grupoCreado = {
-         name: nombreGrupo,
-         iconURL: rutaImg,
-         membersList: integrantes
-        
-    }; createNewGroup(grupoCreado)};
+            name: nombreGrupo,
+            iconURL: rutaImg,
+            membersList: integrantes.map(nombre => ({ name: nombre }))
+        };
+        createNewGroup(grupoCreado);
+    };
 
-    console.log(crearGrupo);
-    
+
+
 
     const createNewGroup = (crearGrupo) => {
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
-            window.location.href = `/group/${fetchedResponse}`;
+            window.location.href = `/group/${fetchedResponse.id}`;
             console.log(fetchedResponse);
-            
+
         };
         fetchNewGroup();
     };
@@ -136,7 +137,7 @@ export const Private = () => {
                                 className="form-control"
                                 value={nombreGrupo}
                                 onChange={(e) => setNombreGrupo(e.target.value)}
-                            required/>
+                                required />
                             <p className="mt-3">Seleccionar imagen de grupo</p>
                             <div className="d-flex flex-wrap gap-2">
                                 {imagenesPredeterminadas.map((img, index) => (

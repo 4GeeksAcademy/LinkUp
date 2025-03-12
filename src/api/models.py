@@ -11,7 +11,8 @@ class User(db.Model):
     encode_password = db.Column(db.String(500), nullable=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     avatar = db.Column(db.String(500), nullable=True)
-
+    membersList = db.relationship('Member', backref='group', lazy=True)
+    
     def __repr__(self):
         return f'<User {self.username}>'
 

@@ -27,7 +27,7 @@ export const BaseListGroups = ({ datos, onDelete }) => {
     const imageSrc = images[imageName] || barbacoa;
     console.log(icon(datos.iconURL));
 
-    const handleGroupView = ()=>{
+    const handleGroupView = () => {
         window.location.href = `/group/${datos.id}`;
     }
 
@@ -47,15 +47,15 @@ export const BaseListGroups = ({ datos, onDelete }) => {
 
                     {/* Contenido principal */}
                     <div className="col-12 col-md-10">
-                        <div className="text-center bg-c2 p-2">
+                        <button className="btn text-light text-center bg-c2 p-2 " style={{width: "100%"}}  onClick={handleGroupView}>
                             <h3 className="fw-bold mb-2">{datos.name}</h3>
-                        </div>
-                        <div className="d-flex flex-column flex-md-row w-100 justify-content-between align-items-center" onClick={handleGroupView}>
+                        </button>
+                        <div className="d-flex flex-column flex-md-row w-100 justify-content-between align-items-center">
                             <div className="text-start p-2">
                                 <p className="mb-1">
                                     <strong>Participantes: {datos.membersList.length}</strong></p>
-                                  
-                               
+
+
                             </div>
                             <div className="text-end p-2">
                                 <p className="mb-1">
@@ -66,7 +66,7 @@ export const BaseListGroups = ({ datos, onDelete }) => {
                                 </p>
                             </div>
                             <div className="d-flex flex-md-column p-2">
-                            <button 
+                                <button
                                     className="btn btn1 text-c5 btn-sm me-2 me-md-0"
                                     onClick={() => onDelete(datos.id)}
                                 >

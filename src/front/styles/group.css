@@ -18,7 +18,9 @@
     height: 100%;
     z-index: 0;
 }
-
+.group{
+    overflow: hidden;
+}
 .group-left.hidden {
     border-right-width: 0px;
     left: -350px;

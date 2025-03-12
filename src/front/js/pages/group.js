@@ -81,8 +81,8 @@ export const Group = () => {
                                 <div className="ms-0 ms-sm-3">
                                     <div className="d-flex flex-wrap " style={{ width: '100%' }}>
                                         <Expenses theid={theid} />
-                                        {/*{showBalances ? <Balances theid={theid} onChangeView={() => setShowBalances(false)} /> : <Calculation theid={theid} onChangeView={() => setShowBalances(true)} />}
-                            */}
+                                        {showBalances ? <Balances theid={theid} onChangeView={() => setShowBalances(false)} /> : <Calculation theid={theid} onChangeView={() => setShowBalances(true)} />}
+                            
                                     </div>
                                 </div>
                             </div>

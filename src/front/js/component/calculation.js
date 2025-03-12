@@ -37,7 +37,8 @@ export const Calculation = ({ theid, onChangeView }) => {
                     transactions.push({
                         whoPays: debtor.name,
                         toWho: creditor.name,
-                        amount: amountToReceive.toFixed(2)
+                        amount: amountToReceive.toFixed(2),
+                        date: new Date().toLocaleDateString("en-GB").split("/").join("-"),
                     });
 
                     amountToPay -= amountToReceive;
@@ -57,12 +58,13 @@ export const Calculation = ({ theid, onChangeView }) => {
             console.log(fetchedPayMember);
             fetchMembers();
 
+            window.location.href = `/group/${theid}`;
         };
         fetchPayMember();
     };
 
     return (
-        <div className="mt-3 ms-3 bg-c2 group-detail">
+        <div className="flex-grow-1 m-3 bg-c2 group-detail">
             <div className="d-flex justify-content-between align-items-start">
                 <button className="text-light btn button-no mt-3 ms-3 fs-4 text-start" onClick={onChangeView}>
                     <i className="fa-solid fa-arrow-left"></i>

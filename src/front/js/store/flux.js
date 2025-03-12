@@ -134,24 +134,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error("Error creating group");
 					}
 
+
 					const data = await resp.json();
 					return data;
 				} catch (error) {
 					console.log("Error creating group", error);
 				}
 			},
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

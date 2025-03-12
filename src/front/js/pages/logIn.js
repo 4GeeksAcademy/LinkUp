@@ -27,7 +27,7 @@ export const LogIn = () => {
     useEffect(() => {
         const username = localStorage.getItem("username");
     
-        if (username) {
+        if (username != undefined) {
             navigate("/private"); 
         }
     }, [navigate]);

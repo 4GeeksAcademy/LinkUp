@@ -109,7 +109,7 @@ export const NewExpense = ({ theid }) => {
 
         const expenseData = {
             title: formData.title,
-            amount: parseFloat(formData.amount || 0).toFixed(2),
+            amount: Math.round((parseFloat(formData.amount) || 0) * 100) / 100,
             paidFor: formData.paidFor,
             balance: balance,
             imageURL: formData.imageURL,
@@ -121,6 +121,8 @@ export const NewExpense = ({ theid }) => {
         const fetchNewExpense = async () => {
             const fetchedResponse = await actions.createExpense(expenseData, theid);
             window.location.href = `/group/${theid}`;
+            console.log(fetchedResponse);
+
         };
         fetchNewExpense();
 

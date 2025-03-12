@@ -275,10 +275,9 @@ def generate_group_id():
 
 @api.route('/groups', methods=['POST'])
 def create_group():
-    data = request.get_json()  # Se obtiene el cuerpo en formato JSON
+    data = request.get_json() 
     print("Datos recibidos:", data)
 
-    # Verifica que se esté recibiendo el contenido correctamente
     if not data:
         return jsonify({"message": "No JSON data received"}), 415
 
@@ -366,17 +365,14 @@ def delete_group(idgroup):
     if not group:
         return jsonify({"message": "Group not found"}), 404
 
-    # Eliminar todos los balances asociados a los gastos del grupo
     for expense in group.expensesList:
         for balance in expense.balance:
-            db.session.delete(balance)  # Eliminar los balances asociados
-        db.session.delete(expense)  # Eliminar los gastos
+            db.session.delete(balance) 
+        db.session.delete(expense) 
 
-    # Eliminar todos los miembros asociados al grupo
     for member in group.membersList:
         db.session.delete(member)
 
-    # Eliminar el grupo
     db.session.delete(group)
     db.session.commit()
 
@@ -404,27 +400,31 @@ def get_members(idgroup):
 
 @api.route('/expenses/<group_id>', methods=['POST'])
 def add_expense(group_id):
-    # Obtener el grupo por su ID
     group = Group.query.get(group_id)
     if not group:
         print(f"Grupo con ID {group_id} no encontrado")
         return jsonify({"message": "Grupo no encontrado"}), 404
-    
-    # Obtener los datos del gasto desde la solicitud
+
     title = request.json.get('title')
     amount = request.json.get('amount')
     paid_for = request.json.get('paidFor')
     image_url = request.json.get('imageURL')
     date = request.json.get('date')
     balances = request.json.get('balance')
-    
-    print(f"Datos recibidos: {request.json}")  # Verifica que los datos estén correctos
-    
+
+    print(f"Datos recibidos: {request.json}")
+
     if not title or not amount or not paid_for or not balances:
         print("Faltan datos requeridos")
         return jsonify({"message": "Datos incompletos"}), 400
-    
-    # Crear el nuevo gasto
+
+    # Asegurar que 'amount' es un número
+    try:
+        amount = float(amount)
+    except ValueError:
+        print(f"Error: amount '{amount}' no es un número válido")
+        return jsonify({"message": "El campo 'amount' debe ser un número"}), 400
+
     new_expense = Expense(
         title=title,
         amount=amount,
@@ -433,19 +433,39 @@ def add_expense(group_id):
         date=date,
         group_id=group_id
     )
-    
+
     db.session.add(new_expense)
     db.session.commit()
 
-    # Añadir los balances a la base de datos
+    # Restar el monto al que pagó el gasto
+    payer = Member.query.filter_by(name=paid_for, group_id=group_id).first()
+    if payer:
+        payer.owes -= amount  # Se le descuenta lo que pagó
+        db.session.commit()
+    else:
+        print(f"Pagador {paid_for} no encontrado en el grupo")
+        return jsonify({"message": f"Pagador {paid_for} no encontrado en el grupo"}), 404
+
     for balance_data in balances:
         member_name = balance_data.get('name')
+        balance_amount = balance_data.get('amount')
+
+        # Convertir balance_amount a float
+        try:
+            balance_amount = float(balance_amount)
+        except ValueError:
+            print(f"Error: balance_amount '{balance_amount}' no es un número válido")
+            return jsonify({"message": f"El balance '{balance_amount}' debe ser un número"}), 400
+
         print(f"Buscando miembro: {member_name}")
         member = Member.query.filter_by(name=member_name, group_id=group_id).first()
         if member:
+            # Actualizar el saldo adeudado
+            member.owes += balance_amount  # Se le suma lo que debe del gasto
+
             balance = Balance(
                 name=member_name,
-                amount=balance_data.get('amount'),
+                amount=balance_amount,
                 member_id=member.id,
                 expense_id=new_expense.id
             )
@@ -460,6 +480,8 @@ def add_expense(group_id):
         "message": "Gasto añadido exitosamente",
         "expense_id": new_expense.id
     }), 201
+
+
 
 
 
@@ -486,7 +508,6 @@ def get_group_expenses(group_id):
     page = request.args.get('page', 1, type=int)
     per_page = 10
 
-    # Ordenar por ID de forma descendente
     expenses_query = Expense.query.filter_by(group_id=group_id).order_by(Expense.id.desc())
     total_expenses = expenses_query.count()
     total_pages = math.ceil(total_expenses / per_page)
@@ -547,3 +568,29 @@ def delete_expense(expense_id):
     return jsonify({"message": f"Expense {expense_id} deleted successfully"}), 200
 
 
+@api.route('/pay/<string:group_id>', methods=['POST'])
+def pay_member(group_id):
+    data = request.get_json()
+
+    whoPays = data.get('whoPays')
+    toWho = data.get('toWho')
+    amount = float(data.get('amount'))
+
+    group = Group.query.get(group_id)
+    if not group:
+        return jsonify({"error": "Group not found"}), 404
+
+    whoPays_member = Member.query.filter_by(name=whoPays, group_id=group_id).first()
+    toWho_member = Member.query.filter_by(name=toWho, group_id=group_id).first()
+
+    if not whoPays_member or not toWho_member:
+        return jsonify({"error": "Member(s) not found in group"}), 404
+
+    whoPays_member.owes -= amount
+    toWho_member.owes += amount
+
+    db.session.commit()
+
+    return jsonify({
+        "message": f"Updated owes for {whoPays} and {toWho}"
+    }), 200

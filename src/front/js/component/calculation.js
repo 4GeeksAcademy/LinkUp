@@ -5,93 +5,61 @@ import { Link } from "react-router-dom";
 
 export const Calculation = ({ theid, onChangeView }) => {
     const { store, actions } = useContext(Context);
-    const [group, setGroup] = useState(null);
+    const [members, setMembers] = useState([]);
     const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
-        const fetchGroup = async () => {
-            const fetchedGroup = await actions.getGroup(theid);
-            setGroup(fetchedGroup);
-        };
-        fetchGroup();
+        fetchMembers();
     }, [theid, actions]);
 
-    // Calcular los balances
-    const calculateBalances = () => {
-        if (!group || !group.expensesList) return {};
-
-        const balanceMap = {};
-
-        group.expensesList.forEach(expense => {
-            let { paidFor, amount, balance } = expense;
-
-            amount = parseFloat(amount);
-            if (isNaN(amount)) {
-                console.error(`Error: amount inválido en`, expense);
-                return;
-            }
-
-            if (!balanceMap[paidFor]) balanceMap[paidFor] = 0;
-            balanceMap[paidFor] += amount;
-
-            balance.forEach(entry => {
-                let entryAmount = parseFloat(entry.amount);
-
-                if (isNaN(entryAmount)) {
-                    console.error(`Error: entry.amount inválido en`, entry);
-                    return;
-                }
-
-                if (!balanceMap[entry.name]) balanceMap[entry.name] = 0;
-                balanceMap[entry.name] -= entryAmount;
-            });
-        });
-
-        return balanceMap;
-    };
-
-    const calculateTransactions = (balances) => {
-        const deudores = [];
-        const acreedores = [];
-
-        for (const [persona, saldo] of Object.entries(balances)) {
-            if (saldo < 0) {
-                deudores.push([persona, Math.abs(saldo)]);
-            } else if (saldo > 0) {
-                acreedores.push([persona, saldo]);
-            }
-        }
-
-        const transacciones = [];
-        for (let i = 0; i < deudores.length; i++) {
-            let [deudor, deuda] = deudores[i];
-            for (let j = 0; j < acreedores.length; j++) {
-                let [acreedor, credito] = acreedores[j];
-                if (deuda === 0) break;
-                if (credito === 0) continue;
-
-                const amount = Math.min(deuda, credito);
-                transacciones.push({
-                    whoPays: deudor,
-                    amount: amount,
-                    toWho: acreedor
-                });
-
-                deuda -= amount;
-                credito -= amount;
-
-                if (deuda === 0) deudores[i][1] = 0;
-                if (credito === 0) acreedores[j][1] = 0;
-            }
-        }
-        return transacciones;
+    const fetchMembers = async () => {
+        const fetchedMembers = await actions.getGroupMembers(theid);
+        setMembers(fetchedMembers.members || []);
     };
 
     useEffect(() => {
-        const balances = calculateBalances();
-        const transacciones = calculateTransactions(balances);
-        setTransactions(transacciones);
-    }, [group]);
+        if (members.length > 0) {
+            calculateTransactions(members);
+        }
+    }, [members]);
+
+    const calculateTransactions = (members) => {
+        let creditors = members.filter(member => member.owes < 0);
+        let debtors = members.filter(member => member.owes > 0);
+        let transactions = [];
+
+        debtors.forEach(debtor => {
+            let amountToPay = debtor.owes;
+
+            creditors.forEach(creditor => {
+                if (amountToPay > 0 && creditor.owes < 0) {
+                    let amountToReceive = Math.min(amountToPay, -creditor.owes);
+                    transactions.push({
+                        whoPays: debtor.name,
+                        toWho: creditor.name,
+                        amount: amountToReceive.toFixed(2)
+                    });
+
+                    amountToPay -= amountToReceive;
+                    creditor.owes += amountToReceive;
+                }
+            });
+        });
+
+        setTransactions(transactions);
+    };
+
+
+    const handleMarkAsPaid = (e) => {
+        console.log(e);
+        const fetchPayMember = async () => {
+            const fetchedPayMember = await actions.payMember(e, theid);
+            console.log(fetchedPayMember);
+            fetchMembers();
+
+        };
+        fetchPayMember();
+    };
 
     return (
         <div className="mt-3 ms-3 bg-c2 group-detail">
@@ -108,12 +76,18 @@ export const Calculation = ({ theid, onChangeView }) => {
             <div className="mx-4 mt-4">
                 {transactions.length > 0 ? (
                     transactions.map((transaction, index) => (
-                        <p className="text-light" key={index}>
-                            {transaction.whoPays} debe {transaction.amount} € a {transaction.toWho}
-                        </p>
+                        <div className="border-bottom border-2 pt-2 flex-column pb-3" key={index}>
+                            <p className="text-light">
+                                <strong>{transaction.whoPays}</strong> debe <strong className="text-c5">{transaction.amount}</strong> € a <strong>{transaction.toWho}</strong>
+                            </p>
+                            <div className="btn-group" role="group">
+                                <button type="button" className="btn btn-light" onClick={() => handleMarkAsPaid(transaction)}>Marcar como pagado</button>
+                                <button type="button" className="btn btn-primary">Solicitar</button>
+                            </div>
+                        </div>
                     ))
                 ) : (
-                    <p>No hay transacciones pendientes.</p>
+                    <p className="border-bottom border-2 text-light py-3">No hay transacciones pendientes.</p>
                 )}
             </div>
         </div>

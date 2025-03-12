@@ -11,8 +11,7 @@ class User(db.Model):
     encode_password = db.Column(db.String(500), nullable=True)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     avatar = db.Column(db.String(500), nullable=True)
-    membersList = db.relationship('Member', backref='group', lazy=True)
-    
+
     def __repr__(self):
         return f'<User {self.username}>'
 
@@ -41,6 +40,7 @@ class Member(db.Model):
     name = db.Column(db.String(100), nullable=False)
     owes = db.Column(db.Float, default=0)
     group_id = db.Column(db.String(15), db.ForeignKey('group.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
 class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

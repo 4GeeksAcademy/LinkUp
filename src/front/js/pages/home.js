@@ -26,7 +26,7 @@ export const Home = () => {
                     <p className="info-text">
                         <span className="color-acento">Dividir los gastos</span> debería ser fácil. Ya sea para un <br /> 
                         viaje en grupo, una noche con amigos o un hogar <br /> 
-                        compartido, la <span className="color-acento"> app de seguimiento de gastos </span> de <br /> 
+                        compartido, la <span className="color-acento"> web de seguimiento de gastos </span> de <br /> 
                         LinkUp hace que <span className="color-acento"> gestionar los gastos compartidos </span> <br /> 
                         sea sencillo.
                     </p>

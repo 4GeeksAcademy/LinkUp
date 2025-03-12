@@ -1,4 +1,5 @@
 import React from "react";
+import {useLocation} from "react-router-dom"
 import { Link } from "react-router-dom";
 import "../../styles/navbar.css";
 import imgLogo from "../../img/img-logo.webp";
@@ -33,10 +34,14 @@ const endSession = async ()=>{
 }
 
 export const Navbar = () => {
-
+	const location = useLocation();
+	const hideNavbarOn = ["/"]
+	const handleGoInicio = () => {
+        window.location.href = `/`;
+    };
 	return (
-		<nav className="navbar navbar-expand-lg px-4 text-white" id="navbar">
-			<div className="d-flex align-items-center">
+		<nav id="navbar" className={`navbar navbar-expand-lg px-4 text-white ${hideNavbarOn.includes(location.pathname) ? "hidden" : ""}`}>
+			<a className="btn d-flex align-items-center" onClick={handleGoInicio}>
 				<img
 					src={imgLogo}
 					alt="Company Logo"
@@ -44,8 +49,8 @@ export const Navbar = () => {
 					width="40"
 					height="40"
 				/>
-				<span className="ms-2 fw-bold">LinkUp</span>
-			</div>
+				<span className="ms-2 fw-bold text-light">LinkUp</span>
+			</a>
 			<div className="ms-auto d-flex align-items-center">
 				<div className="dropdown">
 					<a className="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">

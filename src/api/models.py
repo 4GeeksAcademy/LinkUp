@@ -40,12 +40,14 @@ class Member(db.Model):
     name = db.Column(db.String(100), nullable=False)
     owes = db.Column(db.Float, default=0)
     group_id = db.Column(db.String(15), db.ForeignKey('group.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
 class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(255), nullable=False)
     amount = db.Column(db.Float, nullable=False)
     paidFor = db.Column(db.String(100), nullable=False)
+    paidTo = db.Column(db.String(100), nullable=False)
     imageURL = db.Column(db.String(255))
     date = db.Column(db.String(20))
     group_id = db.Column(db.String(15), db.ForeignKey('group.id'), nullable=False)

@@ -9,14 +9,34 @@
             var(--color-c2),
             var(--color-c1));
 
-    transition: transform 0.5s ease-in-out, width 0.5s ease-in-out;
+    transition: left 0.5s ease-in-out, width 0.5s ease-in-out;
+
+
+    position: fixed;
+    top: 0px;
+    left: 0;
+    height: 100%;
+    z-index: 0;
+}
+.group{
+    overflow: hidden;
+}
+.group-left.hidden {
+    border-right-width: 0px;
+    left: -350px;
+
 }
 
-.group-left.hidden {
+.group-left-ghost.hidden {
     transform: translateX(-100%);
     width: 0;
-
     border-right-width: 0px;
+
+}
+
+.group-left-ghost {
+    width: 350px;
+    transition: transform 0.5s ease-in-out, width 0.5s ease-in-out;
 }
 
 .group-top {
@@ -110,3 +130,44 @@
     display: block;
     left: 40px;
 }
+
+
+.group-grouplisttitle{
+    border-bottom: 2px solid var(--color-c5);
+    
+}
+
+.group-list-content{
+    height: 80px;
+    width: 300px;
+    border-radius: 4px;
+}
+
+.group-image {
+    width: 80px;
+    height: 80px; 
+    object-fit: cover; 
+    border-radius: 4px;
+}
+
+/* Contenedor con desplazamiento vertical */
+.scroll-container {
+    height: 100%; /* Ocupa todo el espacio disponible */
+    overflow-y: auto; /* Permite el desplazamiento vertical */
+}
+
+/* Personaliza la barra de desplazamiento */
+.scroll-container::-webkit-scrollbar {
+    width: 6px; /* Grosor de la barra de desplazamiento */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Color del pulgar */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1); /* Color de la pista */
+}
+
+

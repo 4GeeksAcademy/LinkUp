@@ -39,7 +39,7 @@ footer {
 .main {
     position: absolute;
 
-    top: 0px;
+    top: 0;
     z-index: 1;
 
     width: 100%;

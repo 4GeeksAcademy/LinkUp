@@ -15,7 +15,7 @@ import { UploadFoto } from "../component/upLoadFoto";
 export const Private = () => {
     //Añado al usuario desde localstore
     const nomusuario = localStorage.getItem("username");
-    
+
 
     const imagenesPredeterminadas = [
         barbacoa,
@@ -36,11 +36,11 @@ export const Private = () => {
     useEffect(() => {
         const fetchGroups = async () => {
             const data = await actions.getGroups();
-            
-            
+
+
             if (data && data.groups) { // Asegurar que los datos existen antes de actualizarlos
                 setListGroups(data.groups);
-                
+
 
             }
         };
@@ -48,8 +48,8 @@ export const Private = () => {
         fetchGroups();
     }, []);
 
-    
-        
+
+
 
     const seleccionarImagen = (imagen) => {
 
@@ -77,8 +77,8 @@ export const Private = () => {
 
     // Función para crear el grupo (enviar los datos)
     const crearGrupo = () => {
-         
-       
+
+
         const grupoCreado = {
             name: nombreGrupo,
             iconURL: imagenSeleccionada,
@@ -88,8 +88,8 @@ export const Private = () => {
         createNewGroup(grupoCreado);
     };
 
-    const handleDeleteGroup = (id) => {       
-        actions.deleteGroup(id);        
+    const handleDeleteGroup = (id) => {
+        actions.deleteGroup(id);
         setListGroups((prevGrupos) => prevGrupos.filter((grupo) => grupo.id !== id));
     };
 
@@ -99,8 +99,8 @@ export const Private = () => {
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
             window.location.href = `/group/${fetchedResponse.id}`;
-            
-            
+
+
 
 
         };
@@ -136,11 +136,11 @@ export const Private = () => {
                 </div>
                 {/* Lista de grupos */}
                 <div className="mx-2 congroups d-flex flex-column gap-2">
-                {listGroups.map((datos) => (
+                    {listGroups.map((datos) => (
                         <BaseListGroups
                             key={datos.id}
                             datos={datos}
-                            onDelete={handleDeleteGroup} 
+                            onDelete={handleDeleteGroup}
                         />
                     ))}
                 </div>
@@ -162,7 +162,7 @@ export const Private = () => {
                         <div className="modal-body">
                             {/* Input para el nombre del grupo */}
                             <p>Nombre del grupo</p>
-                            
+
                             <input
                                 type="text"
                                 className="form-control"
@@ -208,7 +208,31 @@ export const Private = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+             </div>
+            {/* <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                
+            </button> */}
+
+            // {/* <!-- Modal Unirme a grupo--> */
+            /* // <div className="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-2" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+            //     <div className="modal-dialog">
+            //         <div className="modal-content">
+            //             <div className="modal-header">
+            //                 <h1 class="modal-title fs-5" id="staticBackdropLabel2">Unirse a un grupo</h1>
+            //                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            //             </div>
+            //             <div className="modal-body">
+            //                 ...
+            //             </div>
+            //             <div className="modal-footer">
+            //                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancela</button>
+            //                 <button type="button" className="btn btn-primary">Unirme al grupo</button>
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div> */} 
+
 
 
             {/* Segundo cuerpo */}
@@ -218,24 +242,24 @@ export const Private = () => {
                         <h3 className="text-center">Novedades de los grupos</h3>
                     </div></div>
                 <div className="d-block justify-content-around text-white mt-5">
-                    <p> ¡Bienvenidos a LinkUP!</p>
+                    <br />
                     <p>.¡Bienvenidos a LinkUP!</p>
+                    <p>.Aqui van las novedades</p>
                     <p>.</p>
                     <p>.</p>
                     <p>.</p>
                     <p>.</p>
                     <p>.</p>
-                    <p>.yttyj</p>
                     <p>.</p>
                     <p>.</p>
-                    <p>.fdsfdf</p>
-                    <p>.dfsdfsdfdsfdsfasfaddv</p>
                     <p>.</p>
-                    <p>.fdsfsdf</p>
-                    <p>.dsfas</p>
-                    <p>.ewrqwerewrregas gb </p>
-                    <p>.gqergcvdf xvfdgga</p>
-                    <p>.rqce fvdfgegerg</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
                     <p>.</p>
                     <p>.</p>
                     <p>.</p>

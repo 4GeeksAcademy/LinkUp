@@ -7,3 +7,7 @@
     
     z-index: 2; /*no borrar el z-index pls*/
 }
+
+.hidden {
+    display: none;
+}

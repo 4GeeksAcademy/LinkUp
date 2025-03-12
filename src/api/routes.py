@@ -98,14 +98,18 @@ def creando_usuario():
     print(user)
     if user:
         return jsonify({"msg": "El email introducido no es valido o ya se registro con anterioridad."}), 400
-
+    access_token = create_access_token(identity= email)
     user = User(username=username, email=email, is_active=True)
     user.set_password(password) 
-
+    
     db.session.add(user)
     db.session.commit()
 
-    return jsonify({"msg":"Usuario creado correctamente"}),201
+    return jsonify({"msg":"Usuario creado correctamente",
+                     "token": access_token, 
+                     "username": user.username,
+                     "email": email}),201
+
 
 #login normal
 @api.route('/login', methods=["POST"])

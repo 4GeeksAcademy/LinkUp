@@ -47,16 +47,16 @@ export const SignNormal = async (username, email, password, navigate) => {
             localStorage.setItem('email', response.data.email);
             localStorage.setItem('username', response.data.username);
             localStorage.setItem('picture', response.data.picture);
-            alert('Signed up successfully!');
+            alert('¡¡Registro exitoso, puedes acceder!!');
             navigate("/private");
             return true;
         }
         
     } catch (error) {
         if (error.response && error.response.status === 400) {
-            alert('El email ya está registrado. Intenta con otro.');
+            alert('Error en el registro, intentalo mas tarde o cambia lo datos.');
         } else {
-            alert('Error en el registro. Inténtalo de nuevo.');
+            alert('El usuario o el email ya estan registrados. Intenta con otro.');
         }
         console.error('Error en el registro:', error.response?.data || error);
         return false;

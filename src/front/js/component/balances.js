@@ -13,7 +13,6 @@ export const Balances = ({ theid, onChangeView }) => {
             try {
                 const fetchedGroupMembers = await actions.getGroupMembers(theid);
                 setGroupMembers(fetchedGroupMembers.members);
-                console.log(fetchedGroupMembers);
             } catch (error) {
                 console.error("Error al obtener los miembros del grupo:", error);
                 setGroupMembers([]);

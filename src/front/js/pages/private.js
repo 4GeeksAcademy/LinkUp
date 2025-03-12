@@ -218,24 +218,24 @@ export const Private = () => {
                         <h3 className="text-center">Novedades de los grupos</h3>
                     </div></div>
                 <div className="d-block justify-content-around text-white mt-5">
-                    <p> ¡Bienvenidos a LinkUP!</p>
+                    <br/>
                     <p>.¡Bienvenidos a LinkUP!</p>
+                    <p>.Aqui van las novedades</p>
                     <p>.</p>
                     <p>.</p>
                     <p>.</p>
                     <p>.</p>
                     <p>.</p>
-                    <p>.yttyj</p>
                     <p>.</p>
                     <p>.</p>
-                    <p>.fdsfdf</p>
-                    <p>.dfsdfsdfdsfdsfasfaddv</p>
                     <p>.</p>
-                    <p>.fdsfsdf</p>
-                    <p>.dsfas</p>
-                    <p>.ewrqwerewrregas gb </p>
-                    <p>.gqergcvdf xvfdgga</p>
-                    <p>.rqce fvdfgegerg</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
+                    <p>.</p>
                     <p>.</p>
                     <p>.</p>
                     <p>.</p>

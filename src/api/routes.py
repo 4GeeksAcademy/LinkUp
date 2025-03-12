@@ -288,6 +288,10 @@ def create_group():
     iconURL = data.get('iconURL')
     membersList = data.get('membersList')
 
+
+    if not iconURL:
+        iconURL = "https://he.cecollaboratory.com/public/layouts/images/unit-default-logo.png"
+
     if not name:
         return jsonify({"message": "Group name is required"}), 400
     if not membersList or len(membersList) <= 2:
@@ -432,6 +436,7 @@ def add_expense(group_id):
         title=title,
         amount=amount,
         paidFor=paid_for,
+        paidTo="",
         imageURL=image_url,
         date=date,
         group_id=group_id
@@ -524,6 +529,7 @@ def get_group_expenses(group_id):
                 "title": expense.title,
                 "amount": expense.amount,
                 "paidFor": expense.paidFor,
+                "paidTo": expense.paidTo,
                 "imageURL": expense.imageURL,
                 "date": expense.date
             }
@@ -581,7 +587,8 @@ def pay_member(group_id):
 
     group = Group.query.get(group_id)
     if not group:
-        return jsonify({"error": "Group not found"}), 404
+        print(f"Grupo con ID {group_id} no encontrado")
+        return jsonify({"message": "Grupo no encontrado"}), 404
 
     whoPays_member = Member.query.filter_by(name=whoPays, group_id=group_id).first()
     toWho_member = Member.query.filter_by(name=toWho, group_id=group_id).first()
@@ -592,6 +599,30 @@ def pay_member(group_id):
     whoPays_member.owes -= amount
     toWho_member.owes += amount
 
+    db.session.commit()
+    
+    amount = request.json.get('amount')
+    paid_for = request.json.get('whoPays')
+    paid_to = request.json.get('toWho')
+    date = request.json.get('date')
+
+    try:
+        amount = float(amount)
+    except ValueError:
+        print(f"Error: amount '{amount}' no es un número válido")
+        return jsonify({"message": "El campo 'amount' debe ser un número"}), 400
+
+    new_expense = Expense(
+        title="Rembolso",
+        amount=amount,
+        paidFor=paid_for,
+        paidTo=paid_to,
+        date=date,
+        imageURL="",
+        group_id=group_id
+    )
+
+    db.session.add(new_expense)
     db.session.commit()
 
     return jsonify({

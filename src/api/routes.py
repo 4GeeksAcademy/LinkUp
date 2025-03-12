@@ -241,11 +241,14 @@ def upload_image():
 
 
 #Logout session google-user
-@api.route('/logout')
+@api.route('/logout', methods=["GET"])
 def logout():
-    
-    session.pop("user",None)
-    return redirect ("/")
+    session.clear()  # Borra TODA la sesión
+    response = jsonify({"msg": "Logout exitoso"})
+    response.status_code = 200
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 
 

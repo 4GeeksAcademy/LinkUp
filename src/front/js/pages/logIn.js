@@ -27,10 +27,9 @@ export const LogIn = () => {
     useEffect(() => {
         const username = localStorage.getItem("username");
     
-        if (username == undefined) {
-            navigate("/"); }
-        else{navigate("/private")}
-        
+        if (username !== null) {  // Si hay usuario, ir a private
+            navigate("/private");
+        }
     }, [navigate]);
 
     const togglePasswordVisibility = () => {

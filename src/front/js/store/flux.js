@@ -108,7 +108,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 
+			deleteGroup: async (idGroup) => {
+                try {
+                    const resp = await fetch(process.env.BACKEND_URL + "api/group/" + idGroup, {
+                        method: "DELETE",
+                    });
 
+                    if (!resp.ok) {
+                        throw new Error("Error deleting group");
+                    }
+
+                    const data = await resp.json();
+                    return data;
+                } catch (error) {
+                    console.log("Error deleting group", error);
+                }
+            },
 
 
 

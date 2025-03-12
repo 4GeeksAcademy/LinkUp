@@ -2,6 +2,7 @@ import React from "react";
 import {useLocation} from "react-router-dom"
 import { Link } from "react-router-dom";
 import "../../styles/navbar.css";
+import "../../styles/private.css";
 import imgLogo from "../../img/img-logo.webp";
 import user from "../../img/user.webp";
 import api from './../api';

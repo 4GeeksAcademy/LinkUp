@@ -13,7 +13,7 @@ export const NewExpense = ({ theid }) => {
         amount: "",
         paidFor: "",
         balance: {},
-        file: "",
+        imageURL: "",
         date: "",
         checked: {},
     });
@@ -85,14 +85,17 @@ export const NewExpense = ({ theid }) => {
         }));
     };
 
-    const handleFileChange = (e) => {
+    const handleFileChange = async (e) => {
+        const imgURL = await actions.uploadImage(e.target.files[0]);
 
-        const imgURL = actions.uploadImage(e.target.files[0]);
         setFormData((prevState) => ({
             ...prevState,
-            file: imgURL,
+            imageURL: imgURL,
         }));
+
+        console.log(imgURL);
     };
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -109,7 +112,7 @@ export const NewExpense = ({ theid }) => {
             amount: parseFloat(formData.amount || 0).toFixed(2),
             paidFor: formData.paidFor,
             balance: balance,
-            imageURL: formData.file,
+            imageURL: formData.imageURL,
             date: formData.date || new Date().toLocaleDateString("en-GB").split("/").join("-"),
         };
 
@@ -131,7 +134,7 @@ export const NewExpense = ({ theid }) => {
             amount: "",
             paidFor: membersList[0]?.name || "",
             balance: {},
-            file: null,
+            imageURL: null,
             date: "",
             checked: membersList.reduce((acc, person) => {
                 acc[person.name.toLowerCase()] = true;
@@ -213,7 +216,7 @@ export const NewExpense = ({ theid }) => {
                                             accept="image/*"
                                             onChange={handleFileChange}
                                         />
-                                        {formData.file && <p className="mt-2">Archivo seleccionado: {formData.file.name}</p>}
+                                        {formData.file && <p className="mt-2 text-light">Archivo seleccionado: {formData.file.name}</p>}
                                     </div>
                                 </div>
 

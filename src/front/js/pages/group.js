@@ -58,7 +58,7 @@ export const Group = () => {
     };
 
     return (
-        <div className="text-center">
+        <div className="text-center group">
             {group ? (
                 <>
                     <button className="add-expense-button">

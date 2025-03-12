@@ -97,7 +97,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					const data = await resp.json()
 					console.log(data);
-					
+
 					return data;
 				} catch (error) {
 					console.log("Error loading message from backend", error)
@@ -141,7 +141,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error creating group", error);
 				}
 			},
+			payMember: async (payMemberBody, idGroup) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/pay/" + idGroup, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(payMemberBody),
+					});
 
+					if (!resp.ok) {
+						console.log(resp);
+						throw new Error("Error paying");
+					}
+
+
+					const data = await resp.json();
+					return data;
+				} catch (error) {
+					console.log("Error paying", error);
+				}
+			},
 
 
 

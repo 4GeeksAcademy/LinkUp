@@ -40,14 +40,14 @@ export const Balances = ({ theid, onChangeView }) => {
                     groupMembers.map((member) => (
                         <div
                             key={member.name || Math.random()}
-                            className="border-bottom border-2 d-flex align-items-center justify-content-between px-3 mb-1"
+                            className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1"
                         >
-                            <div className="d-flex align-items-center p-2 rounded">
+                            <div className="d-flex align-items-center rounded">
                                 <i className="fa-solid fa-user pe-2 text-light"></i>
                                 <h5 className="text-light m-0">{member.name || "Desconocido"}</h5>
                             </div>
-                            <h5 className={`mt-3 text-center ${member.amount < 0 ? "text-danger" : "text-c5"}`}>
-                                {member.amount !== undefined ? `${member.amount} €` : "0 €"}
+                            <h5 className={`mt-3 text-center ${member.owes < 0 ? "text-danger" : "text-c5"}`}>
+                                {member.owes !== undefined ? `${member.owes} €` : "0 €"}
                             </h5>
                         </div>
                     ))

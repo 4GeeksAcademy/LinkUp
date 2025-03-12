@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Context } from "../store/appContext";
 import "../../styles/LoginAndSignUp.css";
+import "../../styles/index.css";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";

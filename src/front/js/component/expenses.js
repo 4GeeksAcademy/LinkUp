@@ -56,7 +56,7 @@ export const Expenses = ({ theid }) => {
                                     key={index}
                                     className="rounded-0 balance d-flex align-items-center justify-content-between my-1 px-3 text-light "
                                 >
-                                    <div className="text-center flex-grow-1">
+                                    <div className="text-center flex-grow-1 ">
                                         <h6 className="text-c5">{expense.title} de <strong>{expense.paidFor}</strong> a <strong>{expense.paidTo}</strong> de {expense.amount}€</h6>
                                         <p>Rembolsado el {expense.date}</p>
                                     </div>

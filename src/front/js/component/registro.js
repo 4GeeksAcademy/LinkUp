@@ -1,6 +1,7 @@
 import api from './../api';
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import Swal from 'sweetalert2'
 
 export const LoginNormal = async (username, password, navigate) => {
     try {
@@ -15,20 +16,37 @@ export const LoginNormal = async (username, password, navigate) => {
             localStorage.setItem('email', response.data.email);
             localStorage.setItem('picture', response.data.avatar);
 
-            alert("Inicio de sesión exitoso!");
+            Swal.fire({
+                title: "¡Se realizo inicio de sesión con exito!",
+                icon: "success",
+                draggable: true
+              });
             navigate("/private"); // Redirige a la zona privada
             return true;
         } 
     } catch (error) {
-        if (error.response?.status === 401) {
-            alert("Usuario o contraseña incorrectos. ¡Inténtalo de nuevo!");
+        if (error.response?.status === 401)
+            {Swal.fire({
+            title: "Usuario o contraseña incorrectos. ¡Inténtalo de nuevo!",
+            icon: "error",
+            draggable: true
+          });
+           
         } else {
-            alert("Error en el inicio de sesión. Inténtalo más tarde.");
+            {Swal.fire({
+                title: "Error en el inicio de sesión. Inténtalo más tarde.",
+                icon: "error",
+                draggable: true
+              });
+
+            
         }
         console.error("Error en el login:", error.response?.data || error);
         return false;
     }
 };
+}
+
 
 export const SignNormal = async (username, email, password, navigate) => {
     
@@ -47,16 +65,30 @@ export const SignNormal = async (username, email, password, navigate) => {
             localStorage.setItem('email', response.data.email);
             localStorage.setItem('username', response.data.username);
             localStorage.setItem('picture', response.data.picture);
-            alert('¡¡Registro exitoso, puedes acceder!!');
+            Swal.fire({
+                title: "Te has registrado correctamente",
+                icon: "success",
+                draggable: true
+              });
             navigate("/private");
             return true;
         }
         
     } catch (error) {
         if (error.response && error.response.status === 400) {
-            alert('Error en el registro, intentalo mas tarde o cambia lo datos.');
+            Swal.fire({
+                title: "Error en el registro, intentalo mas tarde o cambia lo datos.",
+                icon: "error",
+                draggable: true
+              });
+            
         } else {
-            alert('El usuario o el email ya estan registrados. Intenta con otro.');
+            Swal.fire({
+                title: "El usuario o el email ya estan registrados. Intenta con otro.",
+                icon: "error",
+                draggable: true
+              });
+            
         }
         console.error('Error en el registro:', error.response?.data || error);
         return false;
@@ -79,18 +111,37 @@ console.log({tokenId: credential});
             localStorage.setItem('email', response.data.email);
             localStorage.setItem('picture', response.data.picture);
 
-            alert("Registro con Google exitoso!");
+            Swal.fire({
+                title: "Te has registrado correctamente",
+                icon: "success",
+                draggable: true
+              });
             navigate("/private");
             return true;
         }  else if (response.status === 404) { // Añadimos manejo para el error 404
-            alert(response.data?.error || "Usuario no registrado.");
+            Swal.fire({
+                title: response.data?.error || "Usuario no registrado.",
+                icon: "error",
+                draggable: true
+              });
+            
         }  else {
             console.error("Error en la respuesta del backend:", response.data);
-            alert(response.data?.message || "Error en el inicio de sesión con Google");
+                Swal.fire({
+                title: response.data?.error || "Error en el inicio de sesión con Google",
+                icon: "error",
+                draggable: true
+              });
+            
         }
     } catch (error) {
         console.error("Error en la autenticación con Google:", error.response?.data || error);
-        alert(error.response?.data?.message || "Error al registrarse con Google");
+        Swal.fire({
+            title: response.data?.error || "Error al registrarse con Google",
+            icon: "error",
+            draggable: true
+          });
+        
     }
 };
 

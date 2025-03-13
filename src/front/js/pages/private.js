@@ -10,12 +10,13 @@ import fiesta from "../../img/fiesta.jpg";
 import viaje from "../../img/viaje.jpg";
 import vacaciones from "../../img/vacaciones.jpg";
 import { UploadFoto } from "../component/upLoadFoto";
+import Swal from 'sweetalert2'
 
 
 export const Private = () => {
     //Añado al usuario desde localstore
     const nomusuario = localStorage.getItem("username");
-
+    
 
     const imagenesPredeterminadas = [
         barbacoa,
@@ -34,6 +35,7 @@ export const Private = () => {
     const [listGroups, setListGroups] = useState([])
 
     useEffect(() => {
+
         fetchGroups();
     }, []);
 
@@ -217,7 +219,31 @@ export const Private = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+             </div>
+            {/* <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                
+            </button> */}
+
+            // {/* <!-- Modal Unirme a grupo--> */
+            /* // <div className="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-2" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+            //     <div className="modal-dialog">
+            //         <div className="modal-content">
+            //             <div className="modal-header">
+            //                 <h1 class="modal-title fs-5" id="staticBackdropLabel2">Unirse a un grupo</h1>
+            //                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            //             </div>
+            //             <div className="modal-body">
+            //                 ...
+            //             </div>
+            //             <div className="modal-footer">
+            //                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancela</button>
+            //                 <button type="button" className="btn btn-primary">Unirme al grupo</button>
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div> */} 
+
 
 
             {/* Segundo cuerpo */}

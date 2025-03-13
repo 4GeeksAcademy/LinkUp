@@ -4,6 +4,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			imageURL: "",
+			prepareEmailInvitate: {
+				emailTosend: "",
+				refGroup: null 
+			},
 			groups: [
 
 			],
@@ -235,6 +239,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 			postGroup: () => {
 				const store = getStore();
 				return store.groups;
+			},
+
+			inviteUser: (email, idGroup) => {
+				if (!email) {
+					console.error("Error: el email no está definido.");
+					return { success: false, message: "Email requerido" };
+				}
+			
+				// Obtener el store actual
+				const store = getStore();
+			
+				// Actualizar el store con los nuevos datos
+				setStore({
+					...store, // Mantener el estado anterior
+					prepareEmailInvitate: {
+						emailTosend: email,  // 📌 Aquí ya usamos el email recibido
+						refGroup: idGroup
+					}
+				});
+			
+				console.log("Estado actualizado:", getStore().prepareEmailInvitate);
+				return { success: true, message: "Invitación guardada correctamente" };
 			},
 
 

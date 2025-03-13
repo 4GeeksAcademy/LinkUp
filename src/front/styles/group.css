@@ -19,8 +19,14 @@
     z-index: 0;
 }
 .group{
-    overflow: hidden;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    overflow:hidden;
+    
 }
+.group::-webkit-scrollbar {
+    display: none;}
+    
 .group-left.hidden {
     border-right-width: 0px;
     left: -350px;
@@ -50,7 +56,12 @@
             rgb(199, 179, 93));
 
     flex: 1;
+    overflow:hidden;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
 }
+.group-main::-webkit-scrollbar {
+    display: none;}
 
 .close-left-button {
     width: 30px;

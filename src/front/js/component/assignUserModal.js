@@ -74,7 +74,7 @@ export const AssignUserModal = ({ theid }) => {
                                     </React.Fragment>
                                 ))
                             ) : (
-                                <p className="text-light text-center">No hay miembros en este grupo.</p>
+                                <p className="text-light text-center">No te puedes unir a este grupo, no quedan plazas.</p>
                             )}
                         </div>
                     </div>

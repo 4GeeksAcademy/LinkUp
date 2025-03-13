@@ -28,17 +28,19 @@ export const Group = () => {
             const fetchGroupMembers = async () => {
                 try {
                     const fetchedGroupMembers = await actions.getGroupMembers(theid);
-                    
+
                     let alreadyAssigned = false;
-                    
+
                     fetchedGroupMembers.members.forEach(member => {
                         if (member.user_email === localStorage.getItem('email')) {
                             alreadyAssigned = true;
                         }
                     });
-    
-                    if (!alreadyAssigned) modalInstance.show();
-    
+
+                    if (!alreadyAssigned) {
+                        modalInstance.show();
+                    }
+
                 } catch (error) {
                     console.error("Error al obtener los miembros del grupo:", error);
                 }
@@ -46,7 +48,7 @@ export const Group = () => {
             fetchGroupMembers();
         }
     }, [group]);
-    
+
 
     useEffect(() => {
         const fetchGroup = async () => {

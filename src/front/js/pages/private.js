@@ -16,7 +16,7 @@ import Swal from 'sweetalert2'
 export const Private = () => {
     //Añado al usuario desde localstore
     const nomusuario = localStorage.getItem("username");
-    
+
 
     const imagenesPredeterminadas = [
         barbacoa,
@@ -74,7 +74,7 @@ export const Private = () => {
         setIntegrantes(integrantes.filter((_, i) => i !== index));
     };
 
-    
+
 
 
     // Función para crear el grupo (enviar los datos)
@@ -91,12 +91,12 @@ export const Private = () => {
             setErrorMensaje("⚠️ Debes añadir al menos dos integrantes al grupo.");
             return;
         }
-        
+
         const grupoCreado = {
             name: nombreGrupo,
             iconURL: imagenSeleccionada,
             membersList: integrantes.map(nombre => ({ name: nombre }))
-            
+
         };
         // Modal info
         const Toast = Swal.mixin({
@@ -106,26 +106,27 @@ export const Private = () => {
             timer: 2000,
             timerProgressBar: true,
             didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            setErrorMensaje("");}
-            
-              });
-             Toast.fire({
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+                setErrorMensaje("");
+            }
+
+        });
+        Toast.fire({
             icon: "success",
             title: "¡Grupo creado correctamente!"
-          });
-          
-        
+        });
 
-          
-        
 
-        
+
+
+
+
+
 
 
         createNewGroup(grupoCreado);
-        
+
     };
 
     const handleDeleteGroup = (e) => {
@@ -150,10 +151,13 @@ export const Private = () => {
         const modal = document.getElementById("CrearGrupoModal");
         const modalInstance = bootstrap.Modal.getInstance(modal);
         modalInstance.hide()
-        
+
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
+
             window.location.href = `/group/${fetchedResponse.id}`;
+
+
 
         };
         fetchNewGroup();
@@ -220,7 +224,7 @@ export const Private = () => {
                                 className="form-control"
                                 value={nombreGrupo}
                                 onChange={(e) => setNombreGrupo(e.target.value)}
-                                onClick={()=> setErrorMensaje("")}/>
+                                onClick={() => setErrorMensaje("")} />
                             <p className="mt-3">Seleccionar imagen de grupo</p>
                             <div className="d-flex flex-wrap gap-2">
                                 {imagenesPredeterminadas.map((img, index) => (
@@ -257,23 +261,23 @@ export const Private = () => {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
-                            
-                            <button type="button" 
-                            className="btn btn-outline-light"
-                             onClick={crearGrupo}
-                              
-                             >Crear Grupo</button>
-                             {errorMensaje && <p className="text-c5 fw-bold mt-2">{errorMensaje}</p>}
+
+                            <button type="button"
+                                className="btn btn-outline-light"
+                                onClick={crearGrupo}
+
+                            >Crear Grupo</button>
+                            {errorMensaje && <p className="text-c5 fw-bold mt-2">{errorMensaje}</p>}
                         </div>
                     </div>
                 </div>
-             </div>
+            </div>
             {/* <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 
             </button> */}
 
-             {/* <!-- Modal Unirme a grupo--> */
+            {/* <!-- Modal Unirme a grupo--> */
             /* // <div className="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-2" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
             //     <div className="modal-dialog">
             //         <div className="modal-content">
@@ -290,7 +294,7 @@ export const Private = () => {
             //             </div>
             //         </div>
             //     </div>
-            // </div> */} 
+            // </div> */}
 
 
 

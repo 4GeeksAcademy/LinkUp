@@ -6,7 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			imageURL: "",
 			prepareEmailInvitate: {
 				emailTosend: "",
-				refGroup: null 
+				refGroup: null
 			},
 			groups: [
 
@@ -161,18 +161,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			assignUser: async (member_id) => {
+				console.log({ "member_id": member_id, "user_email": localStorage.getItem('email') });
+
 				try {
-					const resp = await fetch(process.env.BACKEND_URL + "api/assign_user/", {
+					const resp = await fetch(process.env.BACKEND_URL + "api/assign_user", {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
 						},
-						body: JSON.stringify({"member_id": member_id, "user_email": localStorage.getItem('email')}),
+						body: JSON.stringify({ "member_id": member_id, "user_email": localStorage.getItem('email') }),
 					});
 
 					if (!resp.ok) {
 						console.log(resp);
-						throw new Error("Error paying");
+						throw new Error("Error assigning");
 					}
 
 
@@ -268,10 +270,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error: el email no está definido.");
 					return { success: false, message: "Email requerido" };
 				}
-			
+
 				// Obtener el store actual
 				const store = getStore();
-			
+
 				// Actualizar el store con los nuevos datos
 				setStore({
 					...store, // Mantener el estado anterior
@@ -280,7 +282,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						refGroup: idGroup
 					}
 				});
-			
+
 				console.log("Estado actualizado:", getStore().prepareEmailInvitate);
 				return { success: true, message: "Invitación guardada correctamente" };
 			},

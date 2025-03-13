@@ -25,6 +25,7 @@ class User(db.Model):
         return {
             "id": self.id,
             "username": self.username,
+            "email": self.email,
             # do not serialize the password, its a security breach
         }
 
@@ -40,7 +41,7 @@ class Member(db.Model):
     name = db.Column(db.String(100), nullable=False)
     owes = db.Column(db.Float, default=0)
     group_id = db.Column(db.String(15), db.ForeignKey('group.id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    user_email = db.Column(db.String(120), db.ForeignKey('user.email'), nullable=True)
 
 class Expense(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

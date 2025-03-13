@@ -16,7 +16,7 @@ import Swal from 'sweetalert2'
 export const Private = () => {
     //Añado al usuario desde localstore
     const nomusuario = localStorage.getItem("username");
-
+    
 
     const imagenesPredeterminadas = [
         barbacoa,
@@ -35,21 +35,19 @@ export const Private = () => {
     const [listGroups, setListGroups] = useState([])
 
     useEffect(() => {
-        const fetchGroups = async () => {
-            const data = await actions.getGroups();
-
-
-            if (data && data.groups) { // Asegurar que los datos existen antes de actualizarlos
-                setListGroups(data.groups);
-
-
-            }
-        };
-
         fetchGroups();
     }, []);
 
+    const fetchGroups = async () => {
+        const data = await actions.getGroups();
 
+
+        if (data && data.groups) { // Asegurar que los datos existen antes de actualizarlos
+            setListGroups(data.groups);
+
+
+        }
+    };
 
 
     const seleccionarImagen = (imagen) => {
@@ -89,9 +87,20 @@ export const Private = () => {
         createNewGroup(grupoCreado);
     };
 
-    const handleDeleteGroup = (id) => {
-        actions.deleteGroup(id);
-        setListGroups((prevGrupos) => prevGrupos.filter((grupo) => grupo.id !== id));
+    const handleDeleteGroup = (e) => {
+
+        e.membersList.forEach(member => {
+            if (member.user_email === localStorage.getItem('email')) {
+
+                const fetchRemove = async () => {
+                    const data = await actions.removeUserEmail(member.id);
+                    fetchGroups();
+                };
+
+                fetchRemove();
+            }
+
+        });
     };
 
 
@@ -100,9 +109,6 @@ export const Private = () => {
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
             window.location.href = `/group/${fetchedResponse.id}`;
-
-
-
 
         };
         fetchNewGroup();
@@ -141,7 +147,7 @@ export const Private = () => {
                         <BaseListGroups
                             key={datos.id}
                             datos={datos}
-                            onDelete={handleDeleteGroup}
+                            onDelete={() => handleDeleteGroup(datos)}
                         />
                     ))}
                 </div>

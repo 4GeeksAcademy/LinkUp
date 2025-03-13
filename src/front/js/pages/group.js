@@ -9,6 +9,7 @@ import { EditGroup } from "../component/editGroup.js";
 import { Balances } from "../component/balances.js";
 import { Expenses } from "../component/expenses.js";
 import { Calculation } from "../component/calculation.js";
+import { AssignUserModal } from "../component/assignUserModal.js";
 
 export const Group = () => {
     const { store, actions } = useContext(Context);
@@ -19,7 +20,34 @@ export const Group = () => {
     const [groupNotFound, setGroupNotFound] = useState(false);
     const [groupMembers, setGroupMembers] = useState([]);
     const [listGroups, setListGroups] = useState([])
+
+    useEffect(() => {
+        const modalElement = document.getElementById("assignUserModal");
+        if (modalElement) {
+            const modalInstance = new bootstrap.Modal(modalElement);
+            const fetchGroupMembers = async () => {
+                try {
+                    const fetchedGroupMembers = await actions.getGroupMembers(theid);
+                    
+                    let alreadyAssigned = false;
+                    
+                    fetchedGroupMembers.members.forEach(member => {
+                        if (member.user_email === localStorage.getItem('email')) {
+                            alreadyAssigned = true;
+                        }
+                    });
     
+                    if (!alreadyAssigned) modalInstance.show();
+    
+                } catch (error) {
+                    console.error("Error al obtener los miembros del grupo:", error);
+                }
+            };
+            fetchGroupMembers();
+        }
+    }, [group]);
+    
+
     useEffect(() => {
         const fetchGroup = async () => {
             const fetchedGroup = await actions.getGroup(theid);
@@ -67,6 +95,7 @@ export const Group = () => {
                     </button>
                     <NewExpense theid={theid} />
                     <EditGroup theid={theid} />
+                    <AssignUserModal theid={theid} />
                 </>
             ) : ""}
 
@@ -77,7 +106,7 @@ export const Group = () => {
                             {isHidden ? <i className="fa-solid fa-arrow-right"></i> : <i className="fa-solid fa-arrow-left"></i>}
                         </strong>
                     </button>
-                    <div className="d-flex flex-column justify-content-center"  style={{ maxHeight: '100%'}}>
+                    <div className="d-flex flex-column justify-content-center" style={{ maxHeight: '100%' }}>
 
                         <div className="mt-5 pt-3"></div>
                         <h3 className="text-c5 mt-4 group-grouplisttitle mx-5 pb-2">Groups list</h3>

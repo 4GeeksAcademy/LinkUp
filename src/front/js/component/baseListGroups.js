@@ -67,12 +67,14 @@ export const BaseListGroups = ({ datos, onDelete }) => {
                             </div>
                             <div className="d-flex flex-md-column p-2">
                                 <button
-                                    className="btn btn1 text-c5 btn-sm me-2 me-md-0"
+                                    className="btn btn-outline-danger text-danger btn-sm me-2 me-md-0"
                                     onClick={() => onDelete(datos.id)}
                                 >
                                     <i className="fa-solid fa-trash"></i>
                                 </button>
-                                <button className="btn btn2 text-c5 btn-sm mt-md-2">
+
+                                <button type="button" className="btn  btn-outline-primary text-primary btn-sm mt-md-2" data-bs-toggle="modal" data-bs-target={`#inviteModal-${datos.id}`}>
+
                                     <i className="fa-solid fa-share-nodes"></i>
                                 </button>
                             </div>

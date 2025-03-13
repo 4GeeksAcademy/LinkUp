@@ -32,7 +32,8 @@ export const Private = () => {
     const [nuevoIntegrante, setNuevoIntegrante] = useState(""); // Estado para el input de integrante
     const [integrantes, setIntegrantes] = useState([nomusuario]); // Lista de integrantes
     const [imagenSeleccionada, setImagenSeleccionada] = useState();
-    const [listGroups, setListGroups] = useState([])
+    const [listGroups, setListGroups] = useState([]);
+    const [errorMensaje, setErrorMensaje] = useState("");
 
     useEffect(() => {
         fetchGroups();
@@ -73,18 +74,58 @@ export const Private = () => {
         setIntegrantes(integrantes.filter((_, i) => i !== index));
     };
 
+    
+
 
     // Función para crear el grupo (enviar los datos)
     const crearGrupo = () => {
-
-
+        if (!nombreGrupo) {
+            setErrorMensaje("⚠️ Debes ingresar un nombre para el grupo.");
+            return;
+        }
+        if (!imagenSeleccionada) {
+            setErrorMensaje("⚠️ Debes seleccionar una imagen para el grupo.");
+            return;
+        }
+        if (integrantes.length < 2) {
+            setErrorMensaje("⚠️ Debes añadir al menos dos integrantes al grupo.");
+            return;
+        }
+        
         const grupoCreado = {
             name: nombreGrupo,
             iconURL: imagenSeleccionada,
             membersList: integrantes.map(nombre => ({ name: nombre }))
+            
         };
+        // Modal info
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "center",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            setErrorMensaje("");}
+            
+              });
+             Toast.fire({
+            icon: "success",
+            title: "¡Grupo creado correctamente!"
+          });
+          
+        
+
+          
+        
+
+        
+
 
         createNewGroup(grupoCreado);
+        
     };
 
     const handleDeleteGroup = (e) => {
@@ -106,6 +147,10 @@ export const Private = () => {
 
 
     const createNewGroup = (crearGrupo) => {
+        const modal = document.getElementById("CrearGrupoModal");
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide()
+        
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
             window.location.href = `/group/${fetchedResponse.id}`;
@@ -132,7 +177,7 @@ export const Private = () => {
                             <ul className="dropdown-menu dropdown-menu-end bg-c5 text-c1 drp">
                                 <li>
                                     <button type="button" className="btn dropdown-item"
-                                        data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        data-bs-toggle="modal" data-bs-target="#CrearGrupoModal">
                                         Crear un grupo
                                     </button>
                                 </li>
@@ -159,14 +204,14 @@ export const Private = () => {
             </div>
 
             {/* <!-- Modal --> */}
-            <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel">
+            <div className="modal fade" id="CrearGrupoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel">
                 <div className="modal-dialog">
-                    <div className="modal-content">
+                    <div className="modal-content bg-c4">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="staticBackdropLabel">Crear Grupo</h1>
+                            <h1 className="modal-title fs-5 text-c5" id="staticBackdropLabel">Crear Grupo</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body text-white">
                             {/* Input para el nombre del grupo */}
                             <p>Nombre del grupo</p>
 
@@ -175,12 +220,12 @@ export const Private = () => {
                                 className="form-control"
                                 value={nombreGrupo}
                                 onChange={(e) => setNombreGrupo(e.target.value)}
-                                required />
+                                onClick={()=> setErrorMensaje("")}/>
                             <p className="mt-3">Seleccionar imagen de grupo</p>
                             <div className="d-flex flex-wrap gap-2">
                                 {imagenesPredeterminadas.map((img, index) => (
                                     <img key={index} src={img} alt="Grupo"
-                                        className={`img-thumbnail ${imagenSeleccionada === img ? "border border-primary" : ""}`}
+                                        className={`img-thumbnail ${imagenSeleccionada === img ? "border border-danger" : ""}`}
                                         style={{ width: "70px", height: "70px", cursor: "pointer" }}
                                         onClick={() => seleccionarImagen(img)}
                                     />
@@ -195,6 +240,7 @@ export const Private = () => {
                                     placeholder="Nombre del integrante"
                                     value={nuevoIntegrante}
                                     onChange={(e) => setNuevoIntegrante(e.target.value)}
+                                    onClick={() => setErrorMensaje("")}
                                 />
                                 <button className="btn btn-success" onClick={agregarIntegrante}><i className="fa-solid fa-square-check"></i></button>
                             </div>
@@ -210,8 +256,14 @@ export const Private = () => {
                             </ul>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="button" className="btn btn-primary" onClick={crearGrupo} data-bs-dismiss="modal" >Crear Grupo</button>
+                            <button type="button" className="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
+                            
+                            <button type="button" 
+                            className="btn btn-outline-light"
+                             onClick={crearGrupo}
+                              
+                             >Crear Grupo</button>
+                             {errorMensaje && <p className="text-c5 fw-bold mt-2">{errorMensaje}</p>}
                         </div>
                     </div>
                 </div>
@@ -221,7 +273,7 @@ export const Private = () => {
                 
             </button> */}
 
-            // {/* <!-- Modal Unirme a grupo--> */
+             {/* <!-- Modal Unirme a grupo--> */
             /* // <div className="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-2" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
             //     <div className="modal-dialog">
             //         <div className="modal-content">

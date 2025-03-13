@@ -356,4 +356,12 @@ footer {
     outline: none !important;
     box-shadow: none !important;
 }
+.group-detail{
+    max-height: 80vh;
+    overflow-y: auto; 
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.group-detail::-webkit-scrollbar {
+    display: none;}
 

@@ -19,7 +19,7 @@ export const Group = () => {
     const [groupNotFound, setGroupNotFound] = useState(false);
     const [groupMembers, setGroupMembers] = useState([]);
     const [listGroups, setListGroups] = useState([])
-
+    
     useEffect(() => {
         const fetchGroup = async () => {
             const fetchedGroup = await actions.getGroup(theid);

@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useState, useEffect} from "react";
 import {useLocation} from "react-router-dom"
 import { Link } from "react-router-dom";
 import "../../styles/navbar.css";
@@ -7,9 +7,15 @@ import user from "../../img/user.webp";
 import api from './../api';
 
 
+
+
+
 const endSession = async ()=>{
 
 	const token = localStorage.getItem("token")
+	
+	
+	
 
 	await api.get("/logout", { headers: { Authorization: `Bearer ${token}` } })
     .then(response => {
@@ -34,6 +40,21 @@ const endSession = async ()=>{
 }
 
 export const Navbar = () => {
+
+	const [logo, setLogo] = useState(user);
+
+	useEffect(() => {
+        const interval = setInterval(() => {
+            const storedLogo = localStorage.getItem("picture") || user;
+            if (storedLogo !== logo) {
+                setLogo(storedLogo);
+            }
+        }, 1000); // Verifica cada segundo
+
+        return () => clearInterval(interval);
+    }, [logo]);
+
+	
 	const location = useLocation();
 	const hideNavbarOn = ["/"]
 	const handleGoInicio = () => {
@@ -66,7 +87,7 @@ export const Navbar = () => {
 					</ul>
 				</div>
 				<img
-					src={user}
+					src={logo}
 					alt="User Avatar"
 					className="rounded-circle"
 					width="40"

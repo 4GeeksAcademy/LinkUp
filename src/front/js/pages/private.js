@@ -35,7 +35,6 @@ export const Private = () => {
     const [listGroups, setListGroups] = useState([])
 
     useEffect(() => {
-
         fetchGroups();
     }, []);
 
@@ -110,9 +109,6 @@ export const Private = () => {
         const fetchNewGroup = async () => {
             const fetchedResponse = await actions.createGroup(crearGrupo);
             window.location.href = `/group/${fetchedResponse.id}`;
-
-
-
 
         };
         fetchNewGroup();

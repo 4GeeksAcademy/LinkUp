@@ -160,6 +160,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error creating group", error);
 				}
 			},
+			assignUser: async (member_id) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/assign_user/", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({"member_id": member_id, "user_email": localStorage.getItem('email')}),
+					});
+
+					if (!resp.ok) {
+						console.log(resp);
+						throw new Error("Error paying");
+					}
+
+
+					const data = await resp.json();
+					return data;
+				} catch (error) {
+					console.log("Error paying", error);
+				}
+			},
 			payMember: async (payMemberBody, idGroup) => {
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "api/pay/" + idGroup, {

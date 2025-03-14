@@ -93,7 +93,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(data);
 					data.members.forEach(member => {
 						if (youName === member.name) {
-							getActions().assignUser(member.id);
+							const assignMemberGroup = async () => {
+								const fetchedResponse = await getActions().assignUser(member.id);
+								console.log(fetchedResponse);
+
+							};
+							assignMemberGroup();
 						}
 					});
 					return data;
@@ -281,7 +286,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error: el email no está definido.");
 					return { success: false, message: "Email requerido" };
 				}
-			
+
 				try {
 					const response = await fetch(process.env.BACKEND_URL + "api/send_email", {
 						method: "POST",
@@ -294,23 +299,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 							group_id: idGroup
 						})
 					});
-			
+
 					const data = await response.json();
-			
+
 					if (!response.ok) {
 						console.error("Error al enviar la invitación:", data.error);
 						return { success: false, message: data.error };
 					}
-			
+
 					console.log("Invitación enviada correctamente:", data);
 					return { success: true, message: "Invitación enviada correctamente" };
-			
+
 				} catch (error) {
 					console.error("Error en la solicitud:", error);
 					return { success: false, message: "Error en la solicitud" };
 				}
 			},
-			
+
 
 		}
 	};

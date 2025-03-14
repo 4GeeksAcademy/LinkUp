@@ -752,7 +752,7 @@ def send_email():
         print(dir(resend.emails))
         params: resend.Emails.SendParams = {
             "from": "LinkUp <linkup@resend.dev>",
-            "to": ["rzmsdo@gmail.com"],
+            "to": [email],
             "subject": "Invitación a unirse al grupo",
             "html": f"""
                 <p>Hola,</p>

@@ -20,7 +20,7 @@ export const Profile = () => {
   return (
     <div className="body-profile">
       <div className="container mt-5" id="profile-container">
-        <div className="row">
+        <div className="row shadow">
           <div className="col-md-4 d-flex justify-content-end foto position-relative">
             <input
               type="file"
@@ -30,23 +30,12 @@ export const Profile = () => {
               onChange={handleImageChange}
             />
             <img
-              src={image}
-              alt="Foto de perfil"
-              className="img-fluid rounded-circle border"
-              style={{ width: "200px", height: "200px", objectFit: "cover" }}
+            src={user}
+            alt="Foto de perfil"
+            className="img-fluid rounded-circle border"
+            style={{ width: "200px", height: "200px", objectFit: "cover" }}
             />
-            <i
-              className="fa-solid fa-pen-to-square position-absolute bg-white p-2 rounded-circle shadow"
-              style={{
-                top: "10px",
-                right: "10px",
-                fontSize: "1.2rem",
-                cursor: "pointer",
-                color: "#333"
-              }}
-              onClick={() => document.getElementById("fileInput").click()}
-            ></i>
-          </div>
+        </div>
 
           <div className="col-md-8">
             <div className="card p-4 shadow-sm" id="perfil-container">

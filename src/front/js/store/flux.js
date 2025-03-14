@@ -265,28 +265,45 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return store.groups;
 			},
 
-			inviteUser: (email, idGroup) => {
+			inviteUser: async (email, idGroup) => {
+				const token = localStorage.getItem("token");
+				console.log("Token actual:", token);
+
+
 				if (!email) {
 					console.error("Error: el email no está definido.");
 					return { success: false, message: "Email requerido" };
 				}
-
-				// Obtener el store actual
-				const store = getStore();
-
-				// Actualizar el store con los nuevos datos
-				setStore({
-					...store, // Mantener el estado anterior
-					prepareEmailInvitate: {
-						emailTosend: email,  // 📌 Aquí ya usamos el email recibido
-						refGroup: idGroup
+			
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "api/send_email", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${token}` // JWT para autenticación
+						},
+						body: JSON.stringify({
+							email: email,
+							group_id: idGroup
+						})
+					});
+			
+					const data = await response.json();
+			
+					if (!response.ok) {
+						console.error("Error al enviar la invitación:", data.error);
+						return { success: false, message: data.error };
 					}
-				});
-
-				console.log("Estado actualizado:", getStore().prepareEmailInvitate);
-				return { success: true, message: "Invitación guardada correctamente" };
+			
+					console.log("Invitación enviada correctamente:", data);
+					return { success: true, message: "Invitación enviada correctamente" };
+			
+				} catch (error) {
+					console.error("Error en la solicitud:", error);
+					return { success: false, message: "Error en la solicitud" };
+				}
 			},
-
+			
 
 		}
 	};

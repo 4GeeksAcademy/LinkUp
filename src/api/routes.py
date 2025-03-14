@@ -135,6 +135,10 @@ def acceso_usuario():
                      "avatar": user_avatar}), 200
 
 
+@api.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    return jsonify([user.serialize() for user in users]), 200
 
 # registro a traves de Google
 @api.route('/signup_google', methods=['POST'])
@@ -294,7 +298,7 @@ def create_group():
 
     if not name:
         return jsonify({"message": "Group name is required"}), 400
-    if not membersList or len(membersList) <= 2:
+    if not membersList or len(membersList) <= 1:
         return jsonify({"message": "A group must have at least two members"}), 400
 
     group_id = generate_group_id()
@@ -304,7 +308,7 @@ def create_group():
 
         
     for member_data in membersList:
-        member = Member(name=member_data['name'], group=group)
+        member = Member(name=member_data['name'], group=group, user_email=None)
         db.session.add(member)
 
     db.session.add(group)
@@ -393,7 +397,7 @@ def get_members(idgroup):
     if not group:
         return jsonify({"message": "Group not found"}), 404
     members = group.membersList
-    members_data = [{"id": member.id, "name": member.name, "owes": member.owes} for member in members]
+    members_data = [{"id": member.id, "name": member.name, "owes": member.owes, "user_email": member.user_email} for member in members]
     
     return jsonify({"members": members_data})
 
@@ -628,3 +632,72 @@ def pay_member(group_id):
     return jsonify({
         "message": f"Updated owes for {whoPays} and {toWho}"
     }), 200
+
+@api.route('/assign_user', methods=['POST'])
+def assign_user_to_member():
+    data = request.get_json()
+    user_email = data.get('user_email')
+    member_id = data.get('member_id')
+    
+    if not user_email or not member_id:
+        return jsonify({"error": "Se requieren user_email y member_id"}), 400
+    
+    user = User.query.filter_by(email=user_email).first()  # Cambiar aquí
+    member = Member.query.get(member_id)
+    
+    if not user:
+        return jsonify({"error": "Usuario no encontrado"}), 404
+    if not member:
+        return jsonify({"error": "Miembro no encontrado"}), 404
+    
+    member.user_email = user.email
+    db.session.commit()
+    
+    return jsonify({"message": "Usuario asignado correctamente al miembro"})
+
+
+
+@api.route('/user_groups/<string:user_email>', methods=['GET'])
+def get_user_groups(user_email):
+    members = Member.query.filter_by(user_email=user_email).all()
+    
+    if not members:
+        return jsonify({"error": "El usuario aun no pertenece a ningún grupo"}), 404
+    
+    group_ids = {member.group_id for member in members}
+    groups = Group.query.filter(Group.id.in_(group_ids)).all()
+    
+    groups_list = []
+
+    for group in groups:
+        members = group.membersList
+        members_data = [{"name": member.name, "owes": member.owes, "user_email": member.user_email, "id": member.id} for member in members]
+
+        groups_list.append({
+            "name": group.name,
+            "id": group.id,
+            "iconURL":group.iconURL,
+
+            "membersList": members_data,
+
+            })
+
+    print("retorno desde getGroups", groups_list)
+    return jsonify({"groups": groups_list})
+
+
+@api.route('/remove_user_email/<int:member_id>', methods=['DELETE'])
+def remove_user_email_from_member(member_id):
+    # Buscar el miembro por su ID
+    member = Member.query.get(member_id)
+    
+    if not member:
+        return jsonify({"error": "Miembro no encontrado"}), 404
+    
+    # Eliminar el email (ponerlo a None)
+    member.user_email = None
+    
+    # Confirmar los cambios en la base de datos
+    db.session.commit()
+    
+    return jsonify({"message": "Correo electrónico del miembro eliminado correctamente"})

@@ -4,6 +4,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			imageURL: "",
+			prepareEmailInvitate: {
+				emailTosend: "",
+				refGroup: null
+			},
 			groups: [
 
 			],
@@ -91,9 +95,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			getGroups: async () => {
-
 				try {
-					const resp = await fetch(process.env.BACKEND_URL + "api/completGroups")
+					const resp = await fetch(process.env.BACKEND_URL + "api/user_groups/" + localStorage.getItem('email'))
 
 					const data = await resp.json()
 					console.log(data);
@@ -119,6 +122,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error deleting group", error);
 				}
 			},
+			removeUserEmail: async (idMember) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/remove_user_email/" + idMember, {
+						method: "DELETE",
+					});
+
+					if (!resp.ok) {
+						throw new Error("Error removing email");
+					}
+
+					const data = await resp.json();
+					return data;
+				} catch (error) {
+					console.log("Error removing email", error);
+				}
+			},
 			createExpense: async (expenseBody, idGroup) => {
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "api/expenses/" + idGroup, {
@@ -139,6 +158,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return data;
 				} catch (error) {
 					console.log("Error creating group", error);
+				}
+			},
+			assignUser: async (member_id) => {
+				console.log({ "member_id": member_id, "user_email": localStorage.getItem('email') });
+
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "api/assign_user", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ "member_id": member_id, "user_email": localStorage.getItem('email') }),
+					});
+
+					if (!resp.ok) {
+						console.log(resp);
+						throw new Error("Error assigning");
+					}
+
+
+					const data = await resp.json();
+					return data;
+				} catch (error) {
+					console.log("Error paying", error);
 				}
 			},
 			payMember: async (payMemberBody, idGroup) => {
@@ -220,6 +263,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 			postGroup: () => {
 				const store = getStore();
 				return store.groups;
+			},
+
+			inviteUser: (email, idGroup) => {
+				if (!email) {
+					console.error("Error: el email no está definido.");
+					return { success: false, message: "Email requerido" };
+				}
+
+				// Obtener el store actual
+				const store = getStore();
+
+				// Actualizar el store con los nuevos datos
+				setStore({
+					...store, // Mantener el estado anterior
+					prepareEmailInvitate: {
+						emailTosend: email,  // 📌 Aquí ya usamos el email recibido
+						refGroup: idGroup
+					}
+				});
+
+				console.log("Estado actualizado:", getStore().prepareEmailInvitate);
+				return { success: true, message: "Invitación guardada correctamente" };
 			},
 
 

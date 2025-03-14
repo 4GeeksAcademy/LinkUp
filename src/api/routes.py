@@ -11,6 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 import math
 from sqlalchemy.exc import IntegrityError
 
+
 from flask import Flask, request, jsonify, redirect, url_for, session, Blueprint, abort
 from authlib.integrations.flask_client import OAuth
 from api.models import db, User, Group, Expense, Member, Balance
@@ -20,6 +21,7 @@ from dotenv import load_dotenv
 from functools import wraps
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
+
 import cloudinary
 import cloudinary.uploader
 
@@ -47,6 +49,13 @@ cloudinary.config(
   api_secret = "UxfxJAEz1XMsStkRMgIzUq810Ps",
   secure=True
 )
+
+#Key api envio emails
+
+print("a ver que llega: ", os.environ.get('RESEND_KEY')) 
+resend.api_key = os.getenv("RESEND_KEY")
+ 
+
 
 def generate_group_id():
     while True:
@@ -719,4 +728,46 @@ def remove_user_email_from_member(member_id):
 
 #     r = resend.Emails.send(params)
 #     return jsonify(r)
+
+
+@api.route('/send_email', methods=['POST'])
+
+def send_email():
+    try:
+        data = request.get_json()
+
+        email = data.get("email")
+        group_id = data.get("group_id")
+
+        if not email or not group_id:
+            return jsonify({"error": "Email y Group ID son requeridos"}), 400
+
+       
+
+        # Crear el enlace de invitación
+        group_link = f"https://cautious-chainsaw-rj44xx4w449f5wxg-3000.app.github.dev/group/{group_id}"
+        print(group_link)
+        
+        # Enviar el email con Resend
+        print(dir(resend.emails))
+        params: resend.Emails.SendParams = {
+            "from": "LinkUp <linkup@resend.dev>",
+            "to": ["rzmsdo@gmail.com"],
+            "subject": "Invitación a unirse al grupo",
+            "html": f"""
+                <p>Hola,</p>
+                <p>Te han invitado a un grupo en nuestra aplicación. Haz clic en el siguiente enlace para unirte:</p>
+                <p><a href="{group_link}" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Unirme al grupo</a></p>
+            """
+        }
+        email = resend.Emails.send(params)
+        print(email)
+        if "error" in params:
+            return jsonify({"error": response["error"]}), 500
+
+
+        return jsonify({"msg": "Email enviado con éxito"}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 

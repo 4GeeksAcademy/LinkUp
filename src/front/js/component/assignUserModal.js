@@ -37,6 +37,7 @@ export const AssignUserModal = ({ theid }) => {
                 console.log(response);
 
                 window.location.href = `/group/` + theid;
+
             } catch (error) {
                 console.error("Error al asignar el miembro:", error);
             }

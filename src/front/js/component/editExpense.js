@@ -52,7 +52,7 @@ export const EditExpense = ({ expenseid, onDeleteExpense }) => {
                                     width="40"
                                     height="40"
                                 />*/}
-                                <h4 className="text-light m-0"><i className="fa-solid fa-user pe-2 text-light"></i>{expense?.paidFor || "Desconocido"} </h4>
+                                <h4 className="text-light m-0"><i className="fa-solid fa-user pe-2 text-light"></i>{expense?.paidFor === store.actualGroupMemberName ? expense?.paidFor + " (yo)" : expense?.paidFor || "Desconocido"} </h4>
                             </div>
                             <h4 className="text-light mt-3 text-center">{expense?.amount || "0"} €</h4>
                         </div>
@@ -65,7 +65,7 @@ export const EditExpense = ({ expenseid, onDeleteExpense }) => {
                                 <div key={index} className="border-bottom border-2 d-flex align-items-center justify-content-between px-3 mb-1">
                                     <div className="d-flex align-items-center p-2 rounded">
                                         <i className="fa-solid fa-user pe-2 text-light"></i>
-                                        <h5 className="text-light m-0">{name || "Desconocido"}</h5>
+                                        <h5 className="text-light m-0">{name === store.actualGroupMemberName ? name + " (yo)" : name || "Desconocido"}</h5>
                                     </div>
                                     <h5 className="text-light mt-3 text-center">{amount} €</h5>
                                 </div>

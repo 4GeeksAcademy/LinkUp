@@ -80,7 +80,7 @@ export const Calculation = ({ theid, onChangeView }) => {
                     transactions.map((transaction, index) => (
                         <div className="border-bottom border-2 pt-2 flex-column pb-3" key={index}>
                             <p className="text-light">
-                                <strong>{transaction.whoPays}</strong> debe <strong className="text-c5">{transaction.amount}</strong> € a <strong>{transaction.toWho}</strong>
+                                <strong>{transaction.whoPays === store.actualGroupMemberName ? transaction.whoPays + " (yo)" : transaction.whoPays}</strong> debe <strong className="text-c5">{transaction.amount}</strong> € a <strong>{transaction.toWho === store.actualGroupMemberName ? transaction.toWho + " (yo)" : transaction.toWho}</strong>
                             </p>
                             <div className="btn-group" role="group">
                                 <button type="button" className="btn btn-light" onClick={() => handleMarkAsPaid(transaction)}>Marcar como pagado</button>

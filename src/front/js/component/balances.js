@@ -12,6 +12,7 @@ export const Balances = ({ theid, onChangeView }) => {
         const fetchGroup = async () => {
             try {
                 const fetchedGroupMembers = await actions.getGroupMembers(theid);
+                
                 setGroupMembers(fetchedGroupMembers.members);
             } catch (error) {
                 console.error("Error al obtener los miembros del grupo:", error);
@@ -43,7 +44,7 @@ export const Balances = ({ theid, onChangeView }) => {
                         >
                             <div className="d-flex align-items-center rounded">
                                 <i className="fa-solid fa-user pe-2 text-light"></i>
-                                <h5 className="text-light m-0">{member.name || "Desconocido"}</h5>
+                                <h5 className="text-light m-0">{member.user_email === localStorage.getItem('email') ? member.name + " (yo)" : member.name || "Desconocido"}</h5>
                             </div>
                             <h5 className={`mt-3 text-center ${member.owes < 0 ? "text-danger" : "text-c5"}`}>
                                 {member.owes !== undefined ? `${member.owes} €` : "0 €"}

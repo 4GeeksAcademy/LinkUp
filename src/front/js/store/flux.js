@@ -14,7 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			actualGroup: [
 
 			],
-
+			actualGroupMemberName: "",
 
 		},
 		actions: {

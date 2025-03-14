@@ -12,3 +12,24 @@
             var(--color-c2),
             var(--color-c1));
 }
+
+#perfil-container {
+    border: 3px solid #212529;
+    margin-left: 50px;
+    background: var(--color-c3);
+}
+
+#perfil-container h5 {
+    color: var(--color-c5);
+}
+
+#perfil-container input {
+    /* Poner estilos para los inputs */
+}
+
+.save {
+    border: none;
+    border-radius: 5px;
+    background: var(--color-c5);
+    padding: 5px 20px;
+}

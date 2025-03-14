@@ -3,12 +3,14 @@
 .login{
     height: 100vh;
     width: 100%;
+    overflow: hidden;
     background: linear-gradient(210deg, var(--color-c4), var(--color-c1));
     color: white;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .formLogin{

@@ -22,6 +22,9 @@
     scrollbar-width: none; 
     -ms-overflow-style: none;
     overflow:hidden;
+    position: absolute;
+    top: 70px;
+    width: 100%;
     
 }
 .group::-webkit-scrollbar {

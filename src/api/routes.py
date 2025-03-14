@@ -6,7 +6,7 @@ import os
 import random
 import string
 import uuid
-import resend
+#import resend
 from flask_sqlalchemy import SQLAlchemy
 import math
 from sqlalchemy.exc import IntegrityError
@@ -324,7 +324,13 @@ def create_group():
     db.session.add(group)
     db.session.commit()
 
-    return jsonify({"message": "Group created successfully", "id": group_id}), 201
+    group = Group.query.get(group_id)
+    if not group:
+        return jsonify({"message": "Group not found"}), 404
+    members = group.membersList
+    members_data = [{"id": member.id, "name": member.name} for member in members]
+
+    return jsonify({"message": "Group created successfully", "id": group_id, "members": members_data}), 201
 
 
 
@@ -670,14 +676,14 @@ def assign_user_to_member():
 @api.route('/user_groups/<string:user_email>', methods=['GET'])
 def get_user_groups(user_email):
     members = Member.query.filter_by(user_email=user_email).all()
+    groups_list = []
     
     if not members:
-        return jsonify({"error": "El usuario aun no pertenece a ningún grupo"}), 404
+        return jsonify({"groups": groups_list})
     
     group_ids = {member.group_id for member in members}
     groups = Group.query.filter(Group.id.in_(group_ids)).all()
     
-    groups_list = []
 
     for group in groups:
         members = group.membersList
@@ -698,16 +704,11 @@ def get_user_groups(user_email):
 
 @api.route('/remove_user_email/<int:member_id>', methods=['DELETE'])
 def remove_user_email_from_member(member_id):
-    # Buscar el miembro por su ID
     member = Member.query.get(member_id)
     
     if not member:
         return jsonify({"error": "Miembro no encontrado"}), 404
-    
-    # Eliminar el email (ponerlo a None)
     member.user_email = None
-    
-    # Confirmar los cambios en la base de datos
     db.session.commit()
     
     return jsonify({"message": "Correo electrónico del miembro eliminado correctamente"})

@@ -6,6 +6,7 @@ import os
 import random
 import string
 import uuid
+import resend
 from flask_sqlalchemy import SQLAlchemy
 import math
 from sqlalchemy.exc import IntegrityError
@@ -314,7 +315,13 @@ def create_group():
     db.session.add(group)
     db.session.commit()
 
-    return jsonify({"message": "Group created successfully", "id": group_id}), 201
+    group = Group.query.get(group_id)
+    if not group:
+        return jsonify({"message": "Group not found"}), 404
+    members = group.membersList
+    members_data = [{"id": member.id, "name": member.name} for member in members]
+
+    return jsonify({"message": "Group created successfully", "id": group_id, "members": members_data}), 201
 
 
 
@@ -660,14 +667,14 @@ def assign_user_to_member():
 @api.route('/user_groups/<string:user_email>', methods=['GET'])
 def get_user_groups(user_email):
     members = Member.query.filter_by(user_email=user_email).all()
+    groups_list = []
     
     if not members:
-        return jsonify({"error": "El usuario aun no pertenece a ningún grupo"}), 404
+        return jsonify({"groups": groups_list})
     
     group_ids = {member.group_id for member in members}
     groups = Group.query.filter(Group.id.in_(group_ids)).all()
     
-    groups_list = []
 
     for group in groups:
         members = group.membersList
@@ -701,3 +708,20 @@ def remove_user_email_from_member(member_id):
     db.session.commit()
     
     return jsonify({"message": "Correo electrónico del miembro eliminado correctamente"})
+
+
+# #enviar email cuando se solicita pago
+# @api.route('/send_email/<path:email>', methods=['POST'])
+# def send_email(email):
+    
+
+#     params: resend.Emails.SendParams = {
+#         "from": "Acme <onboarding@resend.dev>",
+#         "to": email,
+#         "subject": "hello world",
+#         "html": "<strong>it works!</strong>",
+#     }
+
+#     r = resend.Emails.send(params)
+#     return jsonify(r)
+

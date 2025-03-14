@@ -1,8 +1,8 @@
 .group-detail {
     width: auto;
     min-width: 300px;
-    height: auto;
-    min-height: 600px;
+    height: 100%;
+    min-height: 550px;
 
     border-radius: 25px;
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);

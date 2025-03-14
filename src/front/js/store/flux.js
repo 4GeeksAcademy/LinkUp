@@ -71,7 +71,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error deleting expense", error);
 				}
 			},
-			createGroup: async (groupBody) => {
+			createGroup: async (groupBody, youName) => {
+
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "api/groups", {
 						method: "POST",
@@ -89,6 +90,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await resp.json();
+					console.log(data);
+					data.members.forEach(member => {
+						if (youName === member.name) {
+							getActions().assignUser(member.id);
+						}
+					});
 					return data;
 				} catch (error) {
 					console.log("Error creating group", error);

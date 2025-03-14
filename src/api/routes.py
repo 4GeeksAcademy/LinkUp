@@ -6,7 +6,7 @@ import os
 import random
 import string
 import uuid
-#import resend
+import resend
 from flask_sqlalchemy import SQLAlchemy
 import math
 from sqlalchemy.exc import IntegrityError

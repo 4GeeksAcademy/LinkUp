@@ -164,7 +164,7 @@ export const Private = () => {
     };
 
     return (
-        <div className="container-fluid d-flex justify-content-between">
+        <div className="container-fluid d-flex justify-content-between body-private">
             {/* primer cuerpo */}
             <div className="barlat bg-c3 d-block col-12 col-md-4 col-lg-3 ms-3 p-0 align-items-center ">
                 {/* encabezado */}

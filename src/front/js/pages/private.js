@@ -10,7 +10,7 @@ import fiesta from "../../img/fiesta.jpg";
 import viaje from "../../img/viaje.jpg";
 import vacaciones from "../../img/vacaciones.jpg";
 import { UploadFoto } from "../component/upLoadFoto";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 
 export const Private = () => {

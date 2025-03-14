@@ -41,12 +41,13 @@ footer {
 
     top: 0;
     z-index: 1;
+    overflow: auto;
 
     width: 100%;
-    height: 150vh;
+    height: 400vh;
     background-color: #0a0a0a;
     background:
-        radial-gradient(ellipse 80% 80% at 50% -20%,
+        radial-gradient(ellipse 100% 60% at 50% -30%,
             var(--color-c2),
             var(--color-c1));
     display: flex;
@@ -167,6 +168,44 @@ footer {
     object-fit: contain;
 }
 
+/* Estilos para el separador */
+
+.separador {
+    width: 100%;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.separador h2 {
+    color: white;
+    font-size: 2.3em;
+}
+
+.gestionar {
+    width: 100%;
+    height: 100vh;
+    border: 1px solid red;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.gestionar .ges-img {
+    width: 100%;
+    height: 50%;
+    border: 2px solid blue;
+}
+
+.gestionar .ges-info {
+    width: 100%;
+    height: 50%;
+    border: 2px solid blue; 
+}
+
 @media screen and (min-width: 768px) {
 
     .main {
@@ -262,6 +301,10 @@ footer {
 @media screen and (min-width: 1440px) {
 
     .main {
+        background:
+        radial-gradient(ellipse 100% 60% at 50% -30%,
+            var(--color-c2),
+            var(--color-c1));
         justify-content: center;
         align-items: center;
     }
@@ -362,6 +405,7 @@ footer {
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
+
 .group-detail::-webkit-scrollbar {
     display: none;}
 

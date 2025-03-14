@@ -33,7 +33,7 @@ export const Profile = () => {
               src={image}
               alt="Foto de perfil"
               className="img-fluid rounded-circle border"
-              style={{ width: "200px", height: "200px", objectFit: "cover" }}
+              style={{ width: "150px", height: "150px", objectFit: "cover", marginRight: "20px" }}
             />
             <i
               className="fa-solid fa-pen-to-square position-absolute bg-white p-2 rounded-circle shadow"
@@ -48,26 +48,23 @@ export const Profile = () => {
             ></i>
           </div>
 
-          <div className="col-md-8">
-            <div className="card p-4 shadow-sm" id="perfil-container">
-              <h5 className="mb-3">Información acerca del perfil</h5>
-              <form>
-                <div className="mb-3">
-                  <label className="form-label">Username</label>
-                  <input type="text" className="form-control" />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Email</label>
-                  <input type="email" className="form-control" />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Apodo</label>
-                  <input type="text" className="form-control" />
-                </div>
-                <div className="d-flex justify-content-end">
-                  <button type="submit" className="save">Guardar cambios</button>
-                </div>
-              </form>
+          <div className="col-md-8 form">
+            <h5>Información acerca del perfil</h5>
+            <div className="input-user">
+              <input type="text" required autocomplete="off" /><label for="text">Username</label>
+              <div className="underline"></div>
+            </div>
+            <div className="input-user">
+              <input type="email" required autocomplete="off" /><label for="text">Email</label>
+              <div className="underline"></div>
+            </div>
+            <div className="input-user">
+              <input type="text" required autocomplete="off" /><label for="text">Apodo</label>
+              <div className="underline"></div>
+            </div>
+
+            <div className="value">
+              <input type="submit" className="save" value="Guardar Cambios" />
             </div>
           </div>
         </div>

@@ -38,6 +38,19 @@ export const Home = () => {
                     <img src={mobile} alt="Imagen de tarjetas" />
                 </div>
             </article>
+
+            <div className="separador">
+                <h2>Así de fácil es</h2>
+            </div>
+
+            <div className="gestionar">
+                <div className="ges-img">
+
+                </div>
+                <div className="ges-info">
+
+                </div>
+            </div>
         </main>
     );
 };

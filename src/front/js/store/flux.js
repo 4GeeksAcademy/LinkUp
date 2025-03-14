@@ -14,7 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			actualGroup: [
 
 			],
-
+			actualGroupMemberName: "",
 
 		},
 		actions: {
@@ -71,7 +71,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error deleting expense", error);
 				}
 			},
-			createGroup: async (groupBody) => {
+			createGroup: async (groupBody, youName) => {
+
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "api/groups", {
 						method: "POST",
@@ -89,6 +90,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await resp.json();
+					console.log(data);
+					data.members.forEach(member => {
+						if (youName === member.name) {
+							const assignMemberGroup = async () => {
+								const fetchedResponse = await getActions().assignUser(member.id);
+								console.log(fetchedResponse);
+
+							};
+							assignMemberGroup();
+						}
+					});
 					return data;
 				} catch (error) {
 					console.log("Error creating group", error);
@@ -265,26 +277,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 				return store.groups;
 			},
 
-			inviteUser: (email, idGroup) => {
+			inviteUser: async (email, idGroup) => {
+				const token = localStorage.getItem("token");
+				console.log("Token actual:", token);
+
+
 				if (!email) {
 					console.error("Error: el email no está definido.");
 					return { success: false, message: "Email requerido" };
 				}
 
-				// Obtener el store actual
-				const store = getStore();
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "api/send_email", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${token}` // JWT para autenticación
+						},
+						body: JSON.stringify({
+							email: email,
+							group_id: idGroup
+						})
+					});
 
-				// Actualizar el store con los nuevos datos
-				setStore({
-					...store, // Mantener el estado anterior
-					prepareEmailInvitate: {
-						emailTosend: email,  // 📌 Aquí ya usamos el email recibido
-						refGroup: idGroup
+					const data = await response.json();
+
+					if (!response.ok) {
+						console.error("Error al enviar la invitación:", data.error);
+						return { success: false, message: data.error };
 					}
-				});
 
-				console.log("Estado actualizado:", getStore().prepareEmailInvitate);
-				return { success: true, message: "Invitación guardada correctamente" };
+					console.log("Invitación enviada correctamente:", data);
+					return { success: true, message: "Invitación enviada correctamente" };
+
+				} catch (error) {
+					console.error("Error en la solicitud:", error);
+					return { success: false, message: "Error en la solicitud" };
+				}
 			},
 
 

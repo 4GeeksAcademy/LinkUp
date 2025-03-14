@@ -1,5 +1,5 @@
-import React ,{useState, useEffect} from "react";
-import {useLocation} from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom"
 import { Link } from "react-router-dom";
 import "../../styles/navbar.css";
 import "../../styles/private.css";
@@ -11,25 +11,26 @@ import api from './../api';
 
 
 
-const endSession = async ()=>{
+const endSession = async () => {
 
 	const token = localStorage.getItem("token")
-	
-	
-	
+	const nomUsuario = localStorage.getItem("usename")
+
+
+
 
 	await api.get("/logout", { headers: { Authorization: `Bearer ${token}` } })
-    .then(response => {
-        console.log("Datos obtenidos correctamente:", response.data);
-    
-            // Si el backend indica que el usuario no está autorizado, eliminar datos
-            localStorage.removeItem("username");
+		.then(response => {
+			console.log("Datos obtenidos correctamente:", response.data);
+
+			// Si el backend indica que el usuario no está autorizado, eliminar datos
+			localStorage.removeItem("username");
 			localStorage.removeItem("email");
 			localStorage.removeItem("picture");
-            localStorage.removeItem("token");
-            window.location.href = "/login"; // Redirigir al usuario al login
-        })
-    	.catch(error => {
+			localStorage.removeItem("token");
+			window.location.href = "/login"; // Redirigir al usuario al login
+		})
+		.catch(error => {
 			console.error("Error al cerrar sesión:", error);
 			// Asegurar que, incluso con error, se borren los datos
 			localStorage.removeItem("username");
@@ -37,30 +38,32 @@ const endSession = async ()=>{
 			localStorage.removeItem("picture");
 			localStorage.removeItem("token");
 			window.location.href = "/login";
-	});
+		});
 }
 
 export const Navbar = () => {
 
 	const [logo, setLogo] = useState(user);
+	const desconocido = "desconocido";
+	const nomUsuario = localStorage.getItem("username") || desconocido;
 
 	useEffect(() => {
-        const interval = setInterval(() => {
-            const storedLogo = localStorage.getItem("picture") || user;
-            if (storedLogo !== logo) {
-                setLogo(storedLogo);
-            }
-        }, 1000); // Verifica cada segundo
+		const interval = setInterval(() => {
+			const storedLogo = localStorage.getItem("picture") || user;
+			if (storedLogo !== logo) {
+				setLogo(storedLogo);
+			}
+		}, 1000); // Verifica cada segundo
 
-        return () => clearInterval(interval);
-    }, [logo]);
+		return () => clearInterval(interval);
+	}, [logo]);
 
-	
+
 	const location = useLocation();
 	const hideNavbarOn = ["/"]
 	const handleGoInicio = () => {
-        window.location.href = `/`;
-    };
+		window.location.href = `/`;
+	};
 	return (
 		<nav id="navbar" className={`navbar navbar-expand-lg px-4 text-white ${hideNavbarOn.includes(location.pathname) ? "hidden" : ""}`}>
 			<a className="btn d-flex align-items-center" onClick={handleGoInicio}>
@@ -75,9 +78,10 @@ export const Navbar = () => {
 			</a>
 			<div className="ms-auto d-flex align-items-center">
 				<div className="dropdown">
-					<a className="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
-						Hi, Usuario
+					<a className="btn dropdown-toggle text-white text-decoration-underline" data-bs-toggle="dropdown" aria-expanded="false">
+						Hi, {nomUsuario}
 					</a>
+
 					<ul className="dropdown-menu">
 						<li>
 							<a className="dropdown-item" href="/profile">Perfil</a>

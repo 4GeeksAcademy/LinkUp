@@ -203,7 +203,7 @@ export const NewExpense = ({ theid }) => {
                                             onChange={handleChange}
                                         >
                                             {membersList.map((person) => (
-                                                <option value={person.name} key={person.name}>{person.name}</option>
+                                                <option value={person.name} key={person.name}>{person.user_email === localStorage.getItem('email') ? person.name + " (yo)" : person.name}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -244,7 +244,7 @@ export const NewExpense = ({ theid }) => {
                                                 onChange={() => handleCheckboxChange(person.name.toLowerCase())}
                                             />
                                         </div>
-                                        <span className="input-group-text flex-grow-1">{person.name.charAt(0).toUpperCase() + person.name.slice(1)}</span>
+                                        <span className="input-group-text flex-grow-1">{person.user_email === localStorage.getItem('email') ? person.name.charAt(0).toUpperCase() + person.name.slice(1) + " (yo)" : person.name.charAt(0).toUpperCase() + person.name.slice(1)}</span>
                                         <span className="input-group-text">{calculatePrice(person.name)}€</span>
                                     </div>
                                 ))}

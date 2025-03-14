@@ -52,7 +52,7 @@ export const EditExpense = ({ expenseid, onDeleteExpense }) => {
                                     width="40"
                                     height="40"
                                 />*/}
-                                <h4 className="text-light m-0"><i className="fa-solid fa-user pe-2 text-light"></i>{expense?.paidFor === store.actualGroupMemberName ? expense?.paidFor + " (yo)" : expense?.paidFor || "Desconocido"} </h4>
+                                <h5 className="text-light m-0"><i className="fa-solid fa-user pe-2 text-light"></i>{expense?.paidFor === store.actualGroupMemberName ? expense?.paidFor + " (yo)" : expense?.paidFor || "Desconocido"} </h5>
                             </div>
                             <h4 className="text-light mt-3 text-center">{expense?.amount || "0"} €</h4>
                         </div>

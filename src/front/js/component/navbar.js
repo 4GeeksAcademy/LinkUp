@@ -13,6 +13,7 @@ import api from './../api';
 const endSession = async ()=>{
 
 	const token = localStorage.getItem("token")
+	const nomUsuario = localStorage.getItem("usename")
 	
 	
 	
@@ -42,6 +43,8 @@ const endSession = async ()=>{
 export const Navbar = () => {
 
 	const [logo, setLogo] = useState(user);
+	const desconocido= "desconocido";
+	const nomUsuario = localStorage.getItem("username") || desconocido;
 
 	useEffect(() => {
         const interval = setInterval(() => {
@@ -75,7 +78,7 @@ export const Navbar = () => {
 			<div className="ms-auto d-flex align-items-center">
 				<div className="dropdown">
 					<a className="btn dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
-						Hi, Usuario
+						Usuario: {nomUsuario}
 					</a>
 					<ul className="dropdown-menu">
 						<li>

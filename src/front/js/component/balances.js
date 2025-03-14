@@ -46,11 +46,12 @@ export const Balances = ({ theid, onChangeView }) => {
                                 <i className="fa-solid fa-user pe-2 text-light"></i>
                                 <h5 className="text-light m-0">{member.user_email === localStorage.getItem('email') ? member.name + " (yo)" : member.name || "Desconocido"}</h5>
                             </div>
-                            <h5 className={`mt-3 text-center ${member.owes < 0 ? "text-danger" : "text-c5"}`}>
+                            <h5 className={`mt-3 text-center ${member.owes < 0 ? "text-danger" : member.owes != 0 ? "text-success" : "text-c5"}`}>
                                 {member.owes !== undefined ? `${member.owes} €` : "0 €"}
                             </h5>
                         </div>
                     ))
+                    
                 ) : (
                     <p className="text-light">Cargando balances...</p>
                 )}

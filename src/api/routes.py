@@ -6,6 +6,7 @@ import os
 import random
 import string
 import uuid
+import resend
 from flask_sqlalchemy import SQLAlchemy
 import math
 from sqlalchemy.exc import IntegrityError
@@ -707,3 +708,20 @@ def remove_user_email_from_member(member_id):
     db.session.commit()
     
     return jsonify({"message": "Correo electrónico del miembro eliminado correctamente"})
+
+
+# #enviar email cuando se solicita pago
+# @api.route('/send_email/<path:email>', methods=['POST'])
+# def send_email(email):
+    
+
+#     params: resend.Emails.SendParams = {
+#         "from": "Acme <onboarding@resend.dev>",
+#         "to": email,
+#         "subject": "hello world",
+#         "html": "<strong>it works!</strong>",
+#     }
+
+#     r = resend.Emails.send(params)
+#     return jsonify(r)
+

@@ -6,7 +6,7 @@ import os
 import random
 import string
 import uuid
-import resend
+#import resend
 from flask_sqlalchemy import SQLAlchemy
 import math
 from sqlalchemy.exc import IntegrityError
@@ -695,16 +695,11 @@ def get_user_groups(user_email):
 
 @api.route('/remove_user_email/<int:member_id>', methods=['DELETE'])
 def remove_user_email_from_member(member_id):
-    # Buscar el miembro por su ID
     member = Member.query.get(member_id)
     
     if not member:
         return jsonify({"error": "Miembro no encontrado"}), 404
-    
-    # Eliminar el email (ponerlo a None)
     member.user_email = None
-    
-    # Confirmar los cambios en la base de datos
     db.session.commit()
     
     return jsonify({"message": "Correo electrónico del miembro eliminado correctamente"})

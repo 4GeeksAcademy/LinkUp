@@ -64,6 +64,11 @@ export const Group = () => {
         const fetchGroupMembers = async () => {
             try {
                 const fetchedGroupMembers = await actions.getGroupMembers(theid);
+                fetchedGroupMembers.members.forEach(member => {
+                    if (member.user_email === localStorage.getItem('email')) {
+                        store.actualGroupMemberName = member.name;
+                    }
+                });
                 setGroupMembers(fetchedGroupMembers.members);
             } catch (error) {
                 console.error("Error al obtener los miembros del grupo:", error);
@@ -80,6 +85,7 @@ export const Group = () => {
             }
         };
         fetchGroups();
+        
 
     }, [theid, actions]);
 
@@ -167,7 +173,7 @@ export const Group = () => {
                                                 <p className="text-light" style={{ margin: 0, display: "inline-block", maxWidth: "100%" }}>
                                                     {groupMembers.map((member, index) => (
                                                         <span key={index}>
-                                                            {member.name}
+                                                            {member.user_email === localStorage.getItem('email') ? member.name + " (yo)" : member.name}
                                                             {index < groupMembers.length - 1 && ", "}
                                                         </span>
                                                     ))}

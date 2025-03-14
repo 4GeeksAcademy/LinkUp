@@ -30,14 +30,21 @@ export const Private = () => {
 
     const [nombreGrupo, setNombreGrupo] = useState("");
     const [nuevoIntegrante, setNuevoIntegrante] = useState(""); // Estado para el input de integrante
-    const [integrantes, setIntegrantes] = useState([nomusuario]); // Lista de integrantes
+    const [integrantes, setIntegrantes] = useState([]); // Lista de integrantes
     const [imagenSeleccionada, setImagenSeleccionada] = useState();
     const [listGroups, setListGroups] = useState([]);
     const [errorMensaje, setErrorMensaje] = useState("");
 
     useEffect(() => {
         fetchGroups();
-    }, []);
+
+        const integrante = {
+            name: nomusuario,
+            you: true,
+        }
+        setIntegrantes([integrante]);
+
+    }, [nomusuario]);
 
     const fetchGroups = async () => {
         const data = await actions.getGroups();
@@ -63,8 +70,14 @@ export const Private = () => {
 
     // Función para agregar un integrante a la lista
     const agregarIntegrante = () => {
+        const newIntgrante = {
+            name: nuevoIntegrante,
+            you: false,
+        }
+
+
         if (nuevoIntegrante.trim() !== "") {
-            setIntegrantes([...integrantes, nuevoIntegrante]); // Agregar el integrante al array
+            setIntegrantes([...integrantes, newIntgrante]); // Agregar el integrante al array
             setNuevoIntegrante(""); // Limpiar el input
         }
     };
@@ -74,6 +87,15 @@ export const Private = () => {
         setIntegrantes(integrantes.filter((_, i) => i !== index));
     };
 
+    const asignarTuIntegrante = (member) => {
+        // Crear una copia del array para evitar mutaciones
+        let newIntegrantes = integrantes.map(integrante => ({
+            ...integrante,
+            you: integrante.name === member.name // Asigna "you" a true solo al seleccionado
+        }));
+
+        setIntegrantes(newIntegrantes);
+    };
 
 
 
@@ -91,11 +113,24 @@ export const Private = () => {
             setErrorMensaje("⚠️ Debes añadir al menos dos integrantes al grupo.");
             return;
         }
+        let haveYou = false;
+
+        integrantes.forEach(member => {
+            if (member.you) {
+                haveYou = true;
+            }
+        });
+
+        if (!haveYou) {
+            setErrorMensaje("⚠️ Debes indicar quien eres tu dentro del grupo.");
+            return;
+        }
+
 
         const grupoCreado = {
             name: nombreGrupo,
             iconURL: imagenSeleccionada,
-            membersList: integrantes.map(nombre => ({ name: nombre }))
+            membersList: integrantes.map(nombre => ({ name: nombre.name }))
 
         };
         // Modal info
@@ -117,14 +152,6 @@ export const Private = () => {
             title: "¡Grupo creado correctamente!"
         });
 
-
-
-
-
-
-
-
-
         createNewGroup(grupoCreado);
 
     };
@@ -145,7 +172,10 @@ export const Private = () => {
         });
     };
 
+    const handleOpenModalCreateGroup = () => {
 
+
+    };
 
     const createNewGroup = (crearGrupo) => {
         const modal = document.getElementById("CrearGrupoModal");
@@ -153,8 +183,14 @@ export const Private = () => {
         modalInstance.hide()
 
         const fetchNewGroup = async () => {
-            const fetchedResponse = await actions.createGroup(crearGrupo);
 
+            let youName = "";
+            integrantes.forEach(member => {
+                if (member.you) {
+                    youName = member.name;
+                }
+            });
+            const fetchedResponse = await actions.createGroup(crearGrupo, youName);
             window.location.href = `/group/${fetchedResponse.id}`;
 
 
@@ -181,7 +217,7 @@ export const Private = () => {
                             <ul className="dropdown-menu dropdown-menu-end bg-c5 text-c1 drp">
                                 <li>
                                     <button type="button" className="btn dropdown-item"
-                                        data-bs-toggle="modal" data-bs-target="#CrearGrupoModal">
+                                        data-bs-toggle="modal" data-bs-target="#CrearGrupoModal" onClick={handleOpenModalCreateGroup}>
                                         Crear un grupo
                                     </button>
                                 </li>
@@ -245,6 +281,7 @@ export const Private = () => {
                                     value={nuevoIntegrante}
                                     onChange={(e) => setNuevoIntegrante(e.target.value)}
                                     onClick={() => setErrorMensaje("")}
+                                    onKeyDown={(e) => e.key === "Enter" && agregarIntegrante()}
                                 />
                                 <button className="btn btn-success" onClick={agregarIntegrante}><i className="fa-solid fa-square-check"></i></button>
                             </div>
@@ -253,8 +290,11 @@ export const Private = () => {
                             <ul className="list-group mt-3">
                                 {integrantes.map((integrante, index) => (
                                     <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
-                                        {integrante}
-                                        <button className="btn btn-danger btn-sm" onClick={() => eliminarIntegrante(index)}><i className="fa-solid fa-trash"></i></button>
+                                        {!integrante.you ? integrante.name : integrante.name + " (yo)"}
+                                        <div>
+                                            {!integrante.you ? <button className="btn btn-primary btn-sm me-1" onClick={() => asignarTuIntegrante(integrante)}><i class="fa-solid fa-user"></i></button> : ""}
+                                            <button className="btn btn-danger btn-sm ms-1" onClick={() => eliminarIntegrante(index)}><i className="fa-solid fa-trash"></i></button>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>

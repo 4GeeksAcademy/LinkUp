@@ -25,7 +25,6 @@ export const BaseListGroups = ({ datos, onDelete }) => {
     };
     const imageName = icon(datos.iconURL);
     const imageSrc = images[imageName] || barbacoa;
-    console.log(icon(datos.iconURL));
 
     const handleGroupView = () => {
         window.location.href = `/group/${datos.id}`;

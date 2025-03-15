@@ -221,7 +221,7 @@ export const Private = () => {
                                         Crear un grupo
                                     </button>
                                 </li>
-                                <li><a className="dropdown-item" href="#">Unirme a un grupo</a></li>
+                                
                             </ul>
                         </div>
                     </div>

@@ -71,7 +71,8 @@ export const NewExpense = ({ theid }) => {
 
     const calculatePrice = (name) => {
         if (formData.checked[name.toLowerCase()]) {
-            return (parseFloat(formData.amount || 0) / Object.keys(formData.checked).filter((key) => formData.checked[key]).length).toFixed(2);
+            const price =parseFloat(formData.amount || 0) / Object.keys(formData.checked).filter((key) => formData.checked[key]).length
+            return price.toFixed(2);
         } else {
             return "0.00";
         }
@@ -109,7 +110,7 @@ export const NewExpense = ({ theid }) => {
 
         const expenseData = {
             title: formData.title,
-            amount: Math.round((parseFloat(formData.amount) || 0) * 100) / 100,
+            amount: (Math.round((parseFloat(formData.amount) || 0) * 100) / 100).toFixed(2),
             paidFor: formData.paidFor,
             balance: balance,
             imageURL: formData.imageURL,

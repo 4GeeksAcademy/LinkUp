@@ -9,6 +9,8 @@ export const Expenses = ({ theid }) => {
     const [expensesList, setExpensesList] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedExpenseid, setSelectedExpenseid] = useState(null);
+    
+    
 
     useEffect(() => {
         const fetchExpensesList = async () => {

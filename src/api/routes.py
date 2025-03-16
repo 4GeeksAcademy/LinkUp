@@ -447,14 +447,14 @@ def add_expense(group_id):
 
     # Asegurar que 'amount' es un número
     try:
-        amount = float(amount)
+        amount = round(float(amount),2)
     except ValueError:
         print(f"Error: amount '{amount}' no es un número válido")
         return jsonify({"message": "El campo 'amount' debe ser un número"}), 400
 
     new_expense = Expense(
         title=title,
-        amount=amount,
+        amount=round(float(amount),2),
         paidFor=paid_for,
         paidTo="",
         imageURL=image_url,
@@ -468,7 +468,7 @@ def add_expense(group_id):
     # Restar el monto al que pagó el gasto
     payer = Member.query.filter_by(name=paid_for, group_id=group_id).first()
     if payer:
-        payer.owes -= amount  # Se le descuenta lo que pagó
+        payer.owes -= round(float(amount),2)  # Se le descuenta lo que pagó
         db.session.commit()
     else:
         print(f"Pagador {paid_for} no encontrado en el grupo")
@@ -480,7 +480,7 @@ def add_expense(group_id):
 
         # Convertir balance_amount a float
         try:
-            balance_amount = float(balance_amount)
+            balance_amount = round(float(balance_amount),2)
         except ValueError:
             print(f"Error: balance_amount '{balance_amount}' no es un número válido")
             return jsonify({"message": f"El balance '{balance_amount}' debe ser un número"}), 400
@@ -522,7 +522,7 @@ def get_all_expenses():
         expense_data = {
             "id": expense.id,
             "title": expense.title,
-            "amount": expense.amount,
+            "amount": round(expense.amount,2),
             "paidFor": expense.paidFor,
             "group_id": expense.group_id,
             
@@ -573,7 +573,7 @@ def get_expense(idexpense):
     
     return jsonify({
         "title": expense.title,
-        "amount": expense.amount,
+        "amount": round(expense.amount,2),
         "paidFor": expense.paidFor,
         "balance": balance_list,
         "imageURL": expense.imageURL,
@@ -603,7 +603,7 @@ def pay_member(group_id):
 
     whoPays = data.get('whoPays')
     toWho = data.get('toWho')
-    amount = float(data.get('amount'))
+    amount = round(float(data.get('amount')),2)
 
     group = Group.query.get(group_id)
     if not group:
@@ -627,7 +627,7 @@ def pay_member(group_id):
     date = request.json.get('date')
 
     try:
-        amount = float(amount)
+        amount = round(float(amount),2)
     except ValueError:
         print(f"Error: amount '{amount}' no es un número válido")
         return jsonify({"message": "El campo 'amount' debe ser un número"}), 400

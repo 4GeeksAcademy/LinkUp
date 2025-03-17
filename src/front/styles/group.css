@@ -26,7 +26,6 @@
     top: 70px;
     width: 100%;
     
-    
 }
 .group::-webkit-scrollbar {
     display: none;}
@@ -60,7 +59,7 @@
             rgb(199, 179, 93));
 
     flex: 1;
-    overflow:auto;
+    overflow:hidden;
     scrollbar-width: none; 
     -ms-overflow-style: none;
 }

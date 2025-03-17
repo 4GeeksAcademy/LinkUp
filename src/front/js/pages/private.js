@@ -102,15 +102,15 @@ export const Private = () => {
     // Función para crear el grupo (enviar los datos)
     const crearGrupo = () => {
         if (!nombreGrupo) {
-            setErrorMensaje("⚠️ Debes ingresar un nombre para el grupo.");
+            setErrorMensaje("Debes ingresar un nombre para el grupo.");
             return;
         }
         if (!imagenSeleccionada) {
-            setErrorMensaje("⚠️ Debes seleccionar una imagen para el grupo.");
+            setErrorMensaje("Debes seleccionar una imagen para el grupo.");
             return;
         }
         if (integrantes.length < 2) {
-            setErrorMensaje("⚠️ Debes añadir al menos dos integrantes al grupo.");
+            setErrorMensaje("Debes añadir al menos dos integrantes al grupo.");
             return;
         }
         let haveYou = false;
@@ -122,7 +122,7 @@ export const Private = () => {
         });
 
         if (!haveYou) {
-            setErrorMensaje("⚠️ Debes indicar quien eres tu dentro del grupo.");
+            setErrorMensaje("Debes indicar quien eres tu dentro del grupo.");
             return;
         }
 
@@ -221,7 +221,7 @@ export const Private = () => {
                                         Crear un grupo
                                     </button>
                                 </li>
-                                <li><a className="dropdown-item" href="#">Unirme a un grupo</a></li>
+                                
                             </ul>
                         </div>
                     </div>
@@ -344,31 +344,55 @@ export const Private = () => {
                     <div className="mt-3 ms-3 text-c5 bg-c2 d-flex justify-content-center titleName rounded">
                         <h3 className="text-center">Novedades de los grupos</h3>
                     </div></div>
-                <div className="d-block justify-content-around text-white mt-5">
+                <div className="d-block justify-content-center text-white mt-5">
                     <br />
-                    <p>.¡Bienvenidos a LinkUP!</p>
-                    <p>.Aqui van las novedades</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
-                    <p>.</p>
+                    <div className="d-flex justify-content-center">
+                    <p>¡Bienvenidos a LinkUP!</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de Erwin a Arnau de 1749.42€
+                    Rembolsado el 17-03-2025</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de Nacho a Arnau de 1749.42€
+                    Rembolsado el 14-03-2025</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de Lucrecia a Arnau de 1749.42€
+                    Rembolsado el 14-03-2025</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de Domi Ramimora (yo) a Arnau de 1749.39€
+                    Rembolsado el 14-03-2025</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de David a Arnau de 1749.42€
+                    Rembolsado el 17-03-2025</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de Domi Ramimora (yo) a Mar de 108.46€
+                    Rembolsado el 14-03-2025</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de Domi Ramimora (yo) a Nacho de 22.57€
+                    Rembolsado el 14-03-2025</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de Domi Ramimora (yo) a Arnau de 11.66€
+                    Rembolsado el 14-03-2025</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de Leo a Mar de 18.4€
+                    Rembolsado el 16-03-2025</p>   
+                    </div>
+                    <div className="border-bottom border-2 d-flex align-items-center justify-content-between pt-2 pb-3 px-3 mb-1">
+                    <p>Rembolso de Leo a Domi Ramimora (yo) de 20.87€
+                    Rembolsado el 17-03-2025</p>   
+                    </div>
+                
+
+                    
+              
                 </div>
             </div>
         </div >

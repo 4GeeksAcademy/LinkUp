@@ -37,7 +37,7 @@ export const Calculation = ({ theid, onChangeView }) => {
                     transactions.push({
                         whoPays: debtor.name,
                         toWho: creditor.name,
-                        amount: amountToReceive.toFixed(2),
+                        amount: amountToReceive,
                         date: new Date().toLocaleDateString("en-GB").split("/").join("-"),
                     });
 

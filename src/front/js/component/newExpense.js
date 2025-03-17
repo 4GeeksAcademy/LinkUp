@@ -29,10 +29,16 @@ export const NewExpense = ({ theid }) => {
                 acc[person.name.toLowerCase()] = true;
                 return acc;
             }, {});
+            let paidForName = fetchedMembers.members[0].name;
+            fetchedMembers.members.forEach(member => {
+                if (member.user_email === localStorage.getItem('email'))
+                    paidForName = member.name;
+            });
+
             setFormData((prevState) => ({
                 ...prevState,
                 checked: initialChecked,
-                paidFor: fetchedMembers.members[0].name,
+                paidFor: paidForName,
             }));
         };
         fetchMembers();
@@ -71,7 +77,7 @@ export const NewExpense = ({ theid }) => {
 
     const calculatePrice = (name) => {
         if (formData.checked[name.toLowerCase()]) {
-            const price =parseFloat(formData.amount || 0) / Object.keys(formData.checked).filter((key) => formData.checked[key]).length
+            const price = parseFloat(formData.amount || 0) / Object.keys(formData.checked).filter((key) => formData.checked[key]).length
             return price.toFixed(2);
         } else {
             return "0.00";
@@ -131,11 +137,15 @@ export const NewExpense = ({ theid }) => {
             const modal = bootstrap.Modal.getInstance(modalRef.current);
             modal.hide();
         }
-
+        let paidForName = membersList[0]?.name || "";
+        membersList.forEach(member => {
+            if (member.user_email === localStorage.getItem('email'))
+                paidForName = member.name;
+        });
         setFormData({
             title: "",
             amount: "",
-            paidFor: membersList[0]?.name || "",
+            paidFor: paidForName,
             balance: {},
             imageURL: null,
             date: "",

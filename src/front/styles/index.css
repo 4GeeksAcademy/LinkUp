@@ -23,7 +23,7 @@ body {
             rgb(199, 179, 93));
 }
 
-footer {
+.footer {
     width: 100%;
     height: 50px;
     position: absolute;
@@ -41,23 +41,26 @@ footer {
 
     top: 0;
     z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     width: 100%;
-    height: 150vh;
+    height: 700vh;
     background-color: #0a0a0a;
     background:
-        radial-gradient(ellipse 80% 80% at 50% -20%,
+        radial-gradient(ellipse 100% 60% at 50% -30%,
             var(--color-c2),
             var(--color-c1));
     display: flex;
     flex-direction: column;
     gap: 70px;
-
 }
 
 /* Estilos para el navbar */
 
 .nav {
+    position: fixed;
+    z-index: 999;
     width: 100%;
     height: 80px;
     display: flex;
@@ -167,10 +170,209 @@ footer {
     object-fit: contain;
 }
 
+/* Estilos para el separador */
+
+.separador {
+    width: 100%;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.separador h2 {
+    color: white;
+    font-size: 2.3em;
+}
+
+.gestionar {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.gestionar2 {
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+}
+
+.gestionar .ges-img {
+    width: 100%;
+    height: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gestionar2 .ges-img {
+    width: 100%;
+    height: 50%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ges-img img {
+    width: 90%;
+    object-fit: contain;
+}
+
+.gestionar .ges-info {
+    width: 100%;
+    height: 50%;
+
+    color: white;
+}
+
+.gestionar2 .ges-info {
+    width: 100%;
+    height: 50%;
+
+    color: white;
+}
+
+.ges-info h2 {
+    font-size: 2.5em;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
+
+.custom-list {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 30px;
+}
+
+.custom-list li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 8px;
+}
+
+.custom-list li::before {
+    content: "\f058";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: var(--color-c5);
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.footer-home {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 90vh;
+    background: #141414;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    text-align: justify;
+}
+
+.info h3 {
+    margin-left: 30px;
+}
+
+.info li {
+    color: #717171;
+    cursor: pointer;
+}
+
+.info li:hover {
+    color: white;
+}
+
+.ventajas {
+    display: flex;
+    flex-direction: column;
+}
+
+.ventajas ul {
+    list-style: none;
+}
+
+.ayuda ul {
+    list-style: none;
+}
+
+.desarrollo ul{
+    list-style: none;
+}
+
+.desarrollo i {
+    margin-left: 15px;
+}
+
+.hr {
+    width: 90%;
+    height: 2px;
+    background: #2B2B2B;
+}
+
+.redes-term {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.social {
+    display: flex;
+    flex-direction: row;
+    font-size: 2em;
+    gap: 50px;
+    margin-top: 10px;
+}
+
+.copy {
+    display: flex;
+    flex-direction: row;
+}
+
+.copy p {
+    color: #717171;
+    cursor: pointer;
+}
+
+.copy p:hover {
+    color: white;
+}
+
 @media screen and (min-width: 768px) {
 
     .main {
-        height: 100vh;
+        height: 500vh;
         gap: 20px;
     }
 
@@ -231,9 +433,67 @@ footer {
     .container-img img {
         width: 85%;
     }
+
+    .gestionar {
+        height: 100vh;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .gestionar2 {
+        height: 100vh;
+        flex-direction: row-reverse;
+    }
+
+    .gestionar .ges-info {
+        width: 50%;
+        height: 100%;
+    
+        color: white;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .gestionar2 .ges-info {
+        width: 50%;
+        height: 100%;
+        color: white;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .gestionar .ges-img {
+        width: 50%;
+        height: 100%;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .gestionar2 .ges-img {
+        width: 50%;
+        height: 100%;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
 }
 
 @media screen and (min-width: 1024px) {
+
+    .main {
+        height: 500vh;
+        gap: 30px;
+    }
 
     .info h2 {
         font-size: 3em;
@@ -262,8 +522,13 @@ footer {
 @media screen and (min-width: 1440px) {
 
     .main {
+        background:
+        radial-gradient(ellipse 100% 60% at 50% -30%,
+            var(--color-c2),
+            var(--color-c1));
         justify-content: center;
         align-items: center;
+        height: 440vh;
     }
 
     .nav {
@@ -273,8 +538,8 @@ footer {
     }
 
     .slogan-img {
+        margin-top: -300px;
         width: 90%;
-        margin-top: 50px;
     }
 
     .info h2 {
@@ -289,6 +554,51 @@ footer {
     
     .info .empezar {        
         margin-left: 80px;
+    }
+
+    .separador {
+        margin-top: 100px;
+    }
+
+    .separador h2 {
+        font-size: 4em;
+    }
+
+    .gestionar {
+        height: 80vh;
+    }
+
+    .gestionar2 {
+        height: 80vh;
+    }
+
+    .ges-info h2 {
+        font-size: 3em;
+    }
+
+    .custom-list {
+        width: 80%;
+    }
+
+    .footer-home {
+        height: 45vh;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        text-align: justify;
+        gap: 100px;
+    }
+
+    .hr {
+        width: 150%;
+    }
+
+    .copy {
+        gap: 100px;
     }
 }
 
@@ -362,6 +672,7 @@ footer {
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
+
 .group-detail::-webkit-scrollbar {
     display: none;}
 

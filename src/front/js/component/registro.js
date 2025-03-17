@@ -1,7 +1,7 @@
 import api from './../api';
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 export const LoginNormal = async (username, password, navigate) => {
     try {

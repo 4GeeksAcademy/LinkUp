@@ -42,39 +42,13 @@ export const Profile = () => {
               onChange={handleImageChange}
             />
             <img
-<<<<<<< HEAD
-              src={image}
-              alt="Foto de perfil"
-              className="img-fluid rounded-circle border"
-              style={{ width: "150px", height: "150px", objectFit: "cover", marginRight: "20px" }}
-=======
             src={image}
             alt="Foto de perfil"
             className="img-fluid rounded-circle border "
             style={{ width: "200px", height: "200px", objectFit: "cover" }}
->>>>>>> main
             />
         </div>
 
-<<<<<<< HEAD
-          <div className="col-md-8 form">
-            <h5>Información acerca del perfil</h5>
-            <div className="input-user">
-              <input type="text" required autocomplete="off" /><label for="text">Username</label>
-              <div className="underline"></div>
-            </div>
-            <div className="input-user">
-              <input type="email" required autocomplete="off" /><label for="text">Email</label>
-              <div className="underline"></div>
-            </div>
-            <div className="input-user">
-              <input type="text" required autocomplete="off" /><label for="text">Apodo</label>
-              <div className="underline"></div>
-            </div>
-
-            <div className="value">
-              <input type="submit" className="save" value="Guardar Cambios" />
-=======
           <div className="col-md-8">
             <div className="card p-4 shadow-lg" id="perfil-container">
               <h5 className="mb-3">Información acerca del perfil</h5>
@@ -95,7 +69,6 @@ export const Profile = () => {
                   <button type="submit" className="save"><a className="text-c1" href="/private">Guardar cambios</a></button>
                 </div>
               </form>
->>>>>>> main
             </div>
           </div>
         </div>

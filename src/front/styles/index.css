@@ -325,6 +325,10 @@ body {
     list-style: none;
 }
 
+.desarrollo i {
+    margin-left: 15px;
+}
+
 .hr {
     width: 90%;
     height: 2px;
@@ -337,12 +341,15 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 50px;
 }
 
-.social ul {
+.social {
     display: flex;
     flex-direction: row;
-    list-style: none;
+    font-size: 2em;
+    gap: 50px;
+    margin-top: 10px;
 }
 
 .copy {
@@ -563,7 +570,7 @@ body {
     }
 
     .footer-home {
-        height: 38vh;
+        height: 45vh;
     }
 
     .info {
@@ -580,7 +587,7 @@ body {
     }
 
     .copy {
-        gap: 20px;
+        gap: 100px;
     }
 }
 

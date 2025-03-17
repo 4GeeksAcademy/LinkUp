@@ -110,9 +110,15 @@ export const Home = () => {
                         <div className="desarrollo">
                             <h3>Desarrollado por:</h3>
                             <ul>
-                                <li>Arnau</li>
-                                <li>Domingo</li>
-                                <li>Nacho</li>
+                                <li>
+                                    Arnau <a href="https://github.com/ArnauOliveras" style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/arnauoliveras" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
+                                </li>
+                                <li>
+                                    Domingo <a href="https://github.com/rzmsdo"  style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/arnauoliveras" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
+                                </li>
+                                <li>
+                                    Nacho <a href="https://github.com/nachodev30"  style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/ignacio-r%C3%ADzquez-v%C3%A1zquez-883890262/" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -121,17 +127,9 @@ export const Home = () => {
                     
                     <div className="redes-term">
                         <div className="social">
-                            <ul>
-                                <li>
-                                    i
-                                </li>
-                                <li>
-                                    i
-                                </li>
-                                <li>
-                                    i
-                                </li>
-                            </ul>
+                            <i className="fa-brands fa-linkedin"></i>
+                            <i className="fa-brands fa-youtube" ></i>
+                            <i className="fa-brands fa-instagram"></i>
                         </div>
                         <div className="copy">
                             <p>&copy; 2025 LinkUp</p>

@@ -4,7 +4,9 @@ import "../../styles/index.css";
 import { Link } from "react-router-dom";
 import mobile from "../../img/mobile.png";
 import imgLogo from "../../img/img-logo.webp";
-import creacion from "../../img/creacion-grupos.png"
+import creacion from "../../img/creacion-grupos.png";
+import añadir from "../../img/añadir-gastos.png";
+import saldar from "../../img/saldar.png";
 
 export const Home = () => {
     const { store, actions } = useContext(Context);
@@ -46,7 +48,8 @@ export const Home = () => {
 
             <div className="gestionar">
                 <div className="ges-img">
-                    <img src={creacion} />
+                    <img src={creacion} 
+                    style={{ height: '50%' }}/>
                 </div>
                 <div className="ges-info">
                     <h2>Crea tus grupos</h2>
@@ -60,21 +63,23 @@ export const Home = () => {
 
             <div className="gestionar2">
                 <div className="ges-img">
-                    <img src={creacion} />
+                    <img src={añadir} 
+                     style={{ transform: 'perspective(500px) rotateY(-10deg)', height: '65%' }} />
                 </div>
                 <div className="ges-info">
                     <h2>Añade tus gastos</h2>
                     <ul className="custom-list">
-                        <li>texto</li>
-                        <li>texo</li>
-                        <li>texto</li>
+                        <li>Añade un título, el importe y quién lo pagó en segundos.</li>
+                        <li>Sube una foto del recibo para llevar un mejor control.</li>
+                        <li>Asigna los costos a las personas que elijas de forma sencilla.</li>
                     </ul>
                 </div>
             </div>
 
-            <div className="gestionar" style={{marginBottom: "100px"}}>
+            <div className="gestionar">
                 <div className="ges-img">
-                    <img src={creacion} />
+                    <img src={saldar} 
+                    style={{ transform: 'perspective(500px) rotateY(10deg)', height: '65%' }} />
                 </div>
                 <div className="ges-info">
                     <h2>Salda las cuentas</h2>
@@ -111,13 +116,13 @@ export const Home = () => {
                             <h3>Desarrollado por:</h3>
                             <ul>
                                 <li>
-                                    Arnau <a href="https://github.com/ArnauOliveras" style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/arnauoliveras" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
+                                    Arnau <a href="https://github.com/ArnauOliveras" target="_blank" style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/arnauoliveras" target="_blank" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
                                 </li>
                                 <li>
-                                    Domingo <a href="https://github.com/rzmsdo"  style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/arnauoliveras" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
+                                    Domingo <a href="https://github.com/rzmsdo"  target="_blank" style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/domirami/" target="_blank" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
                                 </li>
                                 <li>
-                                    Nacho <a href="https://github.com/nachodev30"  style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/ignacio-r%C3%ADzquez-v%C3%A1zquez-883890262/" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
+                                    Nacho <a href="https://github.com/nachodev30" target="_blank" style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/ignacio-r%C3%ADzquez-v%C3%A1zquez-883890262/" target="_blank" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
                                 </li>
                             </ul>
                         </div>

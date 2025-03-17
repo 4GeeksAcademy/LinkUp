@@ -41,7 +41,8 @@ body {
 
     top: 0;
     z-index: 1;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     width: 100%;
     height: 700vh;
@@ -58,6 +59,8 @@ body {
 /* Estilos para el navbar */
 
 .nav {
+    position: fixed;
+    z-index: 999;
     width: 100%;
     height: 80px;
     display: flex;
@@ -525,7 +528,7 @@ body {
             var(--color-c1));
         justify-content: center;
         align-items: center;
-        height: 460vh;
+        height: 440vh;
     }
 
     .nav {
@@ -535,8 +538,8 @@ body {
     }
 
     .slogan-img {
+        margin-top: -300px;
         width: 90%;
-        margin-top: 50px;
     }
 
     .info h2 {
@@ -559,6 +562,14 @@ body {
 
     .separador h2 {
         font-size: 4em;
+    }
+
+    .gestionar {
+        height: 80vh;
+    }
+
+    .gestionar2 {
+        height: 80vh;
     }
 
     .ges-info h2 {

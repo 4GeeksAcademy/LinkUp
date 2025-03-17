@@ -64,6 +64,11 @@ export const Group = () => {
         const fetchGroupMembers = async () => {
             try {
                 const fetchedGroupMembers = await actions.getGroupMembers(theid);
+                fetchedGroupMembers.members.forEach(member => {
+                    if (member.user_email === localStorage.getItem('email')) {
+                        store.actualGroupMemberName = member.name;
+                    }
+                });
                 setGroupMembers(fetchedGroupMembers.members);
             } catch (error) {
                 console.error("Error al obtener los miembros del grupo:", error);
@@ -80,6 +85,7 @@ export const Group = () => {
             }
         };
         fetchGroups();
+        
 
     }, [theid, actions]);
 
@@ -111,7 +117,7 @@ export const Group = () => {
                     <div className="d-flex flex-column justify-content-center" style={{ maxHeight: '100%' }}>
 
                         <div className="mt-5 pt-3"></div>
-                        <h3 className="text-c5 mt-4 group-grouplisttitle mx-5 pb-2">Groups list</h3>
+                        <h3 className="text-c5 mt-4 group-grouplisttitle mx-5 pb-2">Mis grupos</h3>
                         <div className="d-flex flex-column justify-content-center align-items-center pt-5" style={{ overflowY: 'auto' }}>
                             {listGroups.map((group, index) => (
                                 <button key={index} className="btn group-list-content d-flex align-items-center justify-content-between gap-2 p-0 my-2 bg-c2" onClick={() => handleGoToGroup(group.id)}>
@@ -167,9 +173,15 @@ export const Group = () => {
                                                 <p className="text-light" style={{ margin: 0, display: "inline-block", maxWidth: "100%" }}>
                                                     {groupMembers.map((member, index) => (
                                                         <span key={index}>
-                                                            {member.name}
-                                                            {index < groupMembers.length - 1 && ", "}
+                                                            {member.user_email === localStorage.getItem('email') ? "Tu, " : ""}
                                                         </span>
+                                                    ))}
+                                                    {groupMembers.map((member, index) => (
+                                                        <span key={index}>
+                                                            {member.user_email === localStorage.getItem('email') ? "" : member.name}
+                                                            {member.user_email === localStorage.getItem('email') ? "" : index < groupMembers.length - 1 && ", "}
+                                                        </span>
+                                                        
                                                     ))}
                                                 </p>
                                             </div>
@@ -202,7 +214,7 @@ export const Group = () => {
                             </>
                         ) : (
                             <>
-                                <h1 className="p-5">Loading...</h1>
+                                <h1 className="p-5"></h1>
                             </>
                         )}
                     </>

@@ -71,7 +71,8 @@ export const NewExpense = ({ theid }) => {
 
     const calculatePrice = (name) => {
         if (formData.checked[name.toLowerCase()]) {
-            return (parseFloat(formData.amount || 0) / Object.keys(formData.checked).filter((key) => formData.checked[key]).length).toFixed(2);
+            const price =parseFloat(formData.amount || 0) / Object.keys(formData.checked).filter((key) => formData.checked[key]).length
+            return price.toFixed(2);
         } else {
             return "0.00";
         }
@@ -109,7 +110,7 @@ export const NewExpense = ({ theid }) => {
 
         const expenseData = {
             title: formData.title,
-            amount: Math.round((parseFloat(formData.amount) || 0) * 100) / 100,
+            amount: (Math.round((parseFloat(formData.amount) || 0) * 100) / 100).toFixed(2),
             paidFor: formData.paidFor,
             balance: balance,
             imageURL: formData.imageURL,
@@ -203,7 +204,7 @@ export const NewExpense = ({ theid }) => {
                                             onChange={handleChange}
                                         >
                                             {membersList.map((person) => (
-                                                <option value={person.name} key={person.name}>{person.name}</option>
+                                                <option value={person.name} key={person.name}>{person.user_email === localStorage.getItem('email') ? person.name + " (yo)" : person.name}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -244,7 +245,7 @@ export const NewExpense = ({ theid }) => {
                                                 onChange={() => handleCheckboxChange(person.name.toLowerCase())}
                                             />
                                         </div>
-                                        <span className="input-group-text flex-grow-1">{person.name.charAt(0).toUpperCase() + person.name.slice(1)}</span>
+                                        <span className="input-group-text flex-grow-1">{person.user_email === localStorage.getItem('email') ? person.name.charAt(0).toUpperCase() + person.name.slice(1) + " (yo)" : person.name.charAt(0).toUpperCase() + person.name.slice(1)}</span>
                                         <span className="input-group-text">{calculatePrice(person.name)}€</span>
                                     </div>
                                 ))}

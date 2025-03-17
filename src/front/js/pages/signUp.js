@@ -104,7 +104,7 @@ export const SignUp = () => {
                                     console.log("Error en la autenticación con Google");
                                     alert("Error en la autenticación con Google. Inténtalo de nuevo.");
                                 }}
-                                buttonText="Continuar con Google"
+                                buttonText="Registrarse con Google"
                                 width={130}
                             />
                         </div>

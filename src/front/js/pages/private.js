@@ -200,7 +200,7 @@ export const Private = () => {
     };
 
     return (
-        <div className="container-fluid d-flex justify-content-between body-private">
+        <div className="container-fluid d-flex justify-content-center body-private">
             {/* primer cuerpo */}
             <div className="barlat bg-c3 d-block col-12 col-md-4 col-lg-3 ms-3 p-0 align-items-center ">
                 {/* encabezado */}
@@ -339,7 +339,7 @@ export const Private = () => {
 
 
             {/* Segundo cuerpo */}
-            <div className="divCuerpo bg-c3 container-floid d-block">
+            {/* <div className="divCuerpo bg-c3 container-floid d-block">
                 <div className="containesr-fluid contitle bg-c3">
                     <div className="mt-3 ms-3 text-c5 bg-c2 d-flex justify-content-center titleName rounded">
                         <h3 className="text-center">Novedades de los grupos</h3>
@@ -394,7 +394,7 @@ export const Private = () => {
                     
               
                 </div>
-            </div>
+            </div> */}
         </div >
     );
 };

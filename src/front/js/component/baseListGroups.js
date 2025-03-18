@@ -37,7 +37,7 @@ export const BaseListGroups = ({ datos, onDelete }) => {
     
         if (result.success) {
             alert("Correo enviado con éxito");
-            setEmailInvitate(""); // Limpiar el campo después de enviar
+            setEmailInvitate("");
         } else {
             setError(result.message);
         }
@@ -48,7 +48,6 @@ export const BaseListGroups = ({ datos, onDelete }) => {
         <div className="container mt-auto mb-2 text-center">
             <div className="card baseGrupo p-0 bg-c4 text-white shadow">
                 <div className="row align-items-center g-0 d-flex flex-wrap">
-                    {/* Imagen del grupo */}
                     <div className="col-12 col-md-2 text-center mb-3 mb-md-0">
                         <img
                             src={imageSrc}
@@ -58,7 +57,6 @@ export const BaseListGroups = ({ datos, onDelete }) => {
                         />
                     </div>
 
-                    {/* Contenido principal */}
                     <div className="col-12 col-md-10">
                         <button className="btn text-light text-center bg-c2 p-2 w-100" onClick={handleGroupView}>
                             <h3 className="fw-bold mb-2">{datos.name}</h3>
@@ -83,7 +81,6 @@ export const BaseListGroups = ({ datos, onDelete }) => {
                                 </button>
                             </div>
 
-                            {/* Modal de invitación */}
                             <div className="modal fade" id={`inviteModal-${datos.id}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby={`inviteModalLabel-${datos.id}`} aria-hidden="true">
                                 <div className="modal-dialog">
                                     <div className="modal-content bg-c4 text-c5">
@@ -102,7 +99,7 @@ export const BaseListGroups = ({ datos, onDelete }) => {
                                                 value={emailInvitate}
                                                 onChange={(e) => {
                                                     setEmailInvitate(e.target.value);
-                                                    setError(""); // Limpiar error cuando el usuario empieza a escribir
+                                                    setError(""); 
                                                 }}
                                             />
                                             {error && <p className="text-danger mt-2">{error}</p>}
@@ -119,7 +116,6 @@ export const BaseListGroups = ({ datos, onDelete }) => {
                                     </div>
                                 </div>
                             </div>
-                            {/* Fin del modal */}
                         </div>
                     </div>
                 </div>

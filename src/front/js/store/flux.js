@@ -28,9 +28,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			getExpensesList: async (idGroup) => {
+			getExpensesList: async (idGroup, page) => {
 				try {
-					const resp = await fetch(process.env.BACKEND_URL + "api/expenses/" + idGroup)
+					const resp = await fetch(process.env.BACKEND_URL + "api/expenses/" + idGroup + "?page=" + page)
 					const data = await resp.json()
 					return data;
 				} catch (error) {
@@ -292,11 +292,52 @@ const getState = ({ getStore, getActions, setStore }) => {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
-							"Authorization": `Bearer ${token}` // JWT para autenticación
+							"Authorization": `Bearer ${token}`
 						},
 						body: JSON.stringify({
 							email: email,
 							group_id: idGroup
+						})
+					});
+
+					const data = await response.json();
+
+					if (!response.ok) {
+						console.error("Error al enviar la invitación:", data.error);
+						return { success: false, message: data.error };
+					}
+
+					console.log("Invitación enviada correctamente:", data);
+					return { success: true, message: "Invitación enviada correctamente" };
+
+				} catch (error) {
+					console.error("Error en la solicitud:", error);
+					return { success: false, message: "Error en la solicitud" };
+				}
+			},
+			reminderUser: async (emailtoSend, idGroup, amount, toSendName, groupName ) => {
+				const token = localStorage.getItem("token");
+				console.log("Token actual (reminderUser):", token);
+
+
+				if (!emailtoSend) {
+					console.error("Error: el email no está definido.");
+					return { success: false, message: "Email requerido" };
+				}
+
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "api/send_reminder", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${token}` // JWT para autenticación
+						},
+						body: JSON.stringify({
+							emailtoSend: emailtoSend,
+							group_id: idGroup,
+							toSendName: toSendName,
+							amount: amount,
+							groupName: groupName
 						})
 					});
 

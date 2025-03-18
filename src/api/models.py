@@ -19,7 +19,7 @@ class User(db.Model):
         self.encode_password = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.encode_password, password)  # retorna True o False si son correctas o no lo son
+        return check_password_hash(self.encode_password, password)  
 
     def serialize(self):
         return {

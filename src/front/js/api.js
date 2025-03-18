@@ -10,7 +10,6 @@ const api = axios.create({
   }
 });
 
-// Interceptor para añadir el token a las peticiones
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -22,7 +21,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Interceptor para manejar respuestas con errores
 api.interceptors.response.use(
   (response) => response,
   (error) => {

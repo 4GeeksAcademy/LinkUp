@@ -201,14 +201,11 @@ export const Private = () => {
 
     return (
         <div className="container-fluid d-flex justify-content-center body-private">
-            {/* primer cuerpo */}
             <div className="barlat bg-c3 d-block col-12 col-md-4 col-lg-3 ms-3 p-0 align-items-center ">
-                {/* encabezado */}
                 <div className=" d-block rounded  container-fluid bartitle bg-c3 ms-1 p-0">
                     <div className="bg-c5 rounded text-center mt-2 ms-2 mb-2 d-flex justify-content-between align-items-center">
                         <h3 className="text-c1 pb-1 mt-1 flex-grow-1">Tus grupos</h3>
 
-                        {/* Dropdown */}
                         <div className="dropdown">
                             <button className="btn btn-secondary dropdown-toggle mt-1 text-c1 bg-c5 me-3"
                                 type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -226,7 +223,6 @@ export const Private = () => {
                         </div>
                     </div>
                 </div>
-                {/* Lista de grupos */}
                 <div className="mx-2 congroups d-flex flex-column gap-2">
                     {listGroups.map((datos) => (
                         <BaseListGroups
@@ -238,12 +234,9 @@ export const Private = () => {
                 </div>
             </div>
 
-            {/* Contenido Principal (donde iría otra sección, si la hay) */}
             <div className="col-12 col-md-8 col-lg-9 p-3">
-                {/* Aquí podrías poner el contenido principal */}
             </div>
 
-            {/* <!-- Modal --> */}
             <div className="modal fade" id="CrearGrupoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel">
                 <div className="modal-dialog">
                     <div className="modal-content bg-c4">
@@ -252,7 +245,6 @@ export const Private = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body text-white">
-                            {/* Input para el nombre del grupo */}
                             <p>Nombre del grupo</p>
 
                             <input
@@ -271,7 +263,6 @@ export const Private = () => {
                                     />
                                 ))}
                             </div>
-                            {/* Input para agregar integrantes */}
                             <p className="mt-3">Agregar Integrantes</p>
                             <div className="d-flex">
                                 <input
@@ -286,7 +277,6 @@ export const Private = () => {
                                 <button className="btn btn-success" onClick={agregarIntegrante}><i className="fa-solid fa-square-check"></i></button>
                             </div>
 
-                            {/* Lista de integrantes agregados */}
                             <ul className="list-group mt-3">
                                 {integrantes.map((integrante, index) => (
                                     <li key={index} className="list-group-item d-flex justify-content-between align-items-center">
@@ -312,33 +302,7 @@ export const Private = () => {
                     </div>
                 </div>
             </div>
-            {/* <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                
-            </button> */}
 
-            {/* <!-- Modal Unirme a grupo--> */
-            /* // <div className="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-2" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
-            //     <div className="modal-dialog">
-            //         <div className="modal-content">
-            //             <div className="modal-header">
-            //                 <h1 class="modal-title fs-5" id="staticBackdropLabel2">Unirse a un grupo</h1>
-            //                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            //             </div>
-            //             <div className="modal-body">
-            //                 ...
-            //             </div>
-            //             <div className="modal-footer">
-            //                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancela</button>
-            //                 <button type="button" className="btn btn-primary">Unirme al grupo</button>
-            //             </div>
-            //         </div>
-            //     </div>
-            // </div> */}
-
-
-
-            {/* Segundo cuerpo */}
             {/* <div className="divCuerpo bg-c3 container-floid d-block">
                 <div className="containesr-fluid contitle bg-c3">
                     <div className="mt-3 ms-3 text-c5 bg-c2 d-flex justify-content-center titleName rounded">

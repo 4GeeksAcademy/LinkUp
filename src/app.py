@@ -22,7 +22,6 @@ from flask_jwt_extended import JWTManager
 
 
 
-# from models import Person
 
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
@@ -33,11 +32,9 @@ app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 app.url_map.strict_slashes = False
 
-# Setup the Flask-JWT-Extended extension
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+app.config["JWT_SECRET_KEY"] = "super-secret"  
 jwt = JWTManager(app)
 
-# database condiguration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(

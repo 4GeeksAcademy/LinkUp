@@ -164,24 +164,22 @@
     border-radius: 4px;
 }
 
-/* Contenedor con desplazamiento vertical */
 .scroll-container {
-    height: 100%; /* Ocupa todo el espacio disponible */
-    overflow-y: auto; /* Permite el desplazamiento vertical */
+    height: 100%;
+    overflow-y: auto; 
 }
 
-/* Personaliza la barra de desplazamiento */
 .scroll-container::-webkit-scrollbar {
-    width: 6px; /* Grosor de la barra de desplazamiento */
+    width: 6px; 
 }
 
 .scroll-container::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2); /* Color del pulgar */
-    border-radius: 10px; /* Bordes redondeados */
+    background-color: rgba(0, 0, 0, 0.2); 
+    border-radius: 10px; 
 }
 
 .scroll-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.1); /* Color de la pista */
+    background: rgba(0, 0, 0, 0.1);
 }
 
 

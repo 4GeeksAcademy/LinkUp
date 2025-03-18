@@ -139,7 +139,7 @@ export const Private = () => {
             position: "center",
             showConfirmButton: false,
             timer: 2000,
-            timerProgressBar: true,
+            timerProgressBar: false,
             didOpen: (toast) => {
                 toast.onmouseenter = Swal.stopTimer;
                 toast.onmouseleave = Swal.resumeTimer;
@@ -157,19 +157,33 @@ export const Private = () => {
     };
 
     const handleDeleteGroup = (e) => {
-
-        e.membersList.forEach(member => {
-            if (member.user_email === localStorage.getItem('email')) {
-
-                const fetchRemove = async () => {
-                    const data = await actions.removeUserEmail(member.id);
-                    fetchGroups();
-                };
-
-                fetchRemove();
+        Swal.fire({
+            title: "¿Estas seguro que quieres eliminar este grupo?",
+            showDenyButton: true,
+            confirmButtonText: "¡Si, estoy seguro!",
+            denyButtonText: `De momento, no`
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire("¡Eliminado!", "", "success");
+              e.membersList.forEach(member => {
+                if (member.user_email === localStorage.getItem('email')) {
+    
+                    const fetchRemove = async () => {
+                        const data = await actions.removeUserEmail(member.id);
+                        fetchGroups();
+    
+                    };
+                    
+                    fetchRemove();
+                }
+    
+            });
+            } else if (result.isDenied) {
+              Swal.fire("¡El grupo sigue en la lista!", "", "info");
             }
-
-        });
+          });
+        
     };
 
     const handleOpenModalCreateGroup = () => {

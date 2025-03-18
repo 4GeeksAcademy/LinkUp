@@ -315,6 +315,47 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return { success: false, message: "Error en la solicitud" };
 				}
 			},
+			reminderUser: async (emailtoSend, idGroup, amount, toSendName, groupName ) => {
+				const token = localStorage.getItem("token");
+				console.log("Token actual (reminderUser):", token);
+
+
+				if (!emailtoSend) {
+					console.error("Error: el email no está definido.");
+					return { success: false, message: "Email requerido" };
+				}
+
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "api/send_reminder", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${token}` // JWT para autenticación
+						},
+						body: JSON.stringify({
+							emailtoSend: emailtoSend,
+							group_id: idGroup,
+							toSendName: toSendName,
+							amount: amount,
+							groupName: groupName
+						})
+					});
+
+					const data = await response.json();
+
+					if (!response.ok) {
+						console.error("Error al enviar la invitación:", data.error);
+						return { success: false, message: data.error };
+					}
+
+					console.log("Invitación enviada correctamente:", data);
+					return { success: true, message: "Invitación enviada correctamente" };
+
+				} catch (error) {
+					console.error("Error en la solicitud:", error);
+					return { success: false, message: "Error en la solicitud" };
+				}
+			},
 
 
 		}

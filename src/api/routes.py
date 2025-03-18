@@ -771,3 +771,50 @@ def send_email():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+
+@api.route('/send_reminder', methods=['POST'])
+def send_reminder():
+    try:
+        data = request.get_json()
+
+        toSendName = data.get("toSendName")
+        groupName = data.get("groupName")
+        amount = data.get("amount")
+        emailtoSend = data.get("emailtoSend") # una vez exista un dominio, eliminar el email de "to" a esta var.
+        group_id = data.get("group_id")
+
+        if not emailtoSend or not groupName:
+            return jsonify({"error": "Email y GroupName son requeridos"}), 400
+
+       
+
+        # Crear el enlace de invitación
+        group_link = f"https://cautious-chainsaw-rj44xx4w449f5wxg-3000.app.github.dev/group/{group_id}"
+        print(group_link)
+        
+        # Enviar el email con Resend
+        print(dir(resend.Emails))
+        params: resend.Emails.SendParams = {
+            "from": "LinkUp <linkup@resend.dev>",
+            "to": ["rzmsdo@gmail.com"],
+            "subject": "Novedades en uno tus grupos de LinkUp",
+            "html": f"""
+                <p>Hola {toSendName}:</p>
+                <p>Queríamos comentarte que en el grupo {groupName} se han registrado nuevos gastos, y tu parte correspondiente es de {amount}.</p>
+                <p>Para facilitar la gestión del grupo, te agradeceríamos que realices el pago a la brevedad posible.</p>
+                <p> Si tienes alguna duda sobre los detalles del cálculo, entra en tus grupos y el grupo de {groupName} donde encontrarás más información.</p>
+                <p>Puedes ver un desglose completo de los gastos en la plataforma de LinkUP.</p>
+                <p><a href="{group_link}" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Ver grupo</a></p>
+            """
+        }
+        email = resend.Emails.send(params)
+        print(email)
+        if "error" in params:
+            return jsonify({"error": response["error"]}), 500
+
+
+        return jsonify({"msg": "Email enviado con éxito"}), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+

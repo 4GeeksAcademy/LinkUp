@@ -45,13 +45,7 @@ export const EditExpense = ({ expenseid, onDeleteExpense }) => {
                         <p className="text-light text-start">Pagado por</p>
                         <div className="bg-c2 d-flex align-items-center justify-content-between rounded px-3 mb-4 border-c2">
                             <div className="d-flex align-items-center p-2 rounded">
-                                {/*<img
-                                    src={expense?.imageURL}
-                                    alt={expense?.paidFor || "Usuario"}
-                                    className="rounded-circle me-2"
-                                    width="40"
-                                    height="40"
-                                />*/}
+                                
                                 <h5 className="text-light m-0"><i className="fa-solid fa-user pe-2 text-light"></i>{expense?.paidFor === store.actualGroupMemberName ? expense?.paidFor + " (yo)" : expense?.paidFor || "Desconocido"} </h5>
                             </div>
                             <h4 className="text-light mt-3 text-center">{expense?.amount || "0"} €</h4>

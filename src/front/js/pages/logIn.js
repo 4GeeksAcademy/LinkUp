@@ -28,7 +28,7 @@ export const LogIn = () => {
     useEffect(() => {
         const username = localStorage.getItem("username");
     
-        if (username !== null) {  // Si hay usuario, ir a private
+        if (username !== null) { 
             navigate("/private");
         }
     }, [navigate]);
@@ -51,7 +51,7 @@ export const LogIn = () => {
 
             <div className="divFormlog container d-flex justify-content-center row ">
 
-                {/* <h2 className="mb-5" id="Help">LogIn</h2> */}
+                
                 <br></br>
                 <form className="formLogin d-flex justify-content-center border border-3 border-dark row col-md-5" onSubmit={handleSubmit}>
                     <h1 className="mt-3" id="Help">Iniciar Sesión</h1>

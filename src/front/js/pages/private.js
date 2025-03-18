@@ -302,11 +302,7 @@ export const Private = () => {
                     </div>
                 </div>
             </div>
-         
 
-
-
-   
             {/* <div className="divCuerpo bg-c3 container-floid d-block">
                 <div className="containesr-fluid contitle bg-c3">
                     <div className="mt-3 ms-3 text-c5 bg-c2 d-flex justify-content-center titleName rounded">

@@ -29,11 +29,11 @@ import cloudinary.uploader
 
 api = Blueprint('api', __name__)
 
-# Allow CORS requests to this API
+
 CORS(api)
 
 
-load_dotenv() #cargamos las variables de entorno
+load_dotenv() 
 app = Flask(__name__)
 CORS(app)
 app.url_map.strict_slashes = False
@@ -42,7 +42,6 @@ CORS(app, origins="*", supports_credentials=True)
 
 
 
-# Cofiguracion para mandar imagen a traves de Api local a Cloudinary
 cloudinary.config( 
   cloud_name = "fotolinkup", 
   api_key = "942267699618169", 
@@ -50,7 +49,6 @@ cloudinary.config(
   secure=True
 )
 
-#Key api envio emails
 
 print("a ver que llega: ", os.environ.get('RESEND_KEY')) 
 resend.api_key = os.getenv("RESEND_KEY")
@@ -75,18 +73,16 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-# Configurar Google OAuth
 oauth = OAuth(app)
 google = oauth.register(
     name="google",
-    client_id=os.getenv("CLIENT_ID"), # guardado en archivo .env
-    client_secret=os.getenv("CLIENT_SECRET"), # guardado en archivo .env
+    client_id=os.getenv("CLIENT_ID"), 
+    client_secret=os.getenv("CLIENT_SECRET"), 
     access_token_url="https://oauth2.googleapis.com/token",
     authorize_url="https://accounts.google.com/o/oauth2/auth",
     authorize_params={'scope': 'openid email profile'},
     client_kwargs={"scope": "openid email profile"},
 )
-# login required, añadir "@login_required" a todas la rutas que sean necesarias proteger con registro
 def login_required(f):
     @wraps(f)
     def decorated_funcion(*args, **kwargs):
@@ -95,7 +91,6 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_funcion
 
-# registro normal
 @api.route('/signup', methods=["POST"])
 def creando_usuario():
     username= request.json.get("username")
@@ -121,7 +116,6 @@ def creando_usuario():
                      "email": email}),201
 
 
-#login normal
 @api.route('/login', methods=["POST"])
 def acceso_usuario():
     username= request.json.get("username")
@@ -150,7 +144,6 @@ def get_users():
     users = User.query.all()
     return jsonify([user.serialize() for user in users]), 200
 
-# registro a traves de Google
 @api.route('/signup_google', methods=['POST'])
 def signup_google():
     try:
@@ -163,7 +156,6 @@ def signup_google():
         if not token_id:
             return jsonify({"error": "Token no proporcionado"}), 400
 
-        # Verificar token con Google
         
         response = requests.get("https://oauth2.googleapis.com/tokeninfo?id_token="+request_body["tokenId"])
         print(response)
@@ -173,7 +165,6 @@ def signup_google():
         if "error_description" in user_info:
             return jsonify({"error": "Token inválido"}), 401
 
-        # Extraemos datos del usuario
         email = user_info.get("email")
         name = user_info.get("name")
         picture = user_info.get("picture")
@@ -184,7 +175,6 @@ def signup_google():
         
         
 
-        # Buscar o crear usuario en la base de datos
         user = User.query.filter_by(email=email).first()
         
         if not user:
@@ -194,7 +184,6 @@ def signup_google():
             db.session.commit()
 
         
-        # # Crear token de acceso
         access_token = create_access_token(identity=user.email)
 
         return jsonify({
@@ -210,7 +199,6 @@ def signup_google():
         return jsonify({"error": "Error durante la autenticación con Google"}), 500
 
 
-#Obtener info del usuario
 @api.route('/user', methods=["POST"])
 @jwt_required()
 def get_user():
@@ -241,7 +229,7 @@ def upload_image():
             return jsonify({"error": "No se envió ningún archivo"}), 400
     
         file = request.files["file"] 
-        result = cloudinary.uploader.upload(file) #subimos imagen al servidor Cloudinary
+        result = cloudinary.uploader.upload(file) 
 
         url_foto = result["secure_url"] 
 
@@ -254,10 +242,9 @@ def upload_image():
   
 
 
-#Logout session google-user
 @api.route('/logout', methods=["GET"])
 def logout():
-    session.clear()  # Borra TODA la sesión
+    session.clear()  
     response = jsonify({"msg": "Logout exitoso"})
     response.status_code = 200
     response.headers["Cache-Control"] = "no-store"
@@ -445,7 +432,6 @@ def add_expense(group_id):
         print("Faltan datos requeridos")
         return jsonify({"message": "Datos incompletos"}), 400
 
-    # Asegurar que 'amount' es un número
     try:
         amount = round(float(amount),2)
     except ValueError:
@@ -465,10 +451,9 @@ def add_expense(group_id):
     db.session.add(new_expense)
     db.session.commit()
 
-    # Restar el monto al que pagó el gasto
     payer = Member.query.filter_by(name=paid_for, group_id=group_id).first()
     if payer:
-        payer.owes -= round(float(amount),2)  # Se le descuenta lo que pagó
+        payer.owes -= round(float(amount),2) 
         db.session.commit()
     else:
         print(f"Pagador {paid_for} no encontrado en el grupo")
@@ -478,7 +463,6 @@ def add_expense(group_id):
         member_name = balance_data.get('name')
         balance_amount = balance_data.get('amount')
 
-        # Convertir balance_amount a float
         try:
             balance_amount = round(float(balance_amount),2)
         except ValueError:
@@ -488,8 +472,7 @@ def add_expense(group_id):
         print(f"Buscando miembro: {member_name}")
         member = Member.query.filter_by(name=member_name, group_id=group_id).first()
         if member:
-            # Actualizar el saldo adeudado
-            member.owes += balance_amount  # Se le suma lo que debe del gasto
+            member.owes += balance_amount  
 
             balance = Balance(
                 name=member_name,
@@ -587,10 +570,8 @@ def delete_expense(expense_id):
     if not expense:
         return jsonify({"error": "Expense not found"}), 404
 
-    # Eliminar balances asociados
     Balance.query.filter_by(expense_id=expense_id).delete()
 
-    # Eliminar la expense
     db.session.delete(expense)
     db.session.commit()
 
@@ -658,7 +639,7 @@ def assign_user_to_member():
     if not user_email or not member_id:
         return jsonify({"error": "Se requieren user_email y member_id"}), 400
     
-    user = User.query.filter_by(email=user_email).first()  # Cambiar aquí
+    user = User.query.filter_by(email=user_email).first() 
     member = Member.query.get(member_id)
     
     if not user:
@@ -744,11 +725,9 @@ def send_email():
 
        
 
-        # Crear el enlace de invitación
         group_link = f"https://cautious-chainsaw-rj44xx4w449f5wxg-3000.app.github.dev/group/{group_id}"
         print(group_link)
         
-        # Enviar el email con Resend
         print(dir(resend.emails))
         params: resend.Emails.SendParams = {
             "from": "LinkUp <linkup@resend.dev>",

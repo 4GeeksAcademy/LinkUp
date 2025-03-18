@@ -56,7 +56,6 @@ export const SignUp = () => {
                                 value={email} onChange={(e) => setEmail(e.target.value)} required />
                         </div>
 
-                        {/* Casilla de contraseña con botón para mostrar/ocultar */}
                         <div className="p-0 col-md-8 col-lg-9 col-xl-10 mb-3 sombra mx-auto">
                             <div className="d-flex input-group">
                                 <input
@@ -73,7 +72,6 @@ export const SignUp = () => {
                             </div>
                         </div>
 
-                        {/* Casilla de confirmación de contraseña con botón para mostrar/ocultar */}
                         <div className="p-0 col-md-8 col-lg-9 col-xl-10 mb-3 sombra mx-auto">
                             <div className="d-flex input-group">
                                 <input

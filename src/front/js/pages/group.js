@@ -102,7 +102,6 @@ export const Group = () => {
                         <span className="button-text" data-bs-toggle="modal" data-bs-target="#newExpenseModal">Añadir gasto</span>
                     </button>
                     <NewExpense theid={theid} />
-                    <EditGroup theid={theid} />
                     <AssignUserModal theid={theid} />
                 </>
             ) : ""}
@@ -165,9 +164,6 @@ export const Group = () => {
                                         <div className="d-flex flex-column">
                                             <div className="d-flex align-items-center">
                                                 <span className="navbar-brand mb-0 h1 text-c5">{group.name}</span>
-                                                <button className=" text-c5 btn" data-bs-toggle="modal" data-bs-target="#editGroupModal">
-                                                    <i className="fa-solid fa-pen-to-square"></i>
-                                                </button>
                                             </div>
                                             <div style={{ display: "inline-block", width: "auto", maxWidth: "100%", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                                                 <p className="text-light" style={{ margin: 0, display: "inline-block", maxWidth: "100%" }}>

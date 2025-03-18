@@ -21,9 +21,6 @@ body {
         radial-gradient(ellipse 80% 80% at 50% -20%,
             white,
             rgb(199, 179, 93));
-    
-            scrollbar-width: none; 
-            -ms-overflow-style: none;
 }
 
 footer {

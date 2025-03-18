@@ -28,9 +28,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			getExpensesList: async (idGroup) => {
+			getExpensesList: async (idGroup, page) => {
 				try {
-					const resp = await fetch(process.env.BACKEND_URL + "api/expenses/" + idGroup)
+					const resp = await fetch(process.env.BACKEND_URL + "api/expenses/" + idGroup + "?page=" + page)
 					const data = await resp.json()
 					return data;
 				} catch (error) {
@@ -292,7 +292,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
-							"Authorization": `Bearer ${token}` // JWT para autenticación
+							"Authorization": `Bearer ${token}`
 						},
 						body: JSON.stringify({
 							email: email,

@@ -8,11 +8,13 @@ export const Calculation = ({ theid, onChangeView }) => {
     const { store, actions } = useContext(Context);
     const [members, setMembers] = useState([]);
     const [transactions, setTransactions] = useState([]);
+
     const [group, setGroup] = useState([]);
     const [emailSend, setEmailSend] = useState("");
     const [trWhoPays, setTrWhoPays] = useState("");
     const [reminderAmount, setReminderAmount] = useState();
     const [defaultEmail, setDefaultEmail] = useState("");
+
 
 
     const fetchMembers = async () => {
@@ -161,6 +163,7 @@ export const Calculation = ({ theid, onChangeView }) => {
                             </p>
                             <div className="btn-group" role="group">
                                 <button type="button" className="btn btn-light" onClick={() => handleMarkAsPaid(transaction)}>Marcar como pagado</button>
+
                                 <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#Modal-${transaction.whoPays}`} onClick={() => handleOpenModal(transaction)}>Solicitar</button>
                             </div>
                             {/* modal solicitar */}
@@ -226,14 +229,13 @@ export const Calculation = ({ theid, onChangeView }) => {
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
-
                     ))
                 ) : (
                     <p className="border-bottom border-2 text-light py-3">No hay transacciones pendientes.</p>
                 )}
-
             </div>
         </div>
     );

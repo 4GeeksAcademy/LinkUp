@@ -23,16 +23,14 @@ const endSession = async () => {
 		.then(response => {
 			console.log("Datos obtenidos correctamente:", response.data);
 
-			// Si el backend indica que el usuario no está autorizado, eliminar datos
 			localStorage.removeItem("username");
 			localStorage.removeItem("email");
 			localStorage.removeItem("picture");
 			localStorage.removeItem("token");
-			window.location.href = "/login"; // Redirigir al usuario al login
+			window.location.href = "/login";
 		})
 		.catch(error => {
 			console.error("Error al cerrar sesión:", error);
-			// Asegurar que, incluso con error, se borren los datos
 			localStorage.removeItem("username");
 			localStorage.removeItem("email");
 			localStorage.removeItem("picture");
@@ -53,7 +51,7 @@ export const Navbar = () => {
 			if (storedLogo !== logo) {
 				setLogo(storedLogo);
 			}
-		}, 1000); // Verifica cada segundo
+		}, 1000);
 
 		return () => clearInterval(interval);
 	}, [logo]);

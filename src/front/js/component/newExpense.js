@@ -251,7 +251,7 @@ export const NewExpense = ({ theid }) => {
                                             <input
                                                 className="form-check-input mt-0"
                                                 type="checkbox"
-                                                checked={formData.checked[person.name.toLowerCase()] || false} // Siempre controlado
+                                                checked={formData.checked[person.name.toLowerCase()] || false}
                                                 onChange={() => handleCheckboxChange(person.name.toLowerCase())}
                                             />
                                         </div>

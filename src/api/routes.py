@@ -88,8 +88,10 @@ def login_required(f):
     def decorated_funcion(*args, **kwargs):
         if 'user' not in session:
             dir=redirect(url_for('api/signup_google'))
-            print (dir)
+            print ("ruta auth: ",dir)
             return dir
+        
+        
         return f(*args, **kwargs)
     return decorated_funcion
 
@@ -128,9 +130,6 @@ def acceso_usuario():
     print(user)
     if not user or not user.check_password(password):
         return jsonify({"msg": "Usuario o contraseña incorrectos"}), 401
-    
-    db.session.add(user)
-    db.session.commit()
 
     user_email = user.email
     user_avatar =user.avatar if hasattr(user, 'avatar') else None
@@ -332,6 +331,7 @@ def create_group():
 
 @api.route('/groups', methods=['GET'])
 
+
 def get_groups():
     groups = Group.query.all()
     groups_list = []
@@ -346,6 +346,7 @@ def get_groups():
     return jsonify({"groups": groups_list})
 
 @api.route('/completGroups', methods=['GET'])
+
 def get_completGroups():
     groups = Group.query.all()
     groups_list = []
@@ -405,6 +406,7 @@ def delete_group(idgroup):
 
 
 @api.route('/group/<string:idgroup>/members', methods=['GET'])
+
 def get_members(idgroup):
     group = Group.query.get(idgroup)
     if not group:
@@ -507,6 +509,7 @@ def add_expense(group_id):
 
 
 @api.route('/expenses', methods=['GET'])
+
 def get_all_expenses():
     expenses = Expense.query.all()
     result = []
@@ -525,6 +528,7 @@ def get_all_expenses():
     return jsonify(result)
 
 @api.route('/expenses/<string:group_id>', methods=['GET'])
+
 def get_group_expenses(group_id):
     page = request.args.get('page', 1, type=int)
     per_page = 10
@@ -557,6 +561,7 @@ def get_group_expenses(group_id):
 
 
 @api.route('/expense/<idexpense>', methods=['GET'])
+
 def get_expense(idexpense):
     expense = Expense.query.get(idexpense)
     if not expense:
@@ -665,6 +670,7 @@ def assign_user_to_member():
 
 
 @api.route('/user_groups/<string:user_email>', methods=['GET'])
+
 def get_user_groups(user_email):
     members = Member.query.filter_by(user_email=user_email).all()
     groups_list = []
@@ -781,7 +787,7 @@ def send_reminder():
 
         # Crear el enlace de invitación
         group_link = f"https://sample-service-name-oma1.onrender.com/group/{group_id}"
-        
+        print(group_link)
         
         # Enviar el email con Resend
         print("email de solicitar pago: ", dir(resend.Emails))

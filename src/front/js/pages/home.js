@@ -116,13 +116,13 @@ export const Home = () => {
                             <h3>Desarrollado por:</h3>
                             <ul>
                                 <li>
-                                    Arnau <a href="https://github.com/ArnauOliveras" target="_blank" style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/arnauoliveras" target="_blank" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
+                                    Arnau <a href="https://github.com/ArnauOliveras" target="_blank" style={{ color: 'white' }}><i className="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/arnauoliveras" target="_blank" style={{ color: '#0A66C2' }}> <i className="fa-brands fa-linkedin"></i></a>
                                 </li>
                                 <li>
-                                    Domingo <a href="https://github.com/rzmsdo"  target="_blank" style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/domirami/" target="_blank" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
+                                    Domingo <a href="https://github.com/rzmsdo"  target="_blank" style={{ color: 'white' }}><i className="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/domirami/" target="_blank" style={{ color: '#0A66C2' }}> <i className="fa-brands fa-linkedin"></i></a>
                                 </li>
                                 <li>
-                                    Nacho <a href="https://github.com/nachodev30" target="_blank" style={{ color: 'white' }}><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/ignacio-r%C3%ADzquez-v%C3%A1zquez-883890262/" target="_blank" style={{ color: '#0A66C2' }}> <i class="fa-brands fa-linkedin"></i></a>
+                                    Nacho <a href="https://github.com/nachodev30" target="_blank" style={{ color: 'white' }}><i className="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/ignacio-r%C3%ADzquez-v%C3%A1zquez-883890262/" target="_blank" style={{ color: '#0A66C2' }}> <i className="fa-brands fa-linkedin"></i></a>
                                 </li>
                             </ul>
                         </div>

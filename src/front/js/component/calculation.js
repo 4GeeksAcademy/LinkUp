@@ -132,7 +132,7 @@ export const Calculation = ({ theid, onChangeView }) => {
                 icon: "success",
                 draggable: true
             });
-            setEmailSend(""); // Limpiar el campo después de enviar
+            setEmailSend(""); 
         } else {
             Swal.fire({
                 title: "¡Fallo al enviar el email!",
@@ -171,20 +171,20 @@ export const Calculation = ({ theid, onChangeView }) => {
                                
                                 
                                 <div className="modal-dialog">
-                                    <div className="modal-content">
+                                    <div className="modal-content bg-c4">
                                         <div className="modal-header">
-                                            <h1 className="modal-title fs-5" id="exampleModalLabel">Copia del email que se enviara a {transaction.whoPays}</h1>
+                                            <h1 className="modal-title fs-5 text-c5" id="exampleModalLabel">Copia del email que se enviara a {transaction.whoPays}</h1>
                                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div className="modal-body">
+                                        <div className="modal-body bg-c4">
                                             <form>
                                                 {/* <div className="mb-3">
                                                     <label for="recipient-name" className="col-form-label">Remitente:</label>
                                                     <input type="text" className="form-control" id="recipient-name" placeholder={store.actualGroupMemberName} disabled />
                                                 </div> */}
                                                 <div className="mb-3">
-                                                    <label htmlFor="message-text" className="col-form-label">Mensaje:</label>
-                                                    <p className="form-control text-start" id="message-text">
+                                                    <label htmlFor="message-text" className="col-form-label text-c5">Mensaje:</label>
+                                                    <p className="form-control text-start bg-c3 text-white" id="message-text">
                                                         <label>¡Hola {transaction.whoPays}!</label>
                                                         <p>Queríamos recordarte que en el grupo {group.name} se han registrado nuevos gastos, y tu parte correspondiente es de {transaction.amount}.</p>
 
@@ -201,7 +201,7 @@ export const Calculation = ({ theid, onChangeView }) => {
                                                     </p>
                                                 </div>
                                                 <div className="mb-3">
-                                                    <label htmlFor="recipient-name" className="col-form-label">Direccion email</label>
+                                                    <label htmlFor="recipient-name" className="col-form-label text-c5">Direccion email</label>
                                                     <input
                                                      type="text"
                                                      className="form-control"
@@ -219,8 +219,8 @@ export const Calculation = ({ theid, onChangeView }) => {
                                             </form>
                                         </div>
                                         <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="button" className="btn btn-primary"
+                                            <button type="button" className="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="button" className="btn btn-outline-light"
                                                 onClick={emailtoSend}
                                                 disabled={!emailSend || !validateEmail(emailSend)}
                                                 data-bs-dismiss="modal">

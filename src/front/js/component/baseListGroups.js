@@ -105,8 +105,8 @@ export const BaseListGroups = ({ datos, onDelete }) => {
                                             {error && <p className="text-danger mt-2">{error}</p>}
                                         </div>
                                         <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                            <button type="button" className="btn btn-primary"
+                                            <button type="button" className="btn btn-outline-dark" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="button" className="btn btn-outline-light"
                                                 onClick={handleInvite}
                                                 disabled={!emailInvitate || !validateEmail(emailInvitate)}
                                                 data-bs-dismiss="modal">

@@ -729,6 +729,7 @@ def remove_user_email_from_member(member_id):
 
 def send_email():
     resend.api_key = os.getenv("RESEND2_KEY")
+
     try:
         data = request.get_json()
 
@@ -740,7 +741,7 @@ def send_email():
 
        
 
-        group_link = f"https://sample-service-name-oma1.onrender.com/group/{group_id}"
+        group_link = f"https://sample-service-name-4h1m.onrender.com/group/{group_id}"
         print(group_link)
         
         print("salida invitacion: ",dir(resend.Emails))
@@ -784,7 +785,7 @@ def send_reminder():
        
 
         # Crear el enlace de invitación
-        group_link = f"https://sample-service-name-oma1.onrender.com/group/{group_id}"
+        group_link = f"https://sample-service-name-4h1m.onrender.com/group/{group_id}"
         print(group_link)
         
         # Enviar el email con Resend

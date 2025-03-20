@@ -159,15 +159,16 @@ export const Calculation = ({ theid, onChangeView }) => {
                     transactions.map((transaction, index) => (
                         <div className="border-bottom border-2 pt-2 flex-column pb-3" key={index}>
                             <p className="text-light">
-                                <strong>{transaction.whoPays === store.actualGroupMemberName ? transaction.whoPays + " (yo)" : transaction.whoPays}</strong> debe <strong className="text-c5">{transaction.amount}</strong> € a <strong>{transaction.toWho === store.actualGroupMemberName ? transaction.toWho + " (yo)" : transaction.toWho}</strong>
+                                <strong>{transaction.whoPays === store.actualGroupMemberName ? transaction.whoPays + " (yo) " : transaction.whoPays}</strong> debe <strong className="text-c5">{transaction.amount}</strong> € a <strong>{transaction.toWho === store.actualGroupMemberName ? transaction.toWho + " (yo) " : transaction.toWho}</strong>
                             </p>
                             <div className="btn-group" role="group">
                                 <button type="button" className="btn btn-light" onClick={() => handleMarkAsPaid(transaction)}>Marcar como pagado</button>
 
-                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#Modal-${transaction.whoPays}`} onClick={() => handleOpenModal(transaction)}>Solicitar</button>
+                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#Modal-${transaction.whoPays.replace(/\s+/g, '-')}`} onClick={() => handleOpenModal(transaction)}>Solicitar</button>
                             </div>
                             {/* modal solicitar */}
-                            <div className="modal fade" id={`Modal-${transaction.whoPays}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div className="modal fade" id={`Modal-${transaction.whoPays.replace(/\s+/g, '-')}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
                                
                                 
                                 <div className="modal-dialog">

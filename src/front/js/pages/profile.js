@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 import "../../styles/profile.css";
 import "../../styles/index.css";
 import userDefault from "../../img/user.webp";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 
 export const Profile = () => {
@@ -12,7 +12,7 @@ export const Profile = () => {
   const [image, setImage] = useState(userDefault);
   const [emailDef, setEmailDef] = useState();
   const [nameDef, setNameDef] = useState()
-  
+  const navigate = useNavigate();
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -25,7 +25,17 @@ export const Profile = () => {
     setImage( localStorage.getItem("picture")),
     setEmailDef(localStorage.getItem("email")),
     setNameDef(localStorage.getItem("username"))
-  },[])
+  },[]);
+
+
+ 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
 
 
 

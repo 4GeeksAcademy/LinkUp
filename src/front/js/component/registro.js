@@ -125,7 +125,7 @@ console.log({tokenId: credential});
         }  else {
             console.error("Error en la respuesta del backend:", response.data);
                 Swal.fire({
-                title: response.data?.error || "Error en el inicio de sesión con Google",
+                title: "Error en el inicio de sesión con Google",
                 icon: "error",
                 draggable: true
               });
@@ -134,7 +134,7 @@ console.log({tokenId: credential});
     } catch (error) {
         console.error("Error en la autenticación con Google:", error.response?.data || error);
         Swal.fire({
-            title: response.data?.error || "Error al registrarse con Google",
+            title: "Error al registrarse con Google",
             icon: "error",
             draggable: true
           });

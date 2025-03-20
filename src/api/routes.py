@@ -180,8 +180,6 @@ def signup_google():
         
 
         user = User.query.filter_by(email=email).first()
-        db.session.add(user)
-        db.session.commit()
         
         if not user:
             user = User(username=name, email=email, is_active=True, avatar=picture)

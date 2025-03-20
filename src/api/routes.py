@@ -745,10 +745,14 @@ def send_email():
         
         print("salida invitacion: ", dir(resend.Emails))
         params: resend.Emails.SendParams = {
-            "from": "LinkUp <linkup@resend.dev>",
-            "to": ["appsifach@gmail.com"],
+            "from": "LinkUp <invitacion@resend.dev>",
+            "to": ["73appsdrm@gmail.com"],
             "subject": "Invitación a unirse al grupo",
-            "html": "<strong>it works!</strong>",
+            "html": f"""
+                <p>Hola,</p>
+                <p>Te han invitado a unirte a un grupo en nuestra aplicación. Haz clic en el siguiente enlace para unirte:</p>
+                <p><a href="{group_link}" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Unirme al grupo</a></p>
+            """,
         }
         email = resend.Emails.send(params)
         print("retorno desde invitacion",email)

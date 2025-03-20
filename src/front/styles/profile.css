@@ -24,6 +24,12 @@
     gap: 30px;
 }
 
+#perfil-container {
+    width: 100%;
+    border: none;
+    background: transparent;
+}
+
 .form h5 {
     align-self: flex-start;
     margin: 10px;
@@ -80,4 +86,8 @@
     background: var(--color-c5);
     padding: 5px 20px;
     margin: 15px;
+}
+
+.save a {
+    text-decoration: none;
 }

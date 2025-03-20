@@ -7,6 +7,7 @@ import cumpleInfantil from "../../img/cumpleInfantil.jpg";
 import fiesta from "../../img/fiesta.jpg";
 import viaje from "../../img/viaje.jpg";
 import vacaciones from "../../img/vacaciones.jpg";
+import Swal from 'sweetalert2'
 
 
 export const BaseListGroups = ({ datos, onDelete }) => {
@@ -32,17 +33,26 @@ export const BaseListGroups = ({ datos, onDelete }) => {
             setError("Por favor, introduce un correo válido.");
             return;
         }
-    
+
         const result = await actions.inviteUser(emailInvitate, datos.id);
-    
+
         if (result.success) {
-            alert("Correo enviado con éxito");
+            Swal.fire({
+                title: "¡Correo enviado con éxito!",
+                icon: "success",
+                draggable: true
+            });
             setEmailInvitate("");
         } else {
             setError(result.message);
+            Swal.fire({
+                title: "¡Fallo al enviar el email!",
+                icon: "error",
+                draggable: true
+            });
         }
     };
-    
+
 
     return (
         <div className="container mt-auto mb-2 text-center">
@@ -99,7 +109,7 @@ export const BaseListGroups = ({ datos, onDelete }) => {
                                                 value={emailInvitate}
                                                 onChange={(e) => {
                                                     setEmailInvitate(e.target.value);
-                                                    setError(""); 
+                                                    setError("");
                                                 }}
                                             />
                                             {error && <p className="text-danger mt-2">{error}</p>}

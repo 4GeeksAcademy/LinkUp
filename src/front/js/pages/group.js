@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/index.css";
 import "../../styles/group.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import { NewExpense } from "../component/newExpense.js";
 import { EditGroup } from "../component/editGroup.js";
@@ -19,7 +19,8 @@ export const Group = () => {
     const [group, setGroup] = useState(null);
     const [groupNotFound, setGroupNotFound] = useState(false);
     const [groupMembers, setGroupMembers] = useState([]);
-    const [listGroups, setListGroups] = useState([])
+    const [listGroups, setListGroups] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const modalElement = document.getElementById("assignUserModal");
@@ -77,6 +78,9 @@ export const Group = () => {
         };
         fetchGroupMembers();
 
+
+        
+
         const fetchGroups = async () => {
             const data = await actions.getGroups();
 
@@ -85,9 +89,18 @@ export const Group = () => {
             }
         };
         fetchGroups();
-        
+
 
     }, [theid, actions]);
+    
+        
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/login", { replace: true });
+        }
+    }, [navigate]);
 
     const handleGoToGroup = (idGroup) => {
         window.location.href = `/group/` + idGroup;
@@ -177,7 +190,7 @@ export const Group = () => {
                                                             {member.user_email === localStorage.getItem('email') ? "" : member.name}
                                                             {member.user_email === localStorage.getItem('email') ? "" : index < groupMembers.length - 1 && ", "}
                                                         </span>
-                                                        
+
                                                     ))}
                                                 </p>
                                             </div>

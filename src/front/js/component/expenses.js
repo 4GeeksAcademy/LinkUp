@@ -94,9 +94,8 @@ export const Expenses = ({ theid }) => {
                             <div key={index} className="rounded-0 balance d-flex align-items-center justify-content-between my-1 px-3 text-light">
                                 <div className="text-center flex-grow-1">
                                     <h6 className="text-c5">
-                                        {expense.title} de <strong>{expense.paidFor === store.actualGroupMemberName ? `${expense.paidFor} (yo)` : expense.paidFor}</strong> 
-                                        a <strong>{expense.paidTo === store.actualGroupMemberName ? `${expense.paidTo} (yo)` : expense.paidTo}</strong> 
-                                        de {expense.amount}€
+                                        {expense.title} de <strong>{expense.paidFor === store.actualGroupMemberName ? `${expense.paidFor} (yo)` : `${expense.paidFor}`}</strong>  a <strong>{expense.paidTo === store.actualGroupMemberName ? `${expense.paidTo} (yo) ` : `${expense.paidTo}`}</strong> 
+                                         de {expense.amount} €
                                     </h6>
                                     <p>Rembolsado el {expense.date}</p>
                                 </div>

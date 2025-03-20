@@ -751,8 +751,9 @@ def send_email():
             "html": "<strong>it works!</strong>",
         }
         email = resend.Emails.send(params)
-        print("desde invitacion",email)
+        print("retorno desde invitacion",email)
         if "error" in params:
+            print(response["error"])
             return jsonify({"error conf params": response["error"]}), 500
 
 

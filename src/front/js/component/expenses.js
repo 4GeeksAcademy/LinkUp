@@ -95,7 +95,7 @@ export const Expenses = ({ theid }) => {
                                 <div className="text-center flex-grow-1">
                                     <h6 className="text-c5">
                                         {expense.title} de <strong>{expense.paidFor === store.actualGroupMemberName ? `${expense.paidFor} (yo) ` : `${expense.paidFor} `}</strong> 
-                                         a <strong>{expense.paidTo === store.actualGroupMemberName ? `${expense.paidTo} (yo) ` : `${expense.paidTo}`}</strong> 
+                                         a <strong>{expense.paidTo === store.actualGroupMemberName ? `${expense.paidTo} (yo) ` : `${expense.paidTo} `}</strong> 
                                          de {expense.amount}€
                                     </h6>
                                     <p>Rembolsado el {expense.date}</p>

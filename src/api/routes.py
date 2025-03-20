@@ -726,10 +726,9 @@ def remove_user_email_from_member(member_id):
 
 
 @api.route('/send_email', methods=['POST'])
-
 def send_email():
     resend.api_key = os.getenv("RESEND2_KEY")
-
+    print("RESEND2", resend.api_key)
     try:
         data = request.get_json()
 
@@ -744,21 +743,17 @@ def send_email():
         group_link = f"https://sample-service-name-4h1m.onrender.com/group/{group_id}"
         print(group_link)
         
-        print("salida invitacion: ",dir(resend.Emails))
+        print("salida invitacion: ", dir(resend.Emails))
         params: resend.Emails.SendParams = {
             "from": "LinkUp <linkup@resend.dev>",
             "to": ["appsifach@gmail.com"],
             "subject": "Invitación a unirse al grupo",
-            "html": f"""
-                <p>Hola,</p>
-                <p>Te han invitado a un grupo en nuestra aplicación. Haz clic en el siguiente enlace para unirte:</p>
-                <p><a href="{group_link}" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Unirme al grupo</a></p>
-            """
+            "html": "<strong>it works!</strong>",
         }
         email = resend.Emails.send(params)
         print("desde invitacion",email)
         if "error" in params:
-            return jsonify({"error": response["error"]}), 500
+            return jsonify({"error conf params": response["error"]}), 500
 
 
         return jsonify({"msg": "Email enviado con éxito"}), 200

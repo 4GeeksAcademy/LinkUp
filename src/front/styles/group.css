@@ -59,7 +59,7 @@
             rgb(199, 179, 93));
 
     flex: 1;
-    overflow:hidden;
+    overflow:auto;
     scrollbar-width: none; 
     -ms-overflow-style: none;
 }

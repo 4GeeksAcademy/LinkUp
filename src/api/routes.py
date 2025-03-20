@@ -83,17 +83,14 @@ google = oauth.register(
     authorize_params={'scope': 'openid email profile'},
     client_kwargs={"scope": "openid email profile"},
 )
-def login_required(f):
-    @wraps(f)
-    def decorated_funcion(*args, **kwargs):
-        if 'user' not in session:
-            dir=redirect(url_for('api/signup_google'))
-            print ("ruta auth: ",dir)
-            return dir
-        
-        
-        return f(*args, **kwargs)
-    return decorated_funcion
+
+# def login_required(f):
+#     @wraps(f)
+#     def decorated_funcion(*args, **kwargs):
+#         if 'user' not in session:
+#             return redirect(url_for('api.logout'))
+#         return f(*args, **kwargs)
+#     return decorated_funcion
 
 @api.route('/signup', methods=["POST"])
 def creando_usuario():
@@ -204,7 +201,7 @@ def signup_google():
 
 
 @api.route('/user', methods=["POST"])
-
+@jwt_required()
 def get_user():
     
     user_email = get_jwt_identity()
@@ -223,9 +220,10 @@ def get_user():
 
 
 @api.route("/upload", methods=["POST"])
-
+@jwt_required()
 def upload_image():
     try:
+        print(request.headers)
         user_email = get_jwt_identity()
         print(f"Usuario autenticado: {user_email}")
 

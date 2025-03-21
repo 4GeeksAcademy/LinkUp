@@ -47,7 +47,7 @@ export const AssignUserModal = ({ theid }) => {
 
     return (
         <div className="modal fade" id="assignUserModal" tabIndex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div className="modal-dialog modal-dialog-centered modUser modal-dialog-scrollable">
                 <div className="modal-content bg-c3 modal-rounded">
                     <div className="d-flex align-items-center justify-content-center pt-3">
                         <h1 className="fs-3 pt-2 text-c5"><strong>Bienvenido al grupo</strong></h1>
@@ -55,7 +55,7 @@ export const AssignUserModal = ({ theid }) => {
                     <div className="d-flex align-items-center justify-content-center pt-3">
                         <p className="text-light">Elige el miembro que eres para facilitar la estancia en el grupo.</p>
                     </div>
-                    <div className="d-flex align-items-center justify-content-center pt-3">
+                    <div className="d-flex align-items-center justify-content-center modUser pt-3">
                         <div className="btn-group-vertical w-75" role="group" aria-label="Vertical radio toggle button group">
                             {Array.isArray(membersList) && membersList.length > 0 ? (
                                 membersList.map((member) => (
